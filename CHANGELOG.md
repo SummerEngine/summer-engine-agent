@@ -2,6 +2,15 @@
 
 All notable changes to summer-engine will be documented here. Following [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and [Semantic Versioning](https://semver.org/).
 
+## [2.6.6] — 2026-07-04 — "Templates discoverable from MCP"
+
+### Added
+- `summer_list_templates` MCP tool: lists all Summer starter templates/example projects (built-ins + the open-source github.com/SummerEngine repos) with the exact `npx -y summer-engine@latest create <slug> <dir>` command per entry. Agents connected only via MCP previously had NO way to discover examples — they hunted the filesystem and gave up. Prefers the gateway listing (`/api/mcp/templates`, server-side curation point) and falls back to the GitHub org listing, then to built-ins with a browse URL.
+- Agent playbook startup checklist now points new-game/example requests at `summer_list_templates`.
+
+### Fixed
+- Legacy example repos that predate the `template-` prefix (`FPS-template-Summer-Engine`, `Getting-Started-*`) are now included in `summer list templates` and the MCP listing.
+
 ## [2.6.5] — 2026-07-04 — "Cloud tools don't need the engine"
 
 ### Fixed

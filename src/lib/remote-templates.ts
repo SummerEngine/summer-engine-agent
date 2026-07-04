@@ -33,6 +33,11 @@ interface CacheEntry {
 
 let cache: CacheEntry | null = null;
 
+/** Test hook: clear the in-memory template cache between cases. */
+export function _resetTemplateCacheForTests(): void {
+  cache = null;
+}
+
 interface GithubRepo {
   name: string;
   description: string | null;
@@ -66,9 +71,9 @@ export async function fetchRemoteTemplates(opts: { force?: boolean } = {}): Prom
 
   const repos = (await res.json()) as GithubRepo[];
   const templates: RemoteTemplate[] = repos
-    .filter((r) => r.name.startsWith(TEMPLATE_PREFIX) && !r.archived && !r.fork)
+    .filter((r) => isTemplateRepoName(r.name) && !r.archived && !r.fork)
     .map((r) => ({
-      slug: r.name.slice(TEMPLATE_PREFIX.length),
+      slug: templateSlugForRepo(r.name),
       repo: r.name,
       description: r.description ?? "",
       branch: r.default_branch,
@@ -81,6 +86,22 @@ export async function fetchRemoteTemplates(opts: { force?: boolean } = {}): Prom
 
   cache = { templates, fetchedAt: Date.now() };
   return templates;
+}
+
+/** Which org repos count as templates/examples. Besides the canonical
+ *  `template-*` naming, the org has example repos that predate it
+ *  (FPS-template-Summer-Engine, Getting-Started-3D-Platformer) — the old
+ *  prefix-only filter made those invisible to `summer list templates` and
+ *  to agents. Exported for unit tests. */
+export function isTemplateRepoName(name: string): boolean {
+  const lower = name.toLowerCase();
+  return lower.startsWith(TEMPLATE_PREFIX) || lower.includes("-template") || lower.startsWith("getting-started");
+}
+
+/** Slug used by `summer create <slug>`: strip the canonical prefix, otherwise
+ *  the lowercased repo name. matchTemplate also accepts the raw repo name. */
+export function templateSlugForRepo(name: string): string {
+  return name.startsWith(TEMPLATE_PREFIX) ? name.slice(TEMPLATE_PREFIX.length) : name.toLowerCase();
 }
 
 export interface CloneOptions {

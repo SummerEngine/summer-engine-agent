@@ -182,6 +182,7 @@ anti-patterns, and recovery steps.`,
             {
               startupChecklist: [
                 "Understand the request and outline a brief plan before reaching for tools.",
+                "Starting a NEW game or asked for examples/starters? Call summer_list_templates — complete open-source projects (FPS, platformer, RPG, racing, multiplayer...) you materialize with 'npx -y summer-engine@latest create <slug> <dir>'. Do not hunt the filesystem for examples.",
                 "Default medium is host file tools: write/edit .gd/.cs/.tscn/.tres/.json/docs/config directly as text.",
                 "Use Summer MCP only when you need the LIVE engine: play/stop, diagnostics, screenshots/verification, navmesh or light bake, runtime inspect, or asset import.",
                 "Call summer_get_project_context first so you do not guess scene paths or the project language. It also BINDS this session to the currently-open project (see projectBinding below).",

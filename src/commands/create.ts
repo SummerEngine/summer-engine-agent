@@ -10,7 +10,8 @@ interface Template {
   generate: (dir: string, projectName: string) => void;
 }
 
-const BUILTIN_TEMPLATES: Template[] = [
+// Exported for the summer_list_templates MCP tool (metadata only).
+export const BUILTIN_TEMPLATES: Template[] = [
   {
     name: "empty",
     description: "Empty 3D project with just a root node",
