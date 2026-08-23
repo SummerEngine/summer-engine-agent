@@ -40,6 +40,7 @@ export const MANIFEST_TARGETS: Record<string, ManifestTarget[]> = {
   "github-copilot": [],
   "vscode-copilot": [],
   "lm-studio": [],
+  bionic: [],
   // OpenCode consumes the package as a JS module (.opencode/plugins/summer.js)
   // and auto-discovers skills from disk — no generated manifest today.
   opencode: [],

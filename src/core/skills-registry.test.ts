@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  AGENT_CLIENTS,
   parseSkillRegistry,
   selectSkillsForBulkInstall,
   type SkillRegistryEntry,
@@ -64,5 +65,11 @@ describe("parseSkillRegistry", () => {
       ["b", "stable", false],
       ["c", "stable", false],
     ]);
+  });
+});
+
+describe("Bionic skill support", () => {
+  it("registers Bionic as a skill client", () => {
+    expect(AGENT_CLIENTS).toContain("bionic");
   });
 });

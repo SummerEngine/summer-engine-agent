@@ -125,6 +125,8 @@ function agentLabel(agent: AgentClient): string {
       return "GitHub Copilot in VS Code";
     case "opencode":
       return "OpenCode";
+    case "bionic":
+      return "Bionic";
     case "summer":
       return "Summer";
   }
@@ -315,6 +317,9 @@ function printInstallSummary(
       console.log(
         "Gemini loads them as extension skills; run `summer setup gemini` once so the extension manifest exists, then restart Gemini CLI."
       );
+    }
+    if (agent === "bionic") {
+      console.log("Open Bionic Settings > Skills to verify or enable the Summer skills.");
     }
   } else if (location.kind === "cursor-rule-dir") {
     console.log(`Cursor rules are in ${tildeified}/summer-<skill>.mdc`);

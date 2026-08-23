@@ -112,6 +112,14 @@ export function resolveInstallLocation(
   switch (agent) {
     case "codex":
       return { kind: "skill-dir", path: join(root, ".agents", "skills") };
+    case "bionic":
+      return {
+        kind: "skill-dir",
+        path:
+          scope === "user"
+            ? join(homedir(), ".lmstudio", "skills")
+            : join(process.cwd(), ".agents", "skills"),
+      };
     case "claude-code":
       return { kind: "skill-dir", path: join(root, ".claude", "skills") };
     case "cursor":

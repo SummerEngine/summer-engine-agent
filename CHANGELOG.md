@@ -2,6 +2,12 @@
 
 All notable changes to summer-engine will be documented here. Following [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Added
+- First-class LM Studio Bionic setup through `summer setup bionic`: public MCP discovery configuration, native Bionic Agent Skills, statically bound project-scope connections, setup aliases, diagnostics markers, tests, and a dedicated guide.
+- MCP Roots-based project routing for clients that advertise the capability, including safe rebinding on `roots/list_changed` and ambiguity protection.
+
 ## [3.0.0] (2026-09-09): "The Library"
 
 v3 rebuilds the package around one idea: every resource is described once (`library/<kind>/<slug>/resource.yaml`) and everything else (the searchable index, every agent manifest, the skill and template registries, counts, aliases) is generated from it, with CI failing on drift. Migrating from v2: `docs/MIGRATION-V2-V3.md`. The design contract and the verified-vs-planned status live in the repository under `docs/design/`.

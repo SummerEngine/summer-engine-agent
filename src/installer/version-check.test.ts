@@ -9,6 +9,7 @@ import {
   classifyDrift,
   compareSemver,
   fetchLatestRegistryVersion,
+  defaultSkillMarkerCandidates,
   isLocalDevServerConfig,
   parseSemver,
   readRecordedMcpServer,
@@ -19,6 +20,19 @@ import {
   writeSkillMarker,
   type RecordedInstall,
 } from "./version-check.js";
+
+describe("defaultSkillMarkerCandidates", () => {
+  it("includes Bionic's native global skills directory", () => {
+    expect(defaultSkillMarkerCandidates()).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          agent: "bionic",
+          dir: expect.stringMatching(/\.lmstudio[\\/]skills$/),
+        }),
+      ])
+    );
+  });
+});
 
 describe("parseSemver", () => {
   it("parses normal versions", () => {

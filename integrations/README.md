@@ -65,6 +65,7 @@ How the plugin manifests reference skills, and what is verified:
 | vscode-copilot | — | MCP: VS Code user-profile `mcp.json` / `.vscode/mcp.json`; skills: `~/.copilot/skills/` or `.github/skills/` |
 | opencode | — (JS plugin via npm `main`, `.opencode/plugins/summer.js`) | MCP entry in `opencode.json` (`type: "local"`, array `command`); skills: the plugin registers `library/skills/` via `skills.paths`; `skills install --agent opencode` additionally writes `agents/summer/` markdown |
 | lm-studio | — | MCP: `~/.lmstudio/mcp.json` (app-global); no skills folder — guidance via `summer_get_agent_playbook` |
+| bionic | — | MCP: `~/.lmstudio/mcp.json` (app-global; `--scope project` statically binds the entry to the current game via stdio `cwd` + `SUMMER_ENGINE_PROJECT`); skills: `~/.lmstudio/skills/` (user) / `.agents/skills/` (project); MCP Roots-based project routing when the client advertises it (`src/mcp/client-roots.ts`) |
 
 Source of truth for the setup paths: `src/installer/agent-config.ts` and
 `src/cli/commands/skills.ts`.

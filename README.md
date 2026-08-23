@@ -31,7 +31,7 @@ You stay in control of every change and release. Summer never publishes, install
 
 ## Get started: one prompt
 
-Open your AI agent (Claude Code, Cursor, Codex, Copilot, Devin Desktop, etc.) and paste:
+Open your AI agent (Claude Code, Cursor, Codex, Copilot, Bionic, Devin Desktop, etc.) and paste:
 
 > Install Summer Engine and let's make a game. Read github.com/summerengine/summer, check what I already have installed, install whatever is missing, log me in, and scaffold a starter project so we can start building.
 
@@ -93,7 +93,7 @@ The check ids are `node-version`, `cli-version`, `cli-version-current`, `skills-
 npx -y summer-engine@latest setup claude-code --yes --force
 ```
 
-Replace `claude-code` with the user's actual agent: `codex`, `cursor`, `windsurf`, `cline`, `roo-code`, `kilo-code`, `gemini`, `github-copilot`, `vscode-copilot`, `opencode`, or `lm-studio`. Use `github-copilot` for Copilot CLI and `vscode-copilot` for GitHub Copilot Chat/Agent in VS Code. Factory Droid uses the plugin marketplace path (see [`integrations/README.md`](integrations/README.md)). This installs **every skill in the library** (`status: preview` skills included — they are labelled as preview in their guidance, and `--stable-only` skips them) to `~/.claude/skills/<slug>/SKILL.md` (or the agent's equivalent user-skill directory) AND writes the MCP server config so the agent can talk to the engine, then runs doctor and prints what it installed and where. The `--force` flag wipes any stale skill content first, so re-runs always end up with the latest copy. `--recommended` installs only the recommended subset — don't use it from this playbook.
+Replace `claude-code` with the user's actual agent: `codex`, `cursor`, `windsurf`, `cline`, `roo-code`, `kilo-code`, `gemini`, `github-copilot`, `vscode-copilot`, `opencode`, `bionic`, or `lm-studio`. Use `github-copilot` for Copilot CLI and `vscode-copilot` for GitHub Copilot Chat/Agent in VS Code. Factory Droid uses the plugin marketplace path (see [`integrations/README.md`](integrations/README.md)). This installs **every skill in the library** (`status: preview` skills included — they are labelled as preview in their guidance, and `--stable-only` skips them) to `~/.claude/skills/<slug>/SKILL.md` (or the agent's equivalent user-skill directory) AND writes the MCP server config so the agent can talk to the engine, then runs doctor and prints what it installed and where. The `lm-studio` target is MCP-only and uses `summer_get_agent_playbook` for in-chat guidance; the separate `bionic` target installs native Agent Skills. The `--force` flag wipes any stale skill content first, so re-runs always end up with the latest copy. `--recommended` installs only the recommended subset — don't use it from this playbook.
 
 **First-install detection:** if `~/.claude/skills/` didn't exist before this command, Claude Code wasn't watching it and won't auto-detect the new files this session. Tell the user **once**: "Skills installed - restart your agent so they load." On subsequent installs (directory already existed), skills auto-detect mid-session and no restart is needed. **You can detect first-install vs upgrade by checking if `~/.claude/skills/` existed before Step 1; record the result before running setup.**
 
@@ -186,7 +186,7 @@ Only skip brainstorm if the user explicitly said "skip brainstorm" or "just buil
 - **Don't loop `summer login` if it times out at 120s.** Re-run it once and tell the user to be quicker; loop forever and the user is stuck.
 - **Don't jump straight into `summer create` from a vague prompt.** Invoke the `brainstorm-game` skill first (Step 6). The build skills assume `.summer/GameSoul.md` exists.
 
-**Using a different agent?** Replace `claude-code` with any supported agent in Step 1: `codex`, `cursor`, `windsurf`, `cline`, `roo-code`, `kilo-code`, `gemini`, `github-copilot`, `vscode-copilot`, `opencode`, or `lm-studio`. (`devin` is also accepted as an alias for `windsurf`.) Skill targets vary per agent; the CLI handles the difference, and [`integrations/README.md`](integrations/README.md) documents exactly what gets written where for every client. After install, **Cline and Roo Code users should restart VS Code** so the extension reloads its MCP config. **Gemini users** may need to run `gemini extensions enable summer-engine` after the first install. **VS Code Copilot users** should start the `summer-engine` MCP server from Agent mode if VS Code does not autostart it.
+**Using a different agent?** Replace `claude-code` with any supported agent in Step 1: `codex`, `cursor`, `windsurf`, `cline`, `roo-code`, `kilo-code`, `gemini`, `github-copilot`, `vscode-copilot`, `opencode`, `bionic`, or `lm-studio`. (`devin` is also accepted as an alias for `windsurf`.) Skill targets vary per agent (Bionic uses `~/.lmstudio/skills`); the CLI handles the difference, and [`integrations/README.md`](integrations/README.md) documents exactly what gets written where for every client. After install, **Bionic users** should enable `summer-engine` under **Settings → Connected Apps** and verify Summer skills under **Settings → Skills**. **Cline and Roo Code users** should restart VS Code so the extension reloads its MCP config. **Gemini users** may need to run `gemini extensions enable summer-engine` after the first install. **VS Code Copilot users** should start the `summer-engine` MCP server from Agent mode if VS Code does not autostart it.
 
 **Power-user note:** if the user specifically wants `summer` on their `PATH` for everyday terminal use outside the AI agent, a global npm install is still possible. The agent flow doesn't need it.
 
@@ -313,7 +313,6 @@ Not downloaded, not collected:
 A command, tool contract, or roadmap entry does not by itself mean a hosted
 service is production-ready. Managed publishing, hosting, store submission, and
 matchmaking are not promised by this package.
-
 ## CLI reference
 
 | Command | What it does |
@@ -344,7 +343,7 @@ matchmaking are not promised by this package.
 | `summer mcp setup <agent>` | Deprecated alias of `summer setup <agent>`. |
 | `summer setup <agent> [--yes] [--force] [--recommended] [--stable-only]` | One shot: MCP config + all skills, preview included (`--recommended` for the subset, `--stable-only` to skip preview) + doctor. Idempotent. |
 
-Agents: `claude-code`, `codex`, `cursor`, `windsurf`, `cline`, `roo-code`, `kilo-code`, `gemini`, `github-copilot`, `vscode-copilot`, `opencode`, `lm-studio`. (`devin` and `devin-desktop` are accepted as aliases for `windsurf`.) Scopes: `--scope user` (default), `--scope project`.
+Agents: `claude-code`, `codex`, `cursor`, `windsurf`, `cline`, `roo-code`, `kilo-code`, `gemini`, `github-copilot`, `vscode-copilot`, `opencode`, `bionic`, `lm-studio`. (`devin` and `devin-desktop` are accepted as aliases for `windsurf`; `lm-bionic` and `lm-studio-bionic` are accepted as aliases for `bionic`.) Scopes: `--scope user` (default), `--scope project`.
 
 ## Contributing
 
@@ -362,7 +361,7 @@ Testing an unpublished build end to end against the real engine and a real agent
 - [Development guide](docs/DEVELOPMENT.md) · [v2 → v3 migration](docs/MIGRATION-V2-V3.md)
 - [Design: contract](docs/design/CONTRACT.md) · [decisions](docs/design/DECISIONS.md) · [roadmap](docs/design/ROADMAP.md)
 - [Agent support map](integrations/README.md) · [Template pinning](library/templates/README.md) · [Evals](evals/README.md)
-- Per-host notes: [Claude Code](docs/CLAUDE_CODE.md) · [Codex](docs/CODEX.md) · [Cursor](docs/CURSOR.md) · [OpenCode](.opencode/INSTALL.md)
+- Per-host notes: [Claude Code](docs/CLAUDE_CODE.md) · [Codex](docs/CODEX.md) · [Cursor](docs/CURSOR.md) · [Bionic](docs/BIONIC.md) · [OpenCode](.opencode/INSTALL.md)
 
 ## License
 
