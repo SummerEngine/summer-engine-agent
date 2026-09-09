@@ -44,11 +44,12 @@ describe("runLogin", () => {
   it("uses the current browser/poll contract and persists one validated session", async () => {
     const logs: string[] = [];
     const openUrl = vi.fn(async () => undefined);
+    const token = cliToken();
     const fetchMock = vi.fn(async () =>
       new Response(
         JSON.stringify({
           status: "complete",
-          token: cliToken(),
+          token,
           user: {
             id: "user-1",
             email: "maker@example.com",
@@ -74,7 +75,7 @@ describe("runLogin", () => {
       "https://gateway.example/api/auth/cli-login?session=session-123",
       expect.any(Object)
     );
-    expect(await getAuthToken()).toBe(cliToken());
+    expect(await getAuthToken()).toBe(token);
     expect(await getUserInfo()).toMatchObject({
       id: "user-1",
       email: "maker@example.com",
