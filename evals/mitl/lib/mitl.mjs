@@ -431,10 +431,21 @@ function checkSceneNode(check, project, fakeHome) {
   const nameRe = new RegExp(check.name, "i");
   const typeRe = check.type_regex ? new RegExp(check.type_regex) : null;
   if (check.scene) {
+    // Engine read first (sees unsaved state), but NEVER fail on the engine call alone: fall back to a
+    // static parse of the saved .tscn — the check must not depend on the editor being reachable.
     const r = summerTool(project, fakeHome, "get-scene-tree", { scenePath: check.scene, depth: 12, limit: 5000 });
     const data = r.json?.data ?? r.json?.result ?? r.json;
-    const hits = findNodes(data, nameRe, typeRe);
-    return { pass: hits.length > 0, detail: hits.length ? hits.slice(0, 6) : `no node /${check.name}/i${typeRe ? ` of class /${check.type_regex}/` : ""} in ${check.scene} (tool exit ${r.status}${r.json ? "" : `, non-JSON output: ${r.stdout.slice(0, 200)}`})` };
+    const hits = r.status === 0 && data ? findNodes(data, nameRe, typeRe) : [];
+    if (hits.length) return { pass: true, detail: hits.slice(0, 6), source: "engine" };
+    const rel = check.scene.replace(/^res:\/\//, "");
+    let src = "";
+    try { src = readFileSync(join(project, rel), "utf8"); } catch { /* fall through: no such scene file */ }
+    const shits = [];
+    for (const mm of src.matchAll(/\[node name="([^"]+)"(?: type="([^"]+)")?(?: parent="([^"]*)")?/g)) {
+      const [, name, type = "", parent = ""] = mm;
+      if (nameRe.test(name) && (!typeRe || typeRe.test(type))) shits.push({ file: rel, name, type, parent });
+    }
+    return { pass: shits.length > 0, source: "static", detail: shits.length ? shits.slice(0, 6) : `no node /${check.name}/i${typeRe ? ` of class /${check.type_regex}/` : ""} in ${check.scene} (engine tool exit ${r.status}; static .tscn parse found none)` };
   }
   const hits = [];
   for (const rel of walkFiles(project)) {
