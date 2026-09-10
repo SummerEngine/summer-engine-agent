@@ -2,3 +2,4 @@ node_modules/
 dist/
 *.tsbuildinfo
 evals/outcomes/runs/
+evals/mitl/results/
