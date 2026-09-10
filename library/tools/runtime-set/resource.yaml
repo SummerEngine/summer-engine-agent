@@ -9,7 +9,7 @@ use_when:
 do_not_use_when:
   - the change must persist — edit the scene with summer_set_prop and restart the game
   - no game is running (failure_reason game_not_running) — summer_play first
-  - "requires an engine build with SetRuntimeProp (engine PR #156 follow-up, wave I); on current shipped engines this returns engine_lacks_op"
+  - "requires an engine build with SetRuntimeProp (Summer Engine 0.5.66 or newer); older engines return engine_lacks_op"
 facets:
   lifecycle:
     - build

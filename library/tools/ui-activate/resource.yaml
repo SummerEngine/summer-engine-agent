@@ -10,7 +10,7 @@ do_not_use_when:
   - a named action exists — summer_ui_actions mode invoke is the first choice; the tree walk is for the long tail
   - scene work — nodes, properties, and placement go through summer_run_script and the scene tools, never through editor clicks
   - confirming a quit, reload, or delete-without-confirmation button — denied by the engine (denied_action) because it ends the session or bypasses the human's confirmation
-  - "requires an engine build with UiActivate / UiDismissDialog (engine PR #156 follow-up, wave L); on current shipped engines this returns engine_lacks_op"
+  - "requires an engine build with UiActivate / UiDismissDialog (Summer Engine 0.5.66 or newer); older engines return engine_lacks_op"
 facets:
   lifecycle:
     - build

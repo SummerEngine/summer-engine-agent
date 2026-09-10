@@ -248,7 +248,7 @@ DissolveController.materialize_object(target, 0.8)
 
 ### 5a. Iterate on the shader with ctx.make_shader (summer_run_script)
 
-On engines with the Wave F ctx stdlib (see `scene-scripting`), prototype the
+On engines with the geometry-tier ctx stdlib (see `scene-scripting`), prototype the
 shader BEFORE committing it to a file: `ctx.make_shader(code, params)` compiles the
 source and returns compile errors **verbatim** in the result (the
 `make_shader_errors` report entry, line numbers included) — no silent magenta

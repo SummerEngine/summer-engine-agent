@@ -9,7 +9,7 @@ use_when:
 do_not_use_when:
   - starting or stopping the game — summer_play / summer_stop
   - a probe-based check inside a hidden disposable instance — a RunVerification probe awaiting physics_frame
-  - "requires an engine build with GamePause / GameStep / GameSpeed / ListGameInstances (engine PR #156 follow-up, wave I); on current shipped engines this returns engine_lacks_op"
+  - "requires an engine build with GamePause / GameStep / GameSpeed / ListGameInstances (Summer Engine 0.5.66 or newer); older engines return engine_lacks_op"
 facets:
   lifecycle:
     - build

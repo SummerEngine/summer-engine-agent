@@ -101,7 +101,7 @@ These thoughts mean STOP. Check skills first.
 | "I'll skip the soul file" | `.summer/GameSoul.md` is what every other skill reads. Honor it. |
 | "This voice or canon fact is probably fine to change" | Check `.summer/memory` first. `priority: locked` facts require explicit user confirmation. |
 | "I don't need to brainstorm — they said FPS" | Even with the genre named, brainstorm-game scopes mechanics, art direction, and the cut list. Skip only if explicitly told to. |
-| "I'll write the GDScript myself, no skill" | `gdscript-patterns` encodes idioms that Claude/Codex/Cursor regularly get wrong (signal connection, type hints, `_ready` vs `_process`). |
+| "I'll write the GDScript myself, no skill" | `gdscript-patterns` encodes idioms that coding agents regularly get wrong (signal connection, type hints, `_ready` vs `_process`). |
 | "The engine isn't running, I'll just edit files" | Editing scene files directly while the engine is running silently overwrites in-memory state. Check the skill. |
 | "I remember this skill" | Skills evolve. Re-read the current version. |
 

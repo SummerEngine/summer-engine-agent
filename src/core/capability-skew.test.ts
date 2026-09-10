@@ -132,7 +132,7 @@ describe("engineLacksOp / buildMissingOpResult", () => {
   });
 });
 
-describe("runtimeControl advert (engine Wave I)", () => {
+describe("runtimeControl advert (runtime control)", () => {
   it("parses capabilities.runtimeControl and keeps only well-typed fields", () => {
     expect(
       parseEngineCapabilities({
@@ -169,7 +169,7 @@ describe("runtimeControl advert (engine Wave I)", () => {
     expect(warning).toBeNull();
   });
 
-  it("lists every Wave I kind in CLI_KNOWN_OP_NEEDS (the skew warning names them on an older engine)", () => {
+  it("lists every runtime-control kind in CLI_KNOWN_OP_NEEDS (the skew warning names them on an older engine)", () => {
     for (const kind of ["SetRuntimeProp", "GameProbe", "InputReplay", "ListGameInstances", "PlayGame", "StopGame"]) {
       expect(CLI_KNOWN_OP_NEEDS, kind).toContain(kind);
     }

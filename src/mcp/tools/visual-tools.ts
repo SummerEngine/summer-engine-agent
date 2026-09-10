@@ -43,7 +43,7 @@ export { analyzedSnapshot, captureScene, captureViewport, VIEWPORT_RECAPTURE_DEL
  * recapture; scene kind for the no-camera confession). This module only
  * renders the caption from those fields; the CLI face prints them as JSON.
  *
- * Wave I perception adds stable viewpoints: camera bookmarks
+ * perception adds stable viewpoints: camera bookmarks
  * (summer_camera_bookmark, persisted in the project) and the fixed-pose
  * framings "free" / "bookmark" plus the Set-of-Mark overlay on
  * summer_screenshot target:"scene". Older engines resolve the new framings to
@@ -421,18 +421,18 @@ Static frame only — one moment, not motion. For a SEQUENCE of frames over time
                   `WARNING: you asked for framing:"camera" but this Summer Engine build resolved it to "${snap.framing}" — it predates camera framing. This frame uses the synthetic preview camera and FLAT environment, so it does NOT verify lighting/mood. Update Summer Engine, or verify lighting by booting the game / a RunVerification probe.`
                 );
               }
-              // Same confession for the wave I fixed poses: an older engine
+              // Same confession for the fixed-pose framings: an older engine
               // echoes the preset it fell back to, so the frame is NOT the
               // requested viewpoint and cannot anchor a before/after comparison.
               if (isFixedPoseFraming(requestedFraming) && snap.framing && snap.framing !== requestedFraming) {
                 warnings.push(
-                  `WARNING: you asked for framing:"${requestedFraming}" but this Summer Engine build resolved it to "${snap.framing}" — it predates the free/bookmark framings (engine PR #156 follow-up). This is the "${snap.framing}" preset render from a synthetic camera with a FLAT environment, NOT your viewpoint, so it is not pose-stable and cannot anchor a before/after comparison. Update Summer Engine, or place a Camera3D at the pose and use framing:"camera".`
+                  `WARNING: you asked for framing:"${requestedFraming}" but this Summer Engine build resolved it to "${snap.framing}" — this engine does not expose the free/bookmark framings (Summer Engine 0.5.66 or newer does). This is the "${snap.framing}" preset render from a synthetic camera with a FLAT environment, NOT your viewpoint, so it is not pose-stable and cannot anchor a before/after comparison. Update Summer Engine, or place a Camera3D at the pose and use framing:"camera".`
                 );
               }
               // marks:true on an engine without Set-of-Mark: no marks key at all.
               if (preview?.marks && readSceneMarks(meta) === null) {
                 warnings.push(
-                  "WARNING: you asked for marks:true but this Summer Engine build ignored it (no Set-of-Mark overlay exists — it predates the wave I perception ops). There are NO numbered labels in this image; do not read any into it. Update Summer Engine to get label -> node path mapping."
+                  "WARNING: you asked for marks:true but this Summer Engine build ignored it (this engine does not expose the Set-of-Mark overlay; Summer Engine 0.5.66 or newer does). There are NO numbered labels in this image; do not read any into it. Update Summer Engine to get label -> node path mapping."
                 );
               }
             }
@@ -446,7 +446,7 @@ Static frame only — one moment, not motion. For a SEQUENCE of frames over time
               if (snap.framing) details.push(`framing: ${snap.framing}`);
               if (snap.framedNode) details.push(`framed node: ${snap.framedNode}`);
               if (snap.renderRetries) details.push(`render retries: ${snap.renderRetries}`);
-              // Camera-framing provenance (contracts Wave B): which camera the
+              // Camera-framing provenance (camera framing provenance): which camera the
               // engine rendered through and which environment was live.
               if (typeof meta?.camera_path === "string" && meta.camera_path) {
                 details.push(`scene camera: ${meta.camera_path}`);
@@ -454,7 +454,7 @@ Static frame only — one moment, not motion. For a SEQUENCE of frames over time
               if (typeof meta?.environment_used === "string" && meta.environment_used) {
                 details.push(`environment: ${meta.environment_used}`);
               }
-              // Wave I fixed-pose provenance: where the pose came from and the
+              // fixed-pose provenance: where the pose came from and the
               // exact pose rendered (3dp literals) — quote it when comparing.
               if (typeof meta?.framing_source === "string" && meta.framing_source) {
                 details.push(

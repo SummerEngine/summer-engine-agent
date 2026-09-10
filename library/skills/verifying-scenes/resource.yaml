@@ -8,7 +8,7 @@ use_when:
   - deciding what counts as evidence for a visual or structural claim
   - taking before/after screenshots from the same saved camera viewpoint, or an annotated screenshot whose numbered labels map to node paths
 do_not_use_when:
-  - "the engine build lacks GetWorldSnapshot/DiffWorldSnapshot/GetRuntimeSceneTree/GetRuntimeNode (engine PR #156); current shipped engines return engine_lacks_op — fall back to summer_get_scene_tree + summer_screenshot"
+  - "the engine build lacks GetWorldSnapshot/DiffWorldSnapshot/GetRuntimeSceneTree/GetRuntimeNode (Summer Engine 0.5.66 or newer); older engines return engine_lacks_op — fall back to summer_get_scene_tree + summer_screenshot"
 facets:
   lifecycle:
     - build

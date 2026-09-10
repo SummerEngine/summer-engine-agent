@@ -9,7 +9,7 @@ use_when:
 do_not_use_when:
   - taking the screenshot itself — summer_screenshot target "scene" with framing "bookmark" and bookmark_name reuses a saved pose
   - a one-off pose you will not reuse — summer_screenshot framing "free" with camera_position/camera_look_at
-  - "requires an engine build with the camera bookmark ops (engine PR #156 follow-up, wave I); on current shipped engines this returns engine_lacks_op"
+  - "requires an engine build with the camera bookmark ops (Summer Engine 0.5.66 or newer); older engines return engine_lacks_op"
 facets:
   lifecycle:
     - build

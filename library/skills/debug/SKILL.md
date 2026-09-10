@@ -40,7 +40,7 @@ Do not skip steps. Do not loop back to "Hypothesize" without re-running the chea
 
 ### 0. Support report mode
 
-If the user asks for `/summer debug`, "send this to Summer", "make a report", or they are stuck in Codex/cloud/another agent environment, create a portable report first:
+If the user asks for `/summer debug`, "send this to Summer", "make a report", or they are stuck in Codex, a cloud sandbox, or another agent environment, create a portable report first:
 
 ```
 summer_create_debug_report({

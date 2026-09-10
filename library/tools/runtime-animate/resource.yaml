@@ -9,7 +9,7 @@ use_when:
 do_not_use_when:
   - wiring or authoring animation in the scene — character-animation-wiring / animation-tree skills
   - no game is running (failure_reason game_not_running) — summer_play first
-  - "requires an engine build with RuntimeAnimation / RuntimeAnimationTree / GetRuntimeBones (engine PR #156 follow-up, wave I); on current shipped engines this returns engine_lacks_op"
+  - "requires an engine build with RuntimeAnimation / RuntimeAnimationTree / GetRuntimeBones (Summer Engine 0.5.66 or newer); older engines return engine_lacks_op"
 facets:
   lifecycle:
     - build

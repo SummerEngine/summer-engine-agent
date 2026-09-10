@@ -8,7 +8,7 @@ use_when:
   - '"what did the spawner create?" / "is the autoload there?"'
 do_not_use_when:
   - no game is running (failure_reason game_not_running) — summer_play first, or read the edited scene with summer_get_scene_tree
-  - "requires an engine build with GetRuntimeSceneTree (engine PR #156); on current shipped engines this returns engine_lacks_op"
+  - "requires an engine build with GetRuntimeSceneTree (Summer Engine 0.5.66 or newer); older engines return engine_lacks_op"
 facets:
   lifecycle:
     - build

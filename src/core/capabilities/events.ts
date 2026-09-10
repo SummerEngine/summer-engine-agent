@@ -29,7 +29,7 @@ import {
 } from "../capability-skew.js";
 import { asRecord, numberFrom, stringFrom } from "../util/json.js";
 
-/** Event kinds v1 (SCENE_SCRIPTING_CONTRACTS.md, Wave J). sys.* transport
+/** Event kinds v1 (SCENE_SCRIPTING_CONTRACTS.md, the engine scene-scripting contracts). sys.* transport
  *  frames (sys.gap, sys.closed) are not kinds: never in the ring, never
  *  filterable, surfaced separately below. */
 export const EVENT_KINDS_V1 = [

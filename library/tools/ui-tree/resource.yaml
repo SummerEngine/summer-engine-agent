@@ -10,7 +10,7 @@ do_not_use_when:
   - reading the scene — summer_get_scene_tree / summer_world_snapshot read the data the Scene dock merely displays
   - a named action already covers the step — summer_ui_actions mode invoke needs no tree walk
   - judging appearance (layout, colours, an unfamiliar panel) — summer_ui_screenshot, pixels last
-  - "requires an engine build with UiTree / UiDialogs (engine PR #156 follow-up, wave L); on current shipped engines this returns engine_lacks_op"
+  - "requires an engine build with UiTree / UiDialogs (Summer Engine 0.5.66 or newer); older engines return engine_lacks_op"
 facets:
   lifecycle:
     - build

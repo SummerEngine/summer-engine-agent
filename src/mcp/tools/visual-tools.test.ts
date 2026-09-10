@@ -22,7 +22,7 @@ import { registerVisualTools, VIEWPORT_RECAPTURE_DELAY_MS } from "./visual-tools
  *    viewport capture that shipped with a "describe what you see" caption; 04 is
  *    a genuine 2D editor frame; 02 is the offscreen render of the 2D room whose
  *    caption falsely warned about a missing Camera3D.
- *  - the wave I perception surface: fixed-pose framings + Set-of-Mark overlay on
+ *  - the perception surface: fixed-pose framings + Set-of-Mark overlay on
  *    target:"scene" and summer_camera_bookmark, driven with a fake (non-JPEG)
  *    frame — the content check reports "unavailable" for it, which is the
  *    honest answer for bytes no decoder can read.
@@ -278,7 +278,7 @@ describe("summer_screenshot game — F-15 works locally; blank frames are called
   });
 });
 
-// --- wave I perception (fixed-pose framings, marks, camera bookmarks), fake frame ---
+// --- perception (fixed-pose framings, marks, camera bookmarks), fake frame ---
 const PNG = Buffer.from("pixels").toString("base64");
 
 function fakeSnapshot(overrides: Record<string, unknown> = {}) {
@@ -302,7 +302,7 @@ describe("registration", () => {
   });
 });
 
-describe("summer_screenshot — fixed-pose framings + marks (wave I)", () => {
+describe("summer_screenshot — fixed-pose framings + marks (fixed-pose framings)", () => {
   it("sends framing bookmark:<name> and the marks params to scenePreview", async () => {
     const scenePreview = vi.fn().mockResolvedValue(
       fakeSnapshot({

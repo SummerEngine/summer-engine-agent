@@ -10,7 +10,7 @@ do_not_use_when:
   - binding or renaming input actions — summer_input_map_bind
   - a hidden disposable probe run — a RunVerification probe with press()/key()
   - no game is running (failure_reason game_not_running) — summer_play first
-  - "requires an engine build with SimulateInputScript / InputRecordStart / InputRecordStop / InputReplay (engine PR #156 follow-up, wave I); on current shipped engines this returns engine_lacks_op"
+  - "requires an engine build with SimulateInputScript / InputRecordStart / InputRecordStop / InputReplay (Summer Engine 0.5.66 or newer); older engines return engine_lacks_op"
 facets:
   lifecycle:
     - build

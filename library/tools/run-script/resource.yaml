@@ -8,7 +8,7 @@ use_when:
 do_not_use_when:
   - a single property tweak — summer_set_prop is cheaper
   - a cold project-wide batch job that should not block the live editor — summer_run_editor_script
-  - "requires an engine build with RunSceneScript (engine PR #156); on current shipped engines this returns engine_lacks_op"
+  - "requires an engine build with RunSceneScript (Summer Engine 0.5.66 or newer); older engines return engine_lacks_op"
 facets:
   lifecycle:
     - build

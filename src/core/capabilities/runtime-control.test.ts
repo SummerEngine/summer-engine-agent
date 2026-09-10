@@ -364,7 +364,7 @@ describe("summer_play posture — quiet by default, focus:true opts in", () => {
     expect(quiet).not.toHaveProperty("posture_note");
   });
 
-  it("playGame validates before sending and pre-flights the Wave I advert for instances", async () => {
+  it("playGame validates before sending and pre-flights the runtime-control advert for instances", async () => {
     const executeOps = vi.fn();
     const client = { play: vi.fn(), executeOps, getEngineCapabilities: () => ({ opKinds: ["PlayGame"] }), getEngineVersion: () => "0.5.65" };
     await expect(playGame(client, { mode: "offscreen" })).rejects.toThrow(ToolInputError);

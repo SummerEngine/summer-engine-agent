@@ -10,7 +10,7 @@ do_not_use_when:
   - you want the engine to move the prop for you — summer_snap_to_surface or summer_align_distribute_3d
   - you only need a yes/no on one candidate pose — summer_test_placement is cheaper
   - the subject is 2D or has neither visual nor collision geometry
-  - "requires an engine build with Starcast3D (engine PR #147, codex/starcast-spatial-probe); on current shipped engines this returns engine_lacks_op"
+  - "requires an engine build with Starcast3D (Summer Engine 0.5.66 or newer); older engines return engine_lacks_op"
 facets:
   lifecycle:
     - build

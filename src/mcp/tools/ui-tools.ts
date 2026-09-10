@@ -18,7 +18,7 @@ import {
 } from "../../core/capabilities/ui-control.js";
 
 /**
- * Editor UI control tools (wave L). The MCP face only — the op builders, the
+ * Editor UI control tools (editor UI control). The MCP face only — the op builders, the
  * shared zod contracts, and the failure rendering live in
  * core/capabilities/ui-control.ts and are used verbatim by the CLI dispatcher.
  *

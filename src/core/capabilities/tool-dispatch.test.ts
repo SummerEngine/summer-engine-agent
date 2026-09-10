@@ -425,7 +425,7 @@ describe("mesh fabrication dispatch entry", () => {
   });
 });
 
-describe("editor UI control dispatch entries (wave L)", () => {
+describe("editor UI control dispatch entries (editor UI control)", () => {
   const uiSlugs = ["ui-actions", "ui-tree", "ui-activate", "ui-screenshot"];
 
   it("are engine-required and resolve by slug and summer_ name", () => {
@@ -952,7 +952,7 @@ describe("events dispatch entries (wait-for-event, recent-events)", () => {
   });
 });
 
-describe("wave I perception dispatch entries (camera bookmarks, fixed-pose screenshots, play determinism)", () => {
+describe("perception dispatch entries (camera bookmarks, fixed-pose screenshots, play determinism)", () => {
   it("camera-bookmark sends the op kind of the requested action", async () => {
     const { ctx, calls } = fakeEngineContext();
     await dispatchTool("camera-bookmark", { action: "save", name: "hero" }, ctx);
@@ -1063,7 +1063,7 @@ describe("wave I perception dispatch entries (camera bookmarks, fixed-pose scree
   });
 });
 
-describe("runtime control dispatch entries (engine Wave I)", () => {
+describe("runtime control dispatch entries (runtime control)", () => {
   const runtimeSlugs = [
     "runtime-set",
     "runtime-call",

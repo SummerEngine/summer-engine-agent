@@ -21,7 +21,7 @@ source_repo: SummerEngine/summer-gamedev-knowledge@cac7d50be8cfb3c0179c48e65438e
 
 # Auto-Rigging Static Meshes with skin-tokens.cpp (SkinTokens/TokenRig) in SummerEngine
 
-## Tool review verdict (answering the Slack request)
+## Tool review verdict
 
 Not a "slop tool made by a solodev": it is published under the **localai-org** GitHub organization by Richard Palethorpe (LocalAI maintainer), is an Apache-2.0 C++23/GGML port of VAST-AI's MIT-licensed **SkinTokens/TokenRig** research model (arXiv:2602.04805), ships a flat C11 API, an ASan/UBSan libFuzzer build, CPU/Vulkan numerical-parity test suites against the upstream reference, and a Go/WebGL demo. Weights are a verified, non-retrained GGUF conversion (~1.25 GB F16) on Hugging Face.
 

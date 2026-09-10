@@ -249,7 +249,7 @@ PLAYTEST LAUNCH (engine runtime-control build): instance + mode:'offscreen' spaw
       const requested = pickPlayDeterminism({ seed: args.seed, fixed_fps: args.fixed_fps, time_scale: args.time_scale });
       return withEngine(
         // ONE implementation with the CLI face (runtime-control.ts playGame):
-        // route choice, validation, Wave I pre-flight, old-engine / instance /
+        // route choice, validation, runtime-control pre-flight, old-engine / instance /
         // posture annotations. A ToolInputError propagates to withEngine.
         async (client) => playGame(client, args),
         {
@@ -313,7 +313,7 @@ Use after writing or editing a .gd file to verify it compiles. Returns line numb
     `Create a support-ready Markdown report for /summer debug.
 
 Use this when the user says "/summer debug", asks to send Summer a bug report,
-or needs a portable artifact from a failing Codex/cloud/agent session. The
+or needs a portable artifact from a failing Codex, cloud or agent session. The
 report includes Summer doctor checks, engine health, diagnostics, console
 output, debugger errors/warnings, and an agent handoff prompt. It omits auth
 tokens and project file contents, but the user should still review it before

@@ -354,7 +354,7 @@ function optNumberOrUndefined(args: DispatchArgs, key: string): number | undefin
   return value;
 }
 
-/** Editor UI control (wave L): pre-flight the op kind the arguments resolved
+/** Editor UI control (editor UI control): pre-flight the op kind the arguments resolved
  *  to (summer_ui_actions is UiListActions OR UiInvoke, summer_ui_tree is
  *  UiTree OR UiDialogs, ...), send it — mutating kinds identity-bound — and
  *  render the engine's failure details the same way the MCP face does. */
@@ -667,7 +667,7 @@ function optBoolean(args: DispatchArgs, key: string, fallback: boolean): boolean
   return value;
 }
 
-/** Wave I runtime op: pre-flight on the resolved kind, send it alone with the
+/** runtime op: pre-flight on the resolved kind, send it alone with the
  *  op's own budget, and teach both failure classes (engine_lacks_op via the
  *  post-hoc rewrite; the runtime gates via the shared hints). */
 async function runRuntimeOp(ctx: ToolDispatchContext, built: BuiltRuntimeOp): Promise<unknown> {
@@ -1448,7 +1448,7 @@ export const TOOL_DISPATCH: readonly ToolDispatchEntry[] = [
     );
   }),
 
-  // --- editor UI control (wave L) ---
+  // --- editor UI control (editor UI control) ---
   entry("summer_ui_actions", "List the editor's named actions (mode list) or invoke one by name exactly as its shortcut would (mode invoke)", true, async (args, ctx) => {
     // Validate with the SAME zod contract the MCP face registers, before any
     // engine connection — a malformed mode/action_name never needs an editor.
@@ -1524,7 +1524,7 @@ export const TOOL_DISPATCH: readonly ToolDispatchEntry[] = [
     );
   }),
 
-  // --- runtime control & playtest (engine Wave I) ---
+  // --- runtime control & playtest (runtime control) ---
   entry("summer_runtime_set", "Set one property on a node in the RUNNING game (never the scene file)", true, async (args, ctx) =>
     runRuntimeOp(ctx, buildRuntimeSetOp(parseToolArgs(runtimeSetArgsSchema, args, "runtime-set")))
   ),

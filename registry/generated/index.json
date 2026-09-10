@@ -335,7 +335,7 @@
       "id": "skill/agent-playtesting",
       "kind": "skill",
       "version": "1.0.0",
-      "content_hash": "b831729b42fb46608d963f7d7b065e766d8f4a60bea2b5b3c0349c704f43d6c9",
+      "content_hash": "7a722555ba45defaf8b0b032502c7586f6ffd14c80845f070ea7c48312e3869d",
       "summary": "Playtest by driving the LIVE game — deterministic launch, frame-stamped probes before/after each action, exact frame steps, scripted or recorded input.",
       "use_when": [
         "proving a gameplay feature works by driving the running game frame by frame with the runtime tools (summer_game_probe, summer_game_input, summer_game_control, summer_runtime_set/call/spawn/animate)",
@@ -456,7 +456,7 @@
       "id": "skill/animation-tree",
       "kind": "skill",
       "version": "1.0.1",
-      "content_hash": "32185fbbf324502565cc15cc43ff73ef084126a6cd68f6e6f69624e2f36d2333",
+      "content_hash": "0f837fa71b19bb159f3bc11f48d71413f4d827c646066899b4f633803bc6685f",
       "summary": "Design and wire AnimationTree state machines and blend trees so clips respond to gameplay — locomotion blends, attack interrupts, hit reactions.",
       "use_when": [
         "the character has clips that must play in response to gameplay — idle/walk/run blends, attacks that interrupt locomotion, hit reactions",
@@ -799,7 +799,7 @@
       "id": "skill/character-animation-wiring",
       "kind": "skill",
       "version": "1.0.1",
-      "content_hash": "2315e29f6f88ace851bce527cc5198b36e670313c7809702d758a6a6bad424a4",
+      "content_hash": "8389746554e0fed831bb9267161996230b1f14ebc3886610fe6d09cecae1eac8",
       "summary": "Wire a rigged, animated character end to end — inspect real clips and bones, locomotion state machine, method-track events, poses, blend shapes, root motion.",
       "use_when": [
         "a rigged GLB or Meshy rig with generated clips is in the scene and needs idle/walk/run wiring with blend times",
@@ -1041,7 +1041,7 @@
       "id": "skill/debug",
       "kind": "skill",
       "version": "1.0.4",
-      "content_hash": "44ef98a70b371098f3b50e4bde4f243e46ef43dfd922dabc71df0ea881567ec9",
+      "content_hash": "113d376d3cf1f87bcf0764a311cbe3fea8368f6b5d2fb561a510be84beb09405",
       "summary": "Disciplined bug/crash/error loop for Summer projects — script errors, console, debugger, hypothesis, fix, verify — before making code or scene changes.",
       "use_when": [
         "the user reports a bug, crash, error, or unexpected behavior in a Summer project, before making code or scene changes",
@@ -1275,7 +1275,7 @@
       "id": "skill/driving-the-editor-ui",
       "kind": "skill",
       "version": "1.0.0",
-      "content_hash": "060d17d807ad1c08ccfbf72022277a9c1d918c980bc24c49719ed84ab4c9ae5f",
+      "content_hash": "8f66b6514d59535a258a49c8b14dd98e5734f9c41ac56428bbd0f563fb31cde7",
       "summary": "Drive the editor UI by name: invoke actions, clear blocking dialogs, switch the main screen, read a dock — and route scene work to the scene tools instead.",
       "use_when": [
         "an editor-workflow step a human would do with the mouse — open the Import dock, switch the 2D/3D/Script main screen, toggle a bottom panel, open an editor dialog by name",
@@ -1396,7 +1396,7 @@
       "id": "skill/fabricating-assets",
       "kind": "skill",
       "version": "1.0.0",
-      "content_hash": "778275a5d30a94b7e3be66f11d9a11e4f53c22df045dc31d4ddad9248296e840",
+      "content_hash": "5ad782e93a4f4300917d66d94118335981fc0072920419fd7c875ca94b317973",
       "summary": "Fabricate meshes with a bpy script in the user's own Blender (summer_fabricate_3d) — kits with exact dimensions, VFX meshes, post-processing generated models.",
       "use_when": [
         "writing a Blender Python (bpy) script for summer_fabricate_3d and deciding whether fabrication, generation, or the free library is the right route for an asset",
@@ -1453,7 +1453,7 @@
       "id": "skill/facial-and-lipsync",
       "kind": "skill",
       "version": "1.0.2",
-      "content_hash": "6b8d71eeab179951507ef43bdc7391f3c1f65348aacadcc0fe63a65a6edadb6f",
+      "content_hash": "d93d25d4c2f9dc6499f08aeac84062c7023d9c6632ef55ebb38fcae8cc6acc6e",
       "summary": "Make a character's mouth move with a voice-over — phoneme extraction from audio, viseme blendshape mapping, and emotional facial expressions.",
       "use_when": [
         "the user has (or wants) a voice-over and needs the character's mouth to move with the words",
@@ -1657,7 +1657,7 @@
       "id": "skill/godogen-visual-proof-game-generation",
       "kind": "skill",
       "version": "0.1.1",
-      "content_hash": "330eeefab61106eca5051ad556b6aea5e2ddb644c2ed9eb1dc1f616c677f9b3d",
+      "content_hash": "663e7cd6eeeaae0a77f7ada602077702f2d105c39ffb36fb94ceec301b42eb2b",
       "summary": "Godogen-style game generation with a visual QC loop — capture frames from the running game, self-verify against the brief, bounded fix rounds, proof clip.",
       "use_when": [
         "generate a whole small game from a short brief and prove it actually runs",
@@ -2238,7 +2238,7 @@
       "id": "skill/procedural-animation",
       "kind": "skill",
       "version": "1.0.3",
-      "content_hash": "07a849e6b27fb24ac3887e8031e05f5f59cb1e74b26048b7cb99e2d9261da845",
+      "content_hash": "6c035de77b24147ecbc082e75d8ee33de390eeb8fa91f5c27920ab6ceed28d0b",
       "summary": "Runtime bone modification on top of clips — head look-at, foot IK, hand-grabs-prop, additive lean, recoil. Code-and-modifier patterns, not generation.",
       "use_when": [
         "the user needs runtime-driven bone modification on top of clips — head look-at, foot IK on uneven ground, additive lean, hit recoil, ragdoll",
@@ -2567,7 +2567,7 @@
       "id": "skill/scene-scripting",
       "kind": "skill",
       "version": "1.1.1",
-      "content_hash": "54e66f1d48a5a9dc8fd452e70a7691bf6ff42c231adac6f1974ce28e5b7c75c4",
+      "content_hash": "5af05e58d8415ed902c97e160586bfaaa7fee0332a29141069f5ea80ed2893cf",
       "summary": "One GDScript in the live editor (summer_run_script) builds scenes, 2D levels, HUDs and gameplay wiring instead of CRUD chains; verify with diff + screenshot.",
       "use_when": [
         "a scene change needs 3+ related ops or any computed placement — scattering, grids, rings, procedural meshes, geometry helpers, terrain, lighting rigs, keyframe animation, shader FX",
@@ -2805,7 +2805,7 @@
       "id": "skill/skintokens-auto-rigging",
       "kind": "skill",
       "version": "0.1.1",
-      "content_hash": "b3dffd671db7d9382ed82198997b787fe1f0db5196783bbde20ecdeacee99479",
+      "content_hash": "44fc636747fc5e873420bc46fec45815c6965a27337d4d59dfb33b09ece1022c",
       "summary": "Offline auto-rigging with skin-tokens.cpp (GGML SkinTokens/TokenRig port) — skeleton and skin weights from a static GLB mesh on CPU/Vulkan, into Godot 4.",
       "use_when": [
         "auto-rig this static GLB mesh so I can animate it",
@@ -2913,7 +2913,7 @@
       "id": "skill/spatial-placement",
       "kind": "skill",
       "version": "1.0.1",
-      "content_hash": "8c8415523e04f22e7b1d44444681258639237919dacadeda56a1e2e08eca3eed",
+      "content_hash": "adf5cba35e1a03a9b26b740e440ee98cccad32dfa47926fb2256c044a6e05266",
       "summary": "Place and verify 3D objects with Starcast evidence — inspect, place, starcast, correct, verify; floor, shelf, wall, alcove recipes and overlap repair.",
       "use_when": [
         "positioning a prop, character, collider, or platform so it sits flush, avoids overlap, or keeps clearance",
@@ -3211,7 +3211,7 @@
       "id": "skill/using-summer",
       "kind": "skill",
       "version": "1.0.4",
-      "content_hash": "e2a8c8a61cec0d6808d45aadd8a13c33684765c576da22fb738335d7263e00ea",
+      "content_hash": "a14fd976977d7cb4b806a5262988979f17a86129fe55375bd9696c67a4bb243c",
       "summary": "Session bootstrap for Summer projects — establishes how to find and use Summer skills and the summer-engine MCP before any response.",
       "use_when": [
         "starting any conversation in a Summer Engine project",
@@ -3327,7 +3327,7 @@
       "id": "skill/verifying-scenes",
       "kind": "skill",
       "version": "1.1.1",
-      "content_hash": "5727b21cd888bf4a277f0df3b53948b91adef8d559aabeaae5857b0877993d0f",
+      "content_hash": "08535b5917656ecfde44adefe9e9eae0d60d252d970acfc2141c903111dfc2d5",
       "summary": "Prove scene work landed — snapshot before, diff + screenshot after (bookmarked viewpoint, labels), live runtime reads during playtests — then claim.",
       "use_when": [
         "after any mutation batch, asset import, or lighting change, before claiming it worked",
@@ -3375,7 +3375,7 @@
       "id": "skill/vfx-dissolve",
       "kind": "skill",
       "version": "1.0.3",
-      "content_hash": "e7a58845fa7823e63343858af18e7e89e4e86730a7a3d37f93d6956ff0ae988d",
+      "content_hash": "44e0cbe912a91d6a91ea3251d75122f437934d784730721759c527b62ece00ee",
       "summary": "Dissolve effect — a mesh disintegrating with a glowing burning edge, driven by a noise-threshold ShaderMaterial overriding the target's material.",
       "use_when": [
         "authoring a dissolve effect — an object disintegrating with a glowing burning edge (disintegrate, burn away, vanish into ash)",
@@ -4439,7 +4439,7 @@
       "id": "tool/camera-bookmark",
       "kind": "tool",
       "version": "1.0.0",
-      "content_hash": "9cfc04c919a54ae742d1149b7d364824c87b363693da8ca7c1ebc9fc09bc2ce0",
+      "content_hash": "42c4dfe31c6634c1b583a8e831a040d3d4b5b6bbdfe97ed71a2d7810a5b39891",
       "summary": "Save, list, or delete named camera viewpoints stored in the project, so before/after screenshots are taken from exactly the same pose.",
       "use_when": [
         "\"save this camera angle\" / \"remember this viewpoint\" so later screenshots line up with it",
@@ -4762,7 +4762,7 @@
       "id": "tool/fabricate-3d",
       "kind": "tool",
       "version": "1.0.0",
-      "content_hash": "4d467e0294e5bde38bdee3fce1cd301cc8c7011917081a7ab67ee435971e2f85",
+      "content_hash": "a81490caa6d84592309e7d06848186916263f18b7e1d98877672767ff9fa83a0",
       "summary": "Fabricate a mesh with a bpy script in the user's own Blender (headless, engine-supervised), import the .glb into res://, optionally instantiate it.",
       "use_when": [
         "a modular kit with exact dimensions and snapping — walls, pipes, fences, rails — where generation cannot hold size and style across many pieces",
@@ -4823,7 +4823,7 @@
       "id": "tool/game-control",
       "kind": "tool",
       "version": "1.0.0",
-      "content_hash": "b5c6c2f1a00f65b9de67760ae85a8cb4c18861507189653f94fc0631ec972c05",
+      "content_hash": "7e8656dbb2760a9a8d4952a6aeab127f54c1e26d9c2041fd19b7924c54414027",
       "summary": "Pause the running game, resume it, step exactly N physics or process frames, set the time scale, or list the live game instances.",
       "use_when": [
         "pausing the running game and stepping one physics frame at a time to make exact frame-by-frame assertions",
@@ -4875,7 +4875,7 @@
       "id": "tool/game-input",
       "kind": "tool",
       "version": "1.0.1",
-      "content_hash": "081e11cfbd0e42689f205555fda3d37a1fc3fde66a1038b7f24d7da7a3e8772e",
+      "content_hash": "8b66540c3f42f8eb040ee6fe6483ad59687db16c59334b737618f447132b1e53",
       "summary": "Drive the running game's input — script timed synthetic events, or record the real inputs and replay them deterministically on a seeded instance.",
       "use_when": [
         "scripting a timed input sequence against the running game (walk right for 500 ms, jump at frame 30, click a button)",
@@ -4926,7 +4926,7 @@
       "id": "tool/game-probe",
       "kind": "tool",
       "version": "1.0.0",
-      "content_hash": "5125163d2a22fef48191b52852d9cb49f202f3afad6acbe96f09c0f89595619f",
+      "content_hash": "23e31a31694a3b656a674c81589534d526f4f47b5a0dcd05ef5686f4536098f5",
       "summary": "State AND pixels of one frame of the RUNNING game, atomically — live tree, property reads, and a screenshot stamped with the same frame counters.",
       "use_when": [
         "proving what the running game is actually doing before and after an action — the evidence read of every playtest loop",
@@ -5421,7 +5421,7 @@
       "id": "tool/get-runtime-tree",
       "kind": "tool",
       "version": "1.0.1",
-      "content_hash": "7247dcdb3c554c52ed8626771fe58ecec98017b8933d7f4fafdc3f8301e230ee",
+      "content_hash": "65939a49b44d072bde0dac9b005aa32c6d173182254167f94304233bca51adfc",
       "summary": "Scene tree of the RUNNING game — spawned enemies, autoloads, pooled nodes — live state the editor reads can never show.",
       "use_when": [
         "inspecting what actually spawned during a playtest without stopping the game",
@@ -5858,7 +5858,7 @@
       "id": "tool/inspect-runtime-node",
       "kind": "tool",
       "version": "1.0.1",
-      "content_hash": "f6e4ff4019222a7e0052fa01e42c61ef0a9e657ed1df5841a64fd2290919098d",
+      "content_hash": "32557c8048ccd5af1d95a0d71d3d12df48ccc9802aea6b978954e3031ac8e785",
       "summary": "Live properties of one node in the RUNNING game — actual stats, position, flags — without stopping the game and losing the state.",
       "use_when": [
         "answering \"where IS the player\" or \"what are this enemy's stats right now\" during a playtest",
@@ -6211,7 +6211,7 @@
       "id": "tool/play",
       "kind": "tool",
       "version": "1.2.0",
-      "content_hash": "e4fbecc0cc92fa969f272a8889c5aab9ac22de29aa39e77f3dc7692d139000ea",
+      "content_hash": "13b7e4d6f7073fe4d0961ed69026b20dfcaf4b2cca6a1e19e2329a8010b01ab7",
       "summary": "Start the game quietly by default (editor keeps tab and focus; focus true for a toolbar-style launch) — main or a given scene, embedded or offscreen, with pins.",
       "use_when": [
         "runtime verification after edits",
@@ -6379,7 +6379,7 @@
       "id": "tool/recent-events",
       "kind": "tool",
       "version": "1.0.0",
-      "content_hash": "586be855460cfe4baabf79f4c086998a34853cfeb4ace2887e6bebb0f4dc1c57",
+      "content_hash": "f8f9c7fba524b0f43f8ff0af45cdaef01fa6ed4710b1c78b3f45d4de1462fed0",
       "summary": "Read the newest engine events (saves, plays, op receipts, script errors, imports) in one zero-wait poll — and the next_seq cursor to wait from.",
       "use_when": [
         "\"what just happened in the engine?\" / \"show me the recent events\" — the last saves, plays, op receipts, script errors, imports",
@@ -6532,7 +6532,7 @@
       "id": "tool/run-editor-script",
       "kind": "tool",
       "version": "1.0.2",
-      "content_hash": "ae134b069cc820ee17f1393c35d4e295174ad3c3b154be89c3eb9a793a69b377",
+      "content_hash": "7cdf3b2dfcd8d1ed571484fc27347dc44ddc0165b4fc5102ace50a1071155e21",
       "summary": "Run an EditorScript `func _run():` in a fresh headless child editor against the on-disk project — the cold path for batch and project-wide jobs.",
       "use_when": [
         "re-saving many scenes, sweeping resources, mass import fixes, generating .tres assets, long bakes that should not block the live editor",
@@ -6578,7 +6578,7 @@
       "id": "tool/run-script",
       "kind": "tool",
       "version": "1.0.1",
-      "content_hash": "822467beab348539b92b01b061fad03c6453b2d645295d54b5123a16ea494286",
+      "content_hash": "048c174e32beef498a5a47a08580f369b1a0be94be2d3aeb33db41ad9a9a7278",
       "summary": "Run a GDScript `func run(ctx):` inside the live editor against the open scene — one script instead of a chain of add-node/set-prop calls.",
       "use_when": [
         "a change needs 3+ related ops or any computed placement (scatter, grids, procedural meshes, bulk edits)",
@@ -6627,7 +6627,7 @@
       "id": "tool/runtime-animate",
       "kind": "tool",
       "version": "1.0.0",
-      "content_hash": "c13f36e4c25bb591fd30832d64cf830d207fe87c49747836ffd947934b4ca729",
+      "content_hash": "58caceb2d272f504d60e6c203ecf7288f64cde10472f402438c7740c3024b1dc",
       "summary": "Drive and read animation in the RUNNING game — AnimationPlayer clips, AnimationTree state machines, and live Skeleton3D bone poses.",
       "use_when": [
         "checking which clip or state-machine state is actually playing in the running game, then driving it (play, seek, travel, set a blend parameter)",
@@ -6680,7 +6680,7 @@
       "id": "tool/runtime-call",
       "kind": "tool",
       "version": "1.0.0",
-      "content_hash": "8792c0115a75fc1dec0c6bfbb5a6649571f3e78bf2577e802c14c5e2cf17d041",
+      "content_hash": "4cf5cd33f6353ee9a11b889a1aa3ca4a2d24f8eb67cae42ca2f2600615d028a3",
       "summary": "Call one method on a node in the RUNNING game and get its return value — trigger gameplay code directly instead of waiting for input or timers.",
       "use_when": [
         "triggering gameplay code in the running game and reading its answer — take_damage, start_wave, get_velocity",
@@ -6732,7 +6732,7 @@
       "id": "tool/runtime-set",
       "kind": "tool",
       "version": "1.0.0",
-      "content_hash": "d332c31feabbd63b97b63a08f17c94dd97576971936f45c173394cb9f0481fa3",
+      "content_hash": "19be16f4a367ab9e3aba7403c54231fb7475798972a31946c67dc9d80ba03ff5",
       "summary": "Set one property on a node in the RUNNING game — the live object, never the scene file — and read back whether it applied.",
       "use_when": [
         "putting the running game into a test state without playing there by hand — teleport the player, set health to 1, flip a flag, toggle visibility",
@@ -6784,7 +6784,7 @@
       "id": "tool/runtime-spawn",
       "kind": "tool",
       "version": "1.0.0",
-      "content_hash": "77cb20ae765d90ea4003bb5b9c32be18be4e33b7ba7970386d04e375173d1c39",
+      "content_hash": "3c64559d9b9a5c41b66b6f86c0de97ed7771975e5f8b330ac44e686f68c981e7",
       "summary": "Spawn a PackedScene into the RUNNING game (action spawn) or free a live node (action free) — stage a test in seconds without touching the scene file.",
       "use_when": [
         "staging a runtime test — place three goblins under the spawner, add a pickup next to the player, remove the boss to test the empty-arena path",
@@ -7182,7 +7182,7 @@
       "id": "tool/snapshot-diff",
       "kind": "tool",
       "version": "1.0.1",
-      "content_hash": "e2f477f13e8d20cc2e999f9d35ff3e86a6feedb3033d843b3de212ee06648db8",
+      "content_hash": "500b39603410e8dd9dc7af2526671d58efb341ceff5556f0038f831b5dbcc2b5",
       "summary": "Diff two world snapshots into added/removed/changed nodes and count deltas — the structural receipt that a mutation did exactly what was intended.",
       "use_when": [
         "verifying a mutation batch against the snapshot_id taken before it",
@@ -7229,7 +7229,7 @@
       "id": "tool/starcast",
       "kind": "tool",
       "version": "1.0.0",
-      "content_hash": "5a7d1433d64dc5a90be32bd08e5270ae56fdc3b3229988646d076743784e85a8",
+      "content_hash": "149de44b173e1bc315fd87bf42d713fb4fa9eba3d7979942293ef6bf200cd222",
       "summary": "Read-only 3D placement rundown for one node — 26 directional clearance casts, contact-or-overlap evidence, grounding, nearby geometry. Never moves or saves.",
       "use_when": [
         "learning what surrounds a placed prop before and after a correction — which direction is blocked, by what, and at what distance",
@@ -7406,7 +7406,7 @@
       "id": "tool/ui-actions",
       "kind": "tool",
       "version": "1.0.0",
-      "content_hash": "ef5e5a06ede75ed1069f97c809b2396d8e779c0336434f4230bced9a695fa032",
+      "content_hash": "52cad0fa683ffde23b6c3b5be24ef6e87765b1d67d63c6e646860a77a4072cb5",
       "summary": "List the editor's named actions or invoke one by name exactly as its menu item / shortcut would — open Project Settings, switch screens, toggle panels.",
       "use_when": [
         "\"open project settings in the editor\" / \"open the Import dock\" / \"toggle the animation bottom panel\" — an editor-workflow step a human would do with the mouse, driven by its stable action name",
@@ -7458,7 +7458,7 @@
       "id": "tool/ui-activate",
       "kind": "tool",
       "version": "1.0.0",
-      "content_hash": "c038f160588679447726e779fb338ab2d17b0e33fe82c4a7380d3f5a06174c8b",
+      "content_hash": "6ef1ca9999070dd2ca3b054f3c20983b83bb4e836a73b960d3a0ca642f4941b6",
       "summary": "Activate one editor control by tree path — press, toggle, focus, select a tab, type text, dial a value — or dismiss a blocking dialog; state is read back.",
       "use_when": [
         "\"dismiss the dialog that is blocking the editor\" / \"close that popup\" — action dismiss_dialog with the path or title from summer_ui_tree root dialogs",
@@ -7507,7 +7507,7 @@
       "id": "tool/ui-screenshot",
       "kind": "tool",
       "version": "1.0.0",
-      "content_hash": "0676cb3569499516a7f80bb8987b30902e3d6010946e8a7c56a1f86efc2b9372",
+      "content_hash": "b29c5f4908a6a816425d6281448cf0cd3830b3df91a32a62d86b2da7cebd3c51",
       "summary": "PNG of the editor window or one dock/dialog/control as an image — the pixels-last fallback for looking at the editor UI, never for picking click coordinates.",
       "use_when": [
         "\"show me what the editor looks like right now\" / \"screenshot the Inspector dock\" — seeing layout or an unfamiliar panel after summer_ui_tree has described it",
@@ -7556,7 +7556,7 @@
       "id": "tool/ui-tree",
       "kind": "tool",
       "version": "1.0.0",
-      "content_hash": "9f892b3a82ee16dd1364387d508e556ec9754efffd50eecaad0cd6526b2d4c53",
+      "content_hash": "83f9f8f61e441eccd050f09a9fb0e12bf4884a5f2a12a0df6102f1f9108ec9d0",
       "summary": "Structured tree of the live editor UI (controls, paths, text, state) or every visible dialog with its blocking flag — the cheap alternative to a screenshot.",
       "use_when": [
         "\"is a dialog blocking the editor\" / \"what does the Inspector dock show\" / \"which main screen is active\" — read editor UI state as structure instead of pixels",
@@ -7606,7 +7606,7 @@
       "id": "tool/wait-for-event",
       "kind": "tool",
       "version": "1.0.0",
-      "content_hash": "88b2574f2876314344fab92a28ceecbacf554eaa7287af95f63e50a4ff7be482",
+      "content_hash": "670da1a0f9820e969ae6f72dac6dd8e253be5c5bb204e92abfb6648482ad42df",
       "summary": "Wait for an engine event — the game starting, an op finishing, a script error, a save — instead of sleeping and re-polling; honest timeout.",
       "use_when": [
         "\"wait for the game to start\" — right after summer_play, wait for play.started instead of guessing how long boot takes",
@@ -7659,7 +7659,7 @@
       "id": "tool/world-snapshot",
       "kind": "tool",
       "version": "1.0.2",
-      "content_hash": "7988cf9571d9f768e9d3c139a9dd90dc377e015758ef6d608c03a25397f43c10",
+      "content_hash": "bd51032ff7c9c717db882528d8419b05183650c4caf839585fb6a55947377dfe",
       "summary": "Compact structured snapshot of the edited scene (paths, transforms, world AABBs, fingerprints, counts) — the cheap read before and after every mutation batch.",
       "use_when": [
         "taking a diffable baseline before a mutation batch, or verifying transforms/AABBs/fingerprints after one",

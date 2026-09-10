@@ -175,7 +175,7 @@ because the result lands in the open scene's library and the run is
 transactional.
 
 For QUICK facial keys that don't need a viseme timeline (a roar, a wince, an
-eyebrow raise), Wave G engines collapse the whole bake into `ctx.animate` with
+eyebrow raise), animation-tier engines collapse the whole bake into `ctx.animate` with
 a `"blend_shapes/<name>"` property path (value tracks, verified working) — one
 call per shape, same `anim_name` appends tracks to one clip. Recipe in
 `character-animation-wiring`. The Rhubarb bake loop above

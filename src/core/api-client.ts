@@ -943,7 +943,7 @@ export class EngineApiClient {
    * P4.3 confession fields (scene_has_camera / scene_had_light /
    * used_synthetic_camera) and framing / framed_node / render_retries.
    *
-   * Wave I (contracts "Perception additions"): framing "free" takes
+   * Perception additions (engine scene-scripting contracts): framing "free" takes
    * `cameraPosition` / `cameraLookAt` (Godot "Vector3(x, y, z)" literals) and
    * `fov`; framing "bookmark:<name>" resolves the pose from the project's
    * camera bookmarks (fov overrides the bookmark's). `marks` draws the

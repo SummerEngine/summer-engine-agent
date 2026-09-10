@@ -8,7 +8,7 @@ use_when:
   - proving a batch only moved the props it was meant to
 do_not_use_when:
   - no baseline snapshot exists — take summer_world_snapshot first
-  - "requires an engine build with DiffWorldSnapshot (engine PR #156); on current shipped engines this returns engine_lacks_op"
+  - "requires an engine build with DiffWorldSnapshot (Summer Engine 0.5.66 or newer); older engines return engine_lacks_op"
 facets:
   lifecycle:
     - build

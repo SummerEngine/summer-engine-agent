@@ -1,5 +1,5 @@
 /**
- * Editor UI control (wave L) — op builders shared by the MCP tools
+ * Editor UI control (editor UI control) — op builders shared by the MCP tools
  * (src/mcp/tools/ui-tools.ts) and the CLI dispatcher (`summer tool ui-*`) so
  * both faces validate the same arguments, send the same op, and render the
  * engine's failure taxonomy the same way.

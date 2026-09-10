@@ -56,7 +56,7 @@ The skeleton hands off to physics on death. Bones become `PhysicalBone3D` rigid 
 
 The bread-and-butter NPC liveliness fix.
 
-**ctx lane (Wave G engines):** one `summer_run_script` call creates the owned modifier and sets the props — prefer it over the 10-call CRUD chain below:
+**ctx lane (animation-tier engines):** one `summer_run_script` call creates the owned modifier and sets the props — prefer it over the 10-call CRUD chain below:
 
 ```gdscript
 func run(ctx):
@@ -233,7 +233,7 @@ You need PhysicalBone3D children matching every major bone (set up once via the 
 
 ## Anti-patterns
 
-- Writing `skel.set_bone_pose_position(...)` in `_process`. Bypasses the AnimationTree, fights it next frame, results in jitter. Use modifiers instead — they integrate with the pipeline. (Edit-time STILL poses — a corpse, a statue — are the exception: no tree is running, so `ctx.bone_pose(skel, bone, {position/rotation/scale})` on Wave G engines, or `set_bone_pose_*` in a one-off `summer_run_script`, is exactly right. See `character-animation-wiring`.)
+- Writing `skel.set_bone_pose_position(...)` in `_process`. Bypasses the AnimationTree, fights it next frame, results in jitter. Use modifiers instead — they integrate with the pipeline. (Edit-time STILL poses — a corpse, a statue — are the exception: no tree is running, so `ctx.bone_pose(skel, bone, {position/rotation/scale})` on animation-tier engines, or `set_bone_pose_*` in a one-off `summer_run_script`, is exactly right. See `character-animation-wiring`.)
 - Putting IK targets in worldspace and forgetting they don't follow the character. Parent IK targets under the character root or bone — IK target is in the modifier's local space.
 - Procedural look-at without a fade-out at distance. Distant NPCs all snap to player every frame, looks like a hivemind.
 - Foot IK on flying / floating characters. Disable when `is_on_floor() == false`.

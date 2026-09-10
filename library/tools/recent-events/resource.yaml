@@ -9,7 +9,7 @@ use_when:
 do_not_use_when:
   - blocking until something happens — summer_wait_for_event
   - full console or debugger bodies — summer_get_console / summer_get_debugger_errors (events carry compact payloads, clamped at 4 KB)
-  - "requires an engine build with the events channel (capabilities.events, /api/events — engine PR #156 follow-up commits); on current shipped engines this returns engine_lacks_events"
+  - "requires an engine build with the events channel (capabilities.events, /api/events; Summer Engine 0.5.66 or newer); older engines return engine_lacks_events"
 facets:
   lifecycle:
     - build

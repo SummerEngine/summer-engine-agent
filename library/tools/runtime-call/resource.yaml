@@ -9,7 +9,7 @@ use_when:
 do_not_use_when:
   - a plain property read or write — summer_game_probe props / summer_runtime_set are cheaper
   - no game is running (failure_reason game_not_running) — summer_play first
-  - "requires an engine build with CallRuntimeMethod (engine PR #156 follow-up, wave I); on current shipped engines this returns engine_lacks_op"
+  - "requires an engine build with CallRuntimeMethod (Summer Engine 0.5.66 or newer); older engines return engine_lacks_op"
 facets:
   lifecycle:
     - build

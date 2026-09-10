@@ -24,7 +24,7 @@ import {
 } from "../../core/capabilities/runtime-control.js";
 
 /**
- * Runtime control & playtest tools (engine Wave I): see and touch the RUNNING
+ * Runtime control & playtest tools (runtime control): see and touch the RUNNING
  * game. Seven tools over sixteen engine op kinds; the argument contracts, op
  * builders, budgets and failure hints live in core/capabilities/runtime-control.ts
  * and are shared with the CLI face (`summer tool …`).

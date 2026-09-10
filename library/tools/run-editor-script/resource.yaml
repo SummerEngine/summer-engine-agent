@@ -9,7 +9,7 @@ use_when:
 do_not_use_when:
   - work on the currently OPEN scene or anything relying on unsaved live edits — summer_run_script
   - anything needing pixels — the headless child has no renderer
-  - "you need checkpoint/rollback or the scene-scripting ctx helpers — that is summer_run_script (RunSceneScript, engine PR #156, preview); RunEditorScript itself ships in current engines"
+  - "you need checkpoint/rollback or the scene-scripting ctx helpers — that is summer_run_script (RunSceneScript, Summer Engine 0.5.66 or newer, preview); RunEditorScript itself ships in current engines"
 facets:
   lifecycle:
     - build

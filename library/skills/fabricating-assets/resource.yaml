@@ -11,7 +11,7 @@ do_not_use_when:
   - a generic prop — search the free library first (summer_search_assets, prop-model), then generate (summer_generate_3d)
   - a character or any organic shape — character-model / organic-model; scripted organic modelling is the documented failure mode
   - a blockout or placeholder — scene-scripting primitives/CSG are instant and in-scene
-  - "the engine build lacks FabricateMesh (engine PR #156 follow-up, wave K); current shipped engines return engine_lacks_op — route to summer_generate_3d / summer_search_assets / summer_run_script instead"
+  - "the engine build lacks FabricateMesh (Summer Engine 0.5.66 or newer); older engines return engine_lacks_op — route to summer_generate_3d / summer_search_assets / summer_run_script instead"
 facets:
   lifecycle:
     - build

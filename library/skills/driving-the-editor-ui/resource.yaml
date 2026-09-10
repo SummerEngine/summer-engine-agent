@@ -11,7 +11,7 @@ do_not_use_when:
   - building or changing the scene — nodes, properties, placement, lighting go through scene-scripting and the scene tools; the editor's docks are views of that data
   - verifying a visual result in the viewport or the running game — verifying-scenes (summer_screenshot, snapshot diff)
   - quitting or reloading the editor, or deleting without confirmation — denied by the engine; ask the user
-  - "the engine build lacks the UI ops (engine PR #156 follow-up, wave L); current shipped engines return engine_lacks_op — use the dedicated tools or ask the user to click"
+  - "the engine build lacks the UI ops (Summer Engine 0.5.66 or newer); older engines return engine_lacks_op — use the dedicated tools or ask the user to click"
 facets:
   lifecycle:
     - build

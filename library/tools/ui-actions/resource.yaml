@@ -10,7 +10,7 @@ do_not_use_when:
   - scene work — adding, moving, retuning, or reading nodes goes through summer_run_script, the scene tools, summer_world_snapshot and summer_screenshot, never through editor clicks
   - quitting the editor, quitting to the project list, reloading the project, or deleting without confirmation — denied by the engine (denied_action); they end the session
   - a control has no named action — read summer_ui_tree and activate it by path with summer_ui_activate
-  - "requires an engine build with UiListActions / UiInvoke (engine PR #156 follow-up, wave L); on current shipped engines this returns engine_lacks_op"
+  - "requires an engine build with UiListActions / UiInvoke (Summer Engine 0.5.66 or newer); older engines return engine_lacks_op"
 facets:
   lifecycle:
     - build

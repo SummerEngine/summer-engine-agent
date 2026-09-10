@@ -12,7 +12,7 @@ do_not_use_when:
   - a character or any organic shape — summer_generate_3d (scripted organic modelling is the documented failure mode)
   - a blockout or placeholder — summer_run_script primitives/CSG are instant and in-scene
   - the user has no Blender install and does not want one — this tool never installs, downloads, or bundles Blender
-  - "requires an engine build with FabricateMesh (engine PR #156 follow-up, wave K); on current shipped engines this returns engine_lacks_op"
+  - "requires an engine build with FabricateMesh (Summer Engine 0.5.66 or newer); older engines return engine_lacks_op"
 facets:
   lifecycle:
     - build

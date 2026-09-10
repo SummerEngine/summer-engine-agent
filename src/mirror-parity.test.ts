@@ -52,7 +52,7 @@ const SHARED: Record<string, string[]> = {
   "core/capabilities/engine-receipt.ts": ["extractOpError", "withOldEngineHint"],
   "core/capabilities/capture.ts": ["captureViewport", "captureScene", "captureGame", "analyzedSnapshot"],
   // summer_play is one function: route choice, quiet-by-default posture,
-  // validation, Wave I pre-flight and the result annotations. Neither face may
+  // validation, runtime-control pre-flight and the result annotations. Neither face may
   // grow its own copy again.
   "core/capabilities/runtime-control.ts": ["playGame", "withPlayPostureEcho", "buildPlayGameOp"],
 };

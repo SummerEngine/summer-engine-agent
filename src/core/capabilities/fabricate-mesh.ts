@@ -4,7 +4,7 @@
  * (`summer tool fabricate-3d`) so both faces validate the same arguments, send
  * the same op with the same clamps, and wait the same client poll budget.
  *
- * What the op does on the engine side (fabricate_ops.cpp, wave K): run one
+ * What the op does on the engine side (fabricate_ops.cpp, mesh fabrication): run one
  * agent-authored bpy script in a supervised headless child of the USER'S OWN
  * Blender install, validate the .glb the child exported, move it under res://,
  * wait for the editor import to settle, and optionally instantiate it into the

@@ -9,7 +9,7 @@ use_when:
 do_not_use_when:
   - the EDITED scene, not the running game — summer_world_snapshot / summer_screenshot target viewport
   - no game is running (failure_reason game_not_running) — summer_play first
-  - "requires an engine build with GameProbe (engine PR #156 follow-up, wave I); on current shipped engines this returns engine_lacks_op — fall back to summer_get_runtime_tree + summer_screenshot target game"
+  - "requires an engine build with GameProbe (Summer Engine 0.5.66 or newer); older engines return engine_lacks_op — fall back to summer_get_runtime_tree + summer_screenshot target game"
 facets:
   lifecycle:
     - build

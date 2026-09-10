@@ -632,7 +632,7 @@ describe("EngineApiClient — See-Work Loop P5 capture additions", () => {
     }
   });
 
-  it("scenePreview sends the wave I fixed-pose and Set-of-Mark params under their wire names and keeps the echoes in metadata", async () => {
+  it("scenePreview sends the fixed-pose and Set-of-Mark params under their wire names and keeps the echoes in metadata", async () => {
     const b64 = Buffer.from("y").toString("base64");
     const sink: { lastBody?: unknown } = {};
     mockFetchCapturing((url, method) => {

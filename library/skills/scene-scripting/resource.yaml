@@ -10,8 +10,8 @@ use_when:
 do_not_use_when:
   - a single property tweak — summer_set_prop is cheaper
   - one signal, one input binding, or one project setting — summer_connect_signal, summer_input_map_bind, summer_project_setting are one call each and ship today
-  - "the engine build lacks RunSceneScript (engine PR #156; current shipped engines return engine_lacks_op) — RunEditorScript and RunVerification DO ship today, so fall back to summer_run_editor_script or the scene tools"
-  - "the Wave H 2D/UI/gameplay-code ctx helpers (engine PR #156 follow-up commits) are missing on the engine — the skill's fallback table names what works everywhere"
+  - "the engine build lacks RunSceneScript (Summer Engine 0.5.66 or newer; older engines return engine_lacks_op) — RunEditorScript and RunVerification DO ship today, so fall back to summer_run_editor_script or the scene tools"
+  - "the 2D/UI/gameplay-code ctx helpers (Summer Engine 0.5.66 or newer) are missing on the engine — the skill's fallback table names what works everywhere"
 facets:
   lifecycle:
     - build

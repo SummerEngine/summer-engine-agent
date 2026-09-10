@@ -25,7 +25,7 @@ source_repo: SummerEngine/summer-gamedev-knowledge@cac7d50be8cfb3c0179c48e65438e
 
 Give SummerEngine an agent workflow that takes a **short game description** and produces a **runnable, visually verified game**, using Godogen's core insight: *judge the result from the running game, never from a clean compile*. The visible output of every iteration is a screenshot or short proof clip from the actual engine, and the host coding agent itself reviews those frames against the brief — no separate verifier model.
 
-This directly targets the studio pain point Velizar named in Slack: SummerEngine already has a "validation of the game" step, but it doesn't currently work. Godogen's visual QC loop is the reference design to rebuild it.
+This directly targets a known studio pain point: Summer Engine already has a "validation of the game" step, but it does not yet verify the running game. Godogen's visual QC loop is the reference design to rebuild it.
 
 ## When to Use
 

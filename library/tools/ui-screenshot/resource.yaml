@@ -10,7 +10,7 @@ do_not_use_when:
   - reading a control's state (checked, current_tab, text) — summer_ui_tree is exact and far cheaper
   - picking coordinates to click — there is no coordinate click; summer_ui_activate takes tree paths
   - a headless editor — no renderer, no pixels (no_renderer); use summer_ui_tree
-  - "requires an engine build with UiScreenshot (engine PR #156 follow-up, wave L); on current shipped engines this returns engine_lacks_op"
+  - "requires an engine build with UiScreenshot (Summer Engine 0.5.66 or newer); older engines return engine_lacks_op"
 facets:
   lifecycle:
     - build

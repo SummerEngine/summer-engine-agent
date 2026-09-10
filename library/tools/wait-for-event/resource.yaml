@@ -10,7 +10,7 @@ use_when:
 do_not_use_when:
   - reading what already happened — summer_recent_events (events fired before `since` are never delivered here)
   - checking a fact right now (is the game running, what is in the tree) — summer_is_running / summer_get_scene_tree are immediate
-  - "requires an engine build with the events channel (capabilities.events, /api/events — engine PR #156 follow-up commits); on current shipped engines this returns engine_lacks_events"
+  - "requires an engine build with the events channel (capabilities.events, /api/events; Summer Engine 0.5.66 or newer); older engines return engine_lacks_events"
 facets:
   lifecycle:
     - build

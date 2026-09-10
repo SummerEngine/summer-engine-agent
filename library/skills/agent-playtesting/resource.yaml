@@ -9,7 +9,7 @@ use_when:
   - asserting exact positions or timings by advancing the live game a physics frame at a time
 do_not_use_when:
   - static or code-layer checks — verification-before-completion (compile, diagnostics) comes first
-  - a hidden disposable probe run is enough or the engine build lacks the runtime-control ops (engine PR #156 follow-up, wave I) — playtesting-a-feature's RunVerification loop still applies there
+  - a hidden disposable probe run is enough or the engine build lacks the runtime-control ops (Summer Engine 0.5.66 or newer) — playtesting-a-feature's RunVerification loop still applies there
   - the feature works but feels wrong — debugging-game-feel
 facets:
   lifecycle:

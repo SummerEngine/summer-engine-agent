@@ -10,7 +10,7 @@ use_when:
 do_not_use_when:
   - the scene is 2D — Starcast reads Node3D bounds, 3D physics, and visual AABBs
   - you want the engine to seat or align for you — skill/world-building-3d (summer_snap_to_surface, summer_align_distribute_3d)
-  - "the engine build predates Starcast3D (engine PR #147): summer_starcast returns engine_lacks_op; judge placement from summer_test_placement and summer_inspect_node instead"
+  - "the engine build predates Starcast3D (Summer Engine 0.5.66 or newer): summer_starcast returns engine_lacks_op; judge placement from summer_test_placement and summer_inspect_node instead"
 facets:
   lifecycle:
     - build

@@ -8,7 +8,7 @@ use_when:
   - '"are these two props overlapping?" / "is anything floating?"'
 do_not_use_when:
   - you only need the hierarchy shape — summer_get_scene_tree
-  - "requires an engine build with GetWorldSnapshot (engine PR #156); on current shipped engines this returns engine_lacks_op"
+  - "requires an engine build with GetWorldSnapshot (Summer Engine 0.5.66 or newer); older engines return engine_lacks_op"
 facets:
   lifecycle:
     - build

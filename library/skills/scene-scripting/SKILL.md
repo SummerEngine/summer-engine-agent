@@ -65,7 +65,7 @@ frames_budget_exceeded() -> bool
 
 `props` dictionaries apply via `set()` per key; unknown keys are collected into a `prop_warnings` report entry, never silently dropped — read it. On an **older engine** a missing helper is a plain GDScript error (`Invalid call to method 'add_mesh'…`): fall back to the manual form, which works everywhere.
 
-## The geometry & authoring stdlib (Wave F engines)
+## The geometry & authoring stdlib (geometry tier)
 
 Newer engines extend ctx with a second tier: real geometry (booleans, lathe, sweep, terrain), mesh post-processing (smooth, decimate, UVs, mirror, collision), keyframe animation, and text shaders. Frozen signatures:
 
@@ -106,7 +106,7 @@ make_shader(code: String, params: Dictionary = {}) -> ShaderMaterial
 
 Conventions, same as the rest of the stdlib: creation helpers set the owner and return the created node; bad input produces a per-helper `report` entry plus a `null`/`false` return, never a crash; every baked mesh carries generated normals (and tangents where UVs exist). On an older engine these helpers are missing — the CSG-node fallback recipe below still works everywhere.
 
-## The animation stdlib (Wave G engines)
+## The animation stdlib (animation tier)
 
 Character-animation USAGE on top of `animate()` — state machines, method tracks, bone poses, head tracking. Same conventions. Frozen signatures:
 
@@ -134,7 +134,7 @@ look_at_modifier(node: Node, target: Node, props: Dictionary = {}) -> Node
 
 Blend shapes key through plain `animate()` with property `"blend_shapes/<name>"` (value tracks) — no separate helper. The end-to-end recipe (inspect an imported rig's real clips/bones, locomotion wiring, footstep method tracks, root motion, the raw-GDScript fallback for engines without these helpers) lives in `character-animation-wiring` — one hop, not duplicated here.
 
-## The game-completeness stdlib (Wave H engines — 2D, UI, gameplay code)
+## The game-completeness stdlib (game-completeness tier: 2D, UI, gameplay code)
 
 Everything a script needs to produce a GAME, not just a 3D scene: 2D levels, Control trees, persisted signal connections, attached scripts, prefabs, project settings. Same conventions (owner-by-default, return the node, `prop_warnings`, structured report entries on failure — never silent). 2D helpers work in any edited scene (root may be `Node2D` or `Node`); Control helpers parent under the edited root unless a parent is given. Frozen signatures:
 
@@ -223,9 +223,9 @@ set_main_scene(path: String) -> bool                   # application/run/main_sc
 # writes uid:// forms — both resolve. Do not "fix" one into the other.
 ```
 
-**Engine posture — read before relying on any of this.** Wave H is a frozen contract, not a shipped engine: the helpers land as follow-up commits on engine PR #156, and no shipped engine has them today — the same preview posture as `summer_run_script` itself (which returns `engine_lacks_op` on engines without RunSceneScript). On an engine that has RunSceneScript but predates Wave H, a missing helper is a plain GDScript error (`Invalid call to method 'add_ui'…`) and, under the default `undo: "action"`, the whole run rolls back. Fall back to what works everywhere:
+**Engine posture. Read before relying on any of this.** The game-completeness tier is a frozen contract that not every engine build exposes yet; treat it with the same preview posture as `summer_run_script` itself (which returns `engine_lacks_op` on engines without RunSceneScript). On an engine that has RunSceneScript but predates this tier, a missing helper is a plain GDScript error (`Invalid call to method 'add_ui'…`) and, under the default `undo: "action"`, the whole run rolls back. Fall back to what works everywhere:
 
-| Wave H helper | Works on every engine |
+| Game-completeness helper | Works on every engine |
 |---|---|
 | `add_tilemap` / `paint_tiles` / `paint_rect` | `TileMapLayer.new()` + `layer.tile_set = load(path)`, then `layer.set_cell(coords, source_id, atlas_coords)` in a loop — the GridMap recipe, in 2D |
 | `add_sprite` / `add_animated_sprite` / `add_body_2d` / `add_camera_2d` / `add_parallax` | manual `.new()` + `add_child` + `ctx.set_owner_recursive` |
@@ -333,9 +333,9 @@ func run(ctx):
     ctx.set_owner_recursive(body)           # owner is the SCENE root, not the parent
 ```
 
-Live CSG nodes are the **older-engine fallback** — they re-evaluate every frame and should be converted before shipping (`scene-composition`). On a Wave F engine prefer `ctx.boolean(...)`, which bakes to a plain ArrayMesh and leaves no CSG nodes behind.
+Live CSG nodes are the **older-engine fallback** — they re-evaluate every frame and should be converted before shipping (`scene-composition`). On a geometry-tier engine prefer `ctx.boolean(...)`, which bakes to a plain ArrayMesh and leaves no CSG nodes behind.
 
-### Boolean blockout — carve a doorway (Wave F)
+### Boolean blockout — carve a doorway (geometry tier)
 
 Box minus box, baked. The inputs are consumed; only the result remains.
 
@@ -354,7 +354,7 @@ func run(ctx):
 
 Then `summer_snapshot_diff` must show `Wall` and `DoorHole` GONE and `WallWithDoorway` added — leftover inputs mean the boolean failed and returned null. Screenshot to check the opening is where you meant.
 
-### Lathe a goblet / pillar (Wave F)
+### Lathe a goblet / pillar (geometry tier)
 
 `lathe` revolves a 2D profile (x = radius, y = height) around Y. Design the profile from the axis outward.
 
@@ -373,7 +373,7 @@ func run(ctx):
 
 A square-ish profile with `sides: 8` and `spin_degrees: 360` makes a chamfered pillar; `spin_degrees: 180` makes an apse/half-dome.
 
-### Sweep a rail / pipe (Wave F)
+### Sweep a rail / pipe (geometry tier)
 
 `sweep` extrudes a 2D cross-section along a 3D polyline.
 
@@ -392,7 +392,7 @@ func run(ctx):
 
 Rails, roads, cables, gutters — same recipe, different cross-section. Keep path points a reasonable distance apart; hairpin corners self-intersect.
 
-### Terrain with collision (Wave F)
+### Terrain with collision (geometry tier)
 
 ```gdscript
 func run(ctx):
@@ -403,9 +403,9 @@ func run(ctx):
 
 Collision arrives automatically (a `StaticBody3D` + `HeightMapShape3D` child), already owned. Same seed → same terrain, so re-runs are deterministic. Pass `image_path` to drive heights from a grayscale heightmap instead of noise. Verify with `summer_screenshot framing:"camera"` — terrain reads wrong from preset framings' top-down angles.
 
-### Text signage (Wave F)
+### Text signage (geometry tier)
 
-`add_mesh` accepts `torus` and `text` on Wave F engines:
+`add_mesh` accepts `torus` and `text` on geometry-tier engines:
 
 ```gdscript
 func run(ctx):
@@ -416,7 +416,7 @@ func run(ctx):
 
 Emissive text only proves itself in a `framing:"camera"` screenshot — preset framings substitute the environment and mute emission.
 
-### Decimate for LOD, convex collision for props (Wave F)
+### Decimate for LOD, convex collision for props (geometry tier)
 
 Dense generated/imported meshes (Meshy-class output) want both before they ship:
 
@@ -433,7 +433,7 @@ func run(ctx):
 
 `decimate` returns `false` (with a report entry) instead of ruining the mesh when the ratio is out of range. `convex_collision` owns every body it creates — the diff after `save_scene` is your receipt that nothing was silently dropped. Simple convex props (crates, rocks): leave `decompose` false, one hull is cheaper.
 
-### Mirror symmetry (Wave F)
+### Mirror symmetry (geometry tier)
 
 ```gdscript
 func run(ctx):
@@ -444,7 +444,7 @@ func run(ctx):
 
 The mirror is a real duplicate with flipped winding/normals — edit either side independently afterward.
 
-### Animate — camera flythrough and a door-open (Wave F)
+### Animate — camera flythrough and a door-open (geometry tier)
 
 `animate` collapses the AnimationPlayer/library/track boilerplate into one call per property. Multiple calls with the same `anim_name` append tracks to the same clip.
 
@@ -471,7 +471,7 @@ func run(ctx):
 
 Pass plain `position` / `rotation_degrees` values — the helper picks the right track type and handles the quaternion conversion for rotation. Verify by playing: `summer_play`, trigger the clip (or set autoplay), `summer_screenshot target:"game"`, `summer_stop`.
 
-### make_shader — dissolve / glow FX with the compile-error loop (Wave F)
+### make_shader — dissolve / glow FX with the compile-error loop (geometry tier)
 
 `make_shader` is the safe lane for text shaders because compile errors come back **verbatim** in the result (the `make_shader_errors` report entry, with the line number) instead of failing silently to a magenta material:
 
@@ -540,7 +540,7 @@ func run(ctx):
 
 Then `summer_screenshot` — lighting is exactly the kind of change you cannot judge without pixels.
 
-### 2D platformer level — tilemap paint, character body, camera limits, parallax (Wave H)
+### 2D platformer level — tilemap paint, character body, camera limits, parallax (game-completeness tier)
 
 One script lays down the level: paint the ground, drop a character body with collision, bound the camera to the level, stack parallax behind it. Tile coordinates are cells; camera limits are pixels (cells × tile size — 32 here).
 
@@ -572,7 +572,7 @@ func run(ctx):
 
 Compare `tiles_painted` with the cell areas you asked for (256 + 6 + 3 here) — a short count means cells were skipped. Then `summer_snapshot_diff`: `added` must list `Ground`, `Player` **with its `CollisionShape2D` child**, the camera under `Player`, and the `Background` group with one `Parallax2D` per layer. Screenshot `target:"scene" nodePath:"Player"` to see the body standing on the floor row, then the whole scene to see the platform is reachable. Movement needs the controller script and the input actions — two recipes below. Want a working baseline instead of a blank scene? The `2d-platformer` template already has tilemap + `CharacterBody2D` + parallax wired.
 
-### Animated sprite (Wave H)
+### Animated sprite (game-completeness tier)
 
 `add_animated_sprite` builds the `SpriteFrames` resource from per-frame texture paths — one entry per animation, `fps` and `loop` per clip — and optionally autoplays one. Cut a sheet into frames first (`summer_slice_asset_sheet`, or the `sprite-sheet` skill when generating them).
 
@@ -593,7 +593,7 @@ func run(ctx):
 
 A missing texture path comes back as a report entry — read it before wondering why a clip is short. Which clip plays when is gameplay code (`anim.play("run")` from the controller's `_physics_process`), not scene setup. Verify by playing: `summer_play`, move, `summer_screenshot target:"game"` — an edit-time preview shows frame 0 only.
 
-### HUD — canvas layer, margin, vbox, label/progress/button, anchors, theme overrides (Wave H)
+### HUD — canvas layer, margin, vbox, label/progress/button, anchors, theme overrides (game-completeness tier)
 
 ```gdscript
 func run(ctx):
@@ -615,7 +615,7 @@ func run(ctx):
 
 `props.anchor` runs `set_anchors_and_offsets_preset` — the right way to pin a Control; hand-set `anchor_*`/`offset_*` values drift the moment the window resizes. The preset is applied before the other props, so an explicit `size`/`position` in the same dict wins. `add_ui("panel", …)` is a **PanelContainer** (it sizes to its child — a backdrop for a vbox/hbox); a plain `Panel` is `add_node("Panel", …)`. `set_theme_overrides` returns how many overrides it applied — compare with what you passed (an `int` on a key that is not `font_size` becomes a *constant* override, as with the margins above). Unknown `props` keys land in `prop_warnings` as always (use real property names: `custom_minimum_size`, not `min_size` or a guess). HUD Controls belong under a `CanvasLayer` — a Control parented under a `Node2D` scrolls with the camera and gets a `prop_warning`. For the layout and theme *design* — which container for which job, theme vs inline styling — use `ui-basics`; this is its one-script form.
 
-### Wire a button with connect_signal() (Wave H)
+### Wire a button with connect_signal() (game-completeness tier)
 
 `ctx.connect_signal` makes a **persisted** connection (`CONNECT_PERSIST`) — it survives in the `.tscn`, exactly what the editor's ConnectionsDock writes. The target needs a method to call, so attach the script first; a script attached in the same run has not compiled yet, and `connect_signal` accepts it because the source declares `func _on_pause_pressed(` (the method gate):
 
@@ -637,7 +637,7 @@ func _on_pause_pressed() -> void:
 
 Never wire with a bare `button.pressed.connect(...)` inside the run script: that connection lives only in the editor process and is not saved. And the helper is `connect_signal`, not `connect` — `ctx.connect(...)` is `Object.connect` on the ctx object itself and fails with a wrong-signature error. `true` from `ctx.connect_signal` says the connection was made and flagged persistent (an already-connected pair also returns `true`, with `already_connected` in the report); both ends must be owned by the edited root or the `.tscn` cannot carry it. The proof is `summer_play`, click, `summer_screenshot target:"game"`.
 
-### attach_script — behavior with the parse-error loop (Wave H)
+### attach_script — behavior with the parse-error loop (game-completeness tier)
 
 `attach_script` validates the source **before** writing anything: a parse error comes back as a report entry (with the line) and the return is `null` — no half-written file, no broken node. Empty `path` → `res://scripts/<SceneName>/<NodeName>.gd`.
 
@@ -671,7 +671,7 @@ func _physics_process(delta: float) -> void:
 
 The loop: read the exact parse error (line and identifier) from the report → fix that line → re-run. Do not guess-and-mutate. An existing file at `path` is overwritten and its previous sha recorded in the report — the pre-run checkpoint is the rollback for that, not the undo action. Idioms (typed declarations, signals, `_ready` vs `_process`): `gdscript-patterns`. Later edits to a script already on disk: `summer_write_file` + `summer_get_script_errors`.
 
-### make_prefab — turn a built subtree into a reusable .tscn (Wave H)
+### make_prefab — turn a built subtree into a reusable .tscn (game-completeness tier)
 
 Build the thing once in-scene, then pack it. With `replace_with_instance` (the default) the inline subtree is swapped for an instance of the new file — same name, transform, parent — and the instance is returned.
 
@@ -689,7 +689,7 @@ func run(ctx):
 
 The owner fix-up runs before packing, so a child you forgot to own is included instead of silently dropped. The prefab is authored at its origin — the node's position is zeroed for the pack (the editor's Save Branch default) and copied back onto the instance, so `first.position` above is still where the torch stood; rotation and scale stay in the prefab. `make_prefab` refuses the scene root (pack a child subtree, never `ctx.get_scene_root()`) and a path that is open in an editor tab. The receipt: `res://prefabs/torch.tscn` in the result's `files_written`, `Torch` now reporting a `scene_file_path`, and the copies in the diff's `added`. From here on, edit the prefab file, not the instances.
 
-### Input actions, autoload, main scene (Wave H)
+### Input actions, autoload, main scene (game-completeness tier)
 
 Project-level wiring in one run — the platformer controller above already reads these actions:
 
@@ -740,7 +740,7 @@ If `summer_run_script` fails with "doesn't support RunSceneScript yet", the engi
 | Using `summer_run_editor_script` to edit the OPEN scene | It sees only the on-disk file; live edits are invisible and collisions likely. Use `summer_run_script`. |
 | `"Vector3(0,10,0)"` (quoted) inside script source | That is the `summer_set_prop` wire convention. In GDScript write `Vector3(0, 10, 0)`. |
 | Ignoring `errors` because `ok` was true | A partially-failed script may have half-mutated the scene. Read them. |
-| Hand-building CSG node trees on a Wave F engine | `ctx.boolean/lathe/sweep/extrude_polygon` bake clean ArrayMeshes with no live CSG left behind. |
+| Hand-building CSG node trees on a geometry-tier engine | `ctx.boolean/lathe/sweep/extrude_polygon` bake clean ArrayMeshes with no live CSG left behind. |
 | Re-running a failed `make_shader` with a guessed fix | The compile error is in the `make_shader_errors` report verbatim, with the line. Read it, fix that line. |
 | Hand-writing AnimationPlayer/library/track plumbing | `ctx.animate` is one call per property and dodges the quaternion trap. |
 | Painting tiles with `summer_set_prop`, or hand-editing `tile_map_data` | `ctx.paint_rect` / `paint_tiles` (or `set_cell` in a loop) — cells are packed data. |
@@ -751,7 +751,7 @@ If `summer_run_script` fails with "doesn't support RunSceneScript yet", the engi
 | `ctx.make_prefab(ctx.get_scene_root(), ...)` | Refused. Pack a child subtree; the scene itself is `save_scene`. |
 | Re-running a failed `attach_script` with a guessed fix | The parse error is in the report with the line. Read it, fix that line. |
 | Judging a HUD from an edit-time scene preview | Anchors resolve against the real viewport. `summer_play` + `target:"game"`. |
-| Calling Wave H helpers on an engine that predates them | `Invalid call to method` — the run rolls back. Use the fallback table above. |
+| Calling game-completeness helpers on an engine that predates them | `Invalid call to method` — the run rolls back. Use the fallback table above. |
 | Reading `rolled_back: true` as "nothing happened" after `attach_script` / `add_autoload` / `set_main_scene` | Files and `project.godot` sit outside the undo action. Read `files_written` / `project_settings_changed`; the checkpoint is the rollback. |
 
 **Related skills:**

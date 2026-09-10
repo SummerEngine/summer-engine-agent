@@ -1,5 +1,5 @@
 /**
- * Camera viewpoints (wave I perception): camera bookmarks and the fixed-pose
+ * Camera viewpoints (perception): camera bookmarks and the fixed-pose
  * ScenePreview framings. Shared by the MCP tools (src/mcp/tools/visual-tools.ts)
  * and the CLI dispatcher so both faces validate the same way and send the same
  * op.

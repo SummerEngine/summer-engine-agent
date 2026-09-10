@@ -15,10 +15,10 @@ The game-critical path: a rigged, animated character lands in the scene — from
 
 Two lanes throughout:
 
-- **ctx lane (Wave G engines):** the Wave G ctx helpers on `summer_run_script` — `anim_state_machine`, `animate_method`, `bone_pose`, `look_at_modifier`, plus the `animate()` v2 extensions. One script per step, owner handled, failures come back as report entries.
+- **ctx lane (animation-tier engines):** the animation ctx helpers on `summer_run_script` — `anim_state_machine`, `animate_method`, `bone_pose`, `look_at_modifier`, plus the `animate()` v2 extensions. One script per step, owner handled, failures come back as report entries.
 - **raw lane (any engine):** the same wiring through plain GDScript in `summer_run_script` — the Animation/AnimationTree classes are fully script-bound, just verbose. On an older engine a missing ctx helper is a plain `Invalid call to method ...` script error; fall back to the raw lane, which works everywhere.
 
-Frozen Wave G signatures (see `scene-scripting` for the full stdlib):
+Frozen animation-tier signatures (see `scene-scripting` for the full stdlib):
 
 ```gdscript
 anim_state_machine(target: Node, spec: Dictionary, player: AnimationPlayer = null) -> AnimationTree

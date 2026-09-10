@@ -13,7 +13,7 @@ do_not_use_when:
   - the game is already running and needs a restart — summer_stop first (seed/fixed_fps cannot reach a game that is already up)
   - "focus: true unless the user is watching and asked to see the game come up — it launches like the toolbar Play button (Game tab + focus). Quiet play does not hide the game; on engines without the background launch posture a user whose Embed Game on Play is off still gets the game in its own OS window as always, while engines with the posture (0.5.66+) also launch that window with --summer-background so it never takes focus"
   - only checking whether it is running — summer_is_running
-  - "instance/mode/deterministic need an engine build with the runtime-control ops (engine PR #156 follow-up, wave I); on current shipped engines those parameters return engine_lacks_op (plain play still works)"
+  - "instance/mode/deterministic need an engine build with the runtime-control ops (Summer Engine 0.5.66 or newer); older engines return for those parameters engine_lacks_op (plain play still works)"
 facets:
   lifecycle:
     - build

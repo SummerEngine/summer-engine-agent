@@ -8,7 +8,7 @@ use_when:
   - "\"what is the player's actual velocity mid-jump?\""
 do_not_use_when:
   - no game is running — summer_play first; for the edited scene use summer_inspect_node
-  - "requires an engine build with GetRuntimeNode (engine PR #156); on current shipped engines this returns engine_lacks_op"
+  - "requires an engine build with GetRuntimeNode (Summer Engine 0.5.66 or newer); older engines return engine_lacks_op"
 facets:
   lifecycle:
     - build

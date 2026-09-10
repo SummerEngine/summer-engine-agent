@@ -56,13 +56,13 @@ export const CLI_KNOWN_OP_NEEDS: readonly string[] = [
   // the legacy /api/play route forwards only `scene`, so the plain launch
   // stays there.
   "PlayGame", "StopGame",
-  // Wave I runtime control & playtest ops (summer_runtime_* / summer_game_*)
+  // runtime control & playtest ops (summer_runtime_* / summer_game_*)
   "SetRuntimeProp", "CallRuntimeMethod", "SpawnRuntimeScene", "FreeRuntimeNode",
   "RuntimeAnimation", "RuntimeAnimationTree", "GetRuntimeBones",
   "GamePause", "GameStep", "GameSpeed",
   "SimulateInputScript", "InputRecordStart", "InputRecordStop", "InputReplay",
   "GameProbe", "ListGameInstances",
-  // Capture (+ camera bookmarks: summer_camera_bookmark, wave I perception)
+  // Capture (+ camera bookmarks: summer_camera_bookmark, perception)
   "ViewportSnapshot", "GameSnapshot", "ScenePreview",
   "SaveCameraBookmark", "ListCameraBookmarks", "DeleteCameraBookmark",
   // Scripting + verification
@@ -74,7 +74,7 @@ export const CLI_KNOWN_OP_NEEDS: readonly string[] = [
   "Starcast3D",
   // Mesh fabrication (summer_fabricate_3d — the user's own Blender, engine-supervised)
   "FabricateMesh",
-  // Editor UI control (wave L: summer_ui_actions / summer_ui_tree /
+  // Editor UI control (editor UI control: summer_ui_actions / summer_ui_tree /
   // summer_ui_activate / summer_ui_screenshot). All synchronous and
   // batchable — none joins the single-only set.
   "UiListActions", "UiInvoke", "UiTree", "UiActivate", "UiScreenshot",
@@ -129,7 +129,7 @@ export interface EngineCapabilities {
   /** Events channel advert. Absent = the build has no events channel (the
    *  channel and its advert ship together, so absence IS proof here). */
   events?: EngineEventsCapability;
-  /** Wave I runtime control advert: the runtime op kinds, whether the game-side
+  /** runtime control advert: the runtime op kinds, whether the game-side
    *  `summer` capture ships, and the offscreen instance cap. Absent = engine
    *  predates runtime control (or advertises the kinds only in opKinds). */
   runtimeControl?: EngineRuntimeControlCapabilities;
@@ -203,7 +203,7 @@ function parseRuntimeControl(raw: unknown): EngineRuntimeControlCapabilities | u
   return Object.keys(out).length > 0 ? out : undefined;
 }
 
-/** Every op kind the engine advertises: `opKinds` plus the Wave I
+/** Every op kind the engine advertises: `opKinds` plus the
  *  `runtimeControl.ops` block (an engine may list the runtime kinds only
  *  there). Undefined when the engine advertises no op list at all. */
 export function advertisedOpKinds(capabilities: EngineCapabilities | undefined | null): Set<string> | undefined {
@@ -459,10 +459,10 @@ export const FALLBACK_SINGLE_ONLY_OPS: ReadonlySet<string> = new Set([
   "GetRuntimeSceneTree", "GetRuntimeNode",
   "RunCommand", "RunVerification", "RunEditorScript", "RunSceneScript",
   "ImportFromUrl", "ImportFromUrlBatch", "ExtractZipFromUrl",
-  // Wave K: a headless Blender child on the same async single-op lane as
+  // Mesh fabrication: a headless Blender child on the same async single-op lane as
   // RunEditorScript (local_api_server.cpp SUMMER_SINGLE_ASYNC_OPS).
   "FabricateMesh",
-  // Wave I runtime control (RuntimeOps::async_op_kinds): every op below rides
+  // runtime control (RuntimeOps::async_op_kinds): every op below rides
   // the `summer` debugger capture, so like GameSnapshot each needs the async
   // single-op reply channel. ListGameInstances is deliberately NOT here — it
   // is a cheap synchronous editor read that batches fine (runtime_ops.h).

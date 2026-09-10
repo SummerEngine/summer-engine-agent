@@ -1,5 +1,5 @@
 /**
- * Runtime control & playtest ops (engine Wave I) — the "see and touch the
+ * Runtime control & playtest ops (runtime control) — the "see and touch the
  * RUNNING game" surface. One copy of the argument contracts, op builders,
  * client budgets and failure hints, shared by the MCP tools
  * (src/mcp/tools/runtime-tools.ts) and the CLI dispatcher (`summer tool …`) so
@@ -56,7 +56,7 @@ export const RUNTIME_ASYNC_OP_KINDS: readonly string[] = [
   "GameProbe",
 ];
 
-/** All sixteen Wave I kinds — the fifteen above plus the synchronous
+/** All sixteen runtime-control kinds — the fifteen above plus the synchronous
  *  ListGameInstances read. */
 export const RUNTIME_CONTROL_OP_KINDS: readonly string[] = [
   ...RUNTIME_ASYNC_OP_KINDS,
@@ -1037,7 +1037,7 @@ export function playNeedsOp(args: PlayGameArgs): boolean {
 }
 
 /** True when the call addresses a non-main instance or an offscreen mode —
- *  the part of PlayGame that only a Wave I engine understands. */
+ *  the part of PlayGame that only a runtime-control engine understands. */
 export function playTargetsInstance(args: PlayGameArgs): boolean {
   const instance = typeof args.instance === "string" ? args.instance.trim() : "";
   return (instance.length > 0 && instance !== "main") || args.mode === "offscreen";
@@ -1155,7 +1155,7 @@ export async function playGame(client: PlayGameClient, args: PlayGameArgs): Prom
   if (!playNeedsOp(args)) return client.play(args.scene);
   // Validate the combination first (nothing sent); then, because an engine
   // without the runtime-control wave would start the MAIN game and silently
-  // ignore instance/mode, the pre-flight keys on a Wave I kind.
+  // ignore instance/mode, the pre-flight keys on a runtime-control kind.
   const { op, timeoutMs } = buildPlayGameOp(args);
   if (playTargetsInstance(args)) {
     const missing = missingEngineOpResult(client, "ListGameInstances", PLAY_INSTANCE_FALLBACK);
