@@ -57,8 +57,8 @@ const text = (result: unknown): string =>
 const image = (r: Result): Content | undefined => r.content.find((c) => c.type === "image");
 
 // --- real e2e frames (F-01 / F-05 / F-15 suites) ---
-const E2E_DIR = join(PACKAGE_ROOT, "docs", "design", "e2e");
-const frame64 = (name: string): string => readFileSync(join(E2E_DIR, name)).toString("base64");
+const FRAMES_DIR = join(PACKAGE_ROOT, "src", "core", "capabilities", "__fixtures__", "frames");
+const frame64 = (name: string): string => readFileSync(join(FRAMES_DIR, name)).toString("base64");
 const BLACK = frame64("01-mcp-viewport-black.jpg");
 const GOOD_2D = frame64("04-mcp-viewport-preplay.jpg");
 const SCENE_RENDER = frame64("02-mcp-scene-render-pausemenu.jpg");

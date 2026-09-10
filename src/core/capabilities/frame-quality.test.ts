@@ -6,13 +6,13 @@ import { analyzeFrameBase64, analyzeJpegFrame, describeFlatFrame } from "./frame
 
 /**
  * Real frames from the 2026-09-03 end-to-end run (docs/design/E2E-2026-09-03.md,
- * F-01). 01 is the all-black viewport capture the MCP face returned with a
+ * F-01), kept in __fixtures__/frames/. 01 is the all-black viewport capture the MCP face returned with a
  * "describe what you see" caption; the others are genuine editor, offscreen,
  * game and probe frames from the same session. The probe frames carry restart
  * markers (DRI=80), so they also exercise the restart path.
  */
-const E2E_DIR = join(PACKAGE_ROOT, "docs", "design", "e2e");
-const frame = (name: string): Buffer => readFileSync(join(E2E_DIR, name));
+const FRAMES_DIR = join(PACKAGE_ROOT, "src", "core", "capabilities", "__fixtures__", "frames");
+const frame = (name: string): Buffer => readFileSync(join(FRAMES_DIR, name));
 
 const REAL_CONTENT = [
   "02-mcp-scene-render-pausemenu.jpg",

@@ -1,12 +1,16 @@
 // MCP stdio driver for the Summer v3 e2e run.
-// Usage: node mcp-drive.mjs [--project <path>] [--cwd <path>] [--env K=V ...] [--out <dir>] <calls.json | inline-json-array>
-// Each call: { "name": "summer_get_scene_tree", "args": { ... } }
-import { Client } from "/Users/MathiasWork/development/summer-engine-agent-v3/node_modules/@modelcontextprotocol/sdk/dist/esm/client/index.js";
-import { StdioClientTransport } from "/Users/MathiasWork/development/summer-engine-agent-v3/node_modules/@modelcontextprotocol/sdk/dist/esm/client/stdio.js";
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
-import { join } from "node:path";
+// Usage (from a built checkout, after `npm run build`):
+//   node docs/design/e2e/mcp-drive.mjs [--project <path>] [--cwd <path>] [--env K=V ...] [--out <dir>] <calls.json | inline-json-array>
+// Each call: { "name": "summer_get_scene_tree", "args": { ... } }; { "sleep_ms": N } pauses.
+// The MCP SDK is resolved from this repo's node_modules; the server is this repo's dist/bin/summer.js.
+import { Client } from "@modelcontextprotocol/sdk/client/index.js";
+import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
+import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
+import { dirname, join, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const REPO = "/Users/MathiasWork/development/summer-engine-agent-v3";
+// docs/design/e2e -> repo root
+const REPO = resolve(dirname(fileURLToPath(import.meta.url)), "..", "..", "..");
 const argv = process.argv.slice(2);
 let project = null, cwd = process.cwd(), outDir = null, callsArg = null;
 const extraEnv = {};
@@ -25,7 +29,7 @@ if (outDir) mkdirSync(outDir, { recursive: true });
 const serverArgs = [join(REPO, "dist/bin/summer.js"), "mcp"];
 if (project) serverArgs.push("--project", project);
 const env = { ...process.env, ...extraEnv };
-const transport = new StdioClientTransport({ command: "/opt/homebrew/bin/node", args: serverArgs, cwd, env, stderr: "pipe" });
+const transport = new StdioClientTransport({ command: process.execPath, args: serverArgs, cwd, env, stderr: "pipe" });
 let stderrBuf = "";
 transport.stderr?.on("data", (d) => { stderrBuf += d.toString(); });
 

@@ -3,7 +3,8 @@
  *
  * WHY THIS EXISTS. In the 2026-09-03 end-to-end run (docs/design/E2E-2026-09-03.md,
  * F-01) `summer_screenshot target:"viewport"` returned an entirely black
- * 1072x1280 JPEG (docs/design/e2e/01-mcp-viewport-black.jpg) with a caption
+ * 1072x1280 JPEG (src/core/capabilities/__fixtures__/frames/01-mcp-viewport-black.jpg)
+ * with a caption
  * telling the agent to describe what it saw. It was the first viewport capture
  * after scene mutations had flipped the editor from the 3D to the 2D tab; the
  * same call 67 s later returned real content. Engine side, the ViewportSnapshot
