@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Add optional image background removal to MCP and `summer tool generate-image`, with a shared validated schema and searchable descriptor. Adapted from PR #20; the deterministic login fixture is already present in v3.
+
 All notable changes to summer-engine will be documented here. Following [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and [Semantic Versioning](https://semver.org/).
 
 ## [3.0.0] — 2026-09-09 — "The Library"

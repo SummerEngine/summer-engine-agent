@@ -1,5 +1,6 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
+import { imageGenerationArgsSchema } from "../../core/capabilities/image-generation.js";
 import { writeFile, mkdir } from "fs/promises";
 import { tmpdir } from "os";
 import { join } from "path";
@@ -323,6 +324,9 @@ Two modes:
 
 Style presets: "realistic" (default), "cartoon", "anime", "none"
 
+For an alpha PNG, set removeBackground: true. Prompt wording alone does not
+guarantee transparency; background removal runs server-side after generation.
+
 The 'options' object is passed directly to the AI provider for full control.
 
 Returns the asset with fileUrl (hosted) and localPath (temp file on disk).
@@ -330,31 +334,14 @@ Use the Read tool on localPath to show the image to the user for approval.
 
 Cloud tool — runs on Summer's servers and works WITHOUT the Summer Engine app open.
 Requires authentication: run 'npx -y summer-engine@latest login' first.`,
-    {
-      prompt: z.string().describe("Description of the image to generate"),
-      model: z
-        .string()
-        .default("nano-banana-2")
-        .describe("Model name or full provider ID"),
-      style: z
-        .string()
-        .default("realistic")
-        .describe("Style preset: realistic, cartoon, anime, or 'none' to skip"),
-      referenceImageUrl: z
-        .string()
-        .optional()
-        .describe("Source image URL for img2img / edit mode. The prompt describes how to transform this image."),
-      options: z
-        .record(z.any())
-        .optional()
-        .describe("Provider-specific params (guidance_scale, seed, image_size, negative_prompt, etc.)"),
-    },
-    async ({ prompt, model, style, referenceImageUrl, options }) => {
+    imageGenerationArgsSchema.shape,
+    async ({ prompt, model, style, referenceImageUrl, removeBackground, options }) => {
       const result = await mcpGenerate("/api/mcp/generate/image", {
         prompt,
         model,
         style,
         referenceImageUrl,
+        removeBackground,
         options,
       });
 

@@ -45,6 +45,7 @@ import {
 import { extractOpError, withOldEngineHint } from "./engine-receipt.js";
 import { lookupApiDocs } from "./api-docs.js";
 import { z, type ZodTypeAny } from "zod";
+import { imageGenerationArgsSchema } from "./image-generation.js";
 import { ImportHdriError, importHdriArgsSchema, importPolyHavenHdri } from "./hdri-import.js";
 import { FABRICATE_FALLBACK, buildFabricateMeshOp, fabricateArgsSchema } from "./fabricate-mesh.js";
 import {
@@ -1046,13 +1047,7 @@ export const TOOL_DISPATCH: readonly ToolDispatchEntry[] = [
     return gatewayGet("/api/mcp/workflows", params);
   }),
   entry("summer_generate_image", "Generate or edit an image via Summer Studio", false, (args) =>
-    gatewayPost("/api/mcp/generate/image", {
-      prompt: str(args, "prompt"),
-      model: optStr(args, "model") ?? "nano-banana-2",
-      style: optStr(args, "style") ?? "realistic",
-      referenceImageUrl: optStr(args, "referenceImageUrl"),
-      options: args.options,
-    })
+    gatewayPost("/api/mcp/generate/image", parseToolArgs(imageGenerationArgsSchema, args, "generate-image"))
   ),
   entry("summer_slice_asset_sheet", "Detect and crop every asset from a generated sheet image", false, (args) =>
     gatewayPost("/api/mcp/generate/slice-asset-sheet", { assetId: str(args, "assetId") }, 300_000)

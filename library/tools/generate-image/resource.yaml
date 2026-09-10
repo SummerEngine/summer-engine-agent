@@ -1,7 +1,7 @@
 id: tool/generate-image
 kind: tool
-version: 1.0.2
-summary: Generate or edit an image with allowlisted AI models via Summer Studio; supports text-to-image and image-to-image with style presets.
+version: 1.0.3
+summary: Generate or edit an image with allowlisted AI models via Summer Studio; supports text-to-image, image-to-image, and optional background removal.
 use_when:
   - creating concept art, textures, or sprites from a prompt
   - transforming an existing image given a reference URL
@@ -42,6 +42,9 @@ input_schema:
     referenceImageUrl:
       type: string
       description: Source image URL for img2img / edit mode. The prompt describes how to transform this image.
+    removeBackground:
+      type: boolean
+      description: Remove the background server-side and return an alpha PNG for sprites, icons, or isolated objects.
     options:
       type: object
       additionalProperties: {}
