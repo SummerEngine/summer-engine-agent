@@ -17,6 +17,16 @@ import { join, relative } from "node:path";
 /** Rewritten by the running engine / a live MCP server, never by tests. */
 const LIVE_PROCESS_FILES = new Set(["mcp.log", "user.json", "auth-token", "credential-metadata.json", "api-token", "api-port"]);
 
+/**
+ * The running engine heartbeats into ~/.summer/instances/<instance-id>.json
+ * for as long as it is open, so those files change on every run that overlaps
+ * an open editor. Tests never write there (they resolve the store through the
+ * fake HOME), so a changed heartbeat is a warning, like the other live files.
+ */
+function isLiveProcessFile(path: string): boolean {
+  return LIVE_PROCESS_FILES.has(path) || /^instances\/[^/]+\.json$/.test(path);
+}
+
 type Snapshot = Map<string, string>;
 
 function walk(root: string, dir: string, out: Snapshot): void {
@@ -61,14 +71,18 @@ export default function setup(): () => void {
     for (const [path, stamp] of after) {
       seen.add(path);
       const previous = before.get(path);
-      if (previous === undefined) failures.push(`created  ${path}`);
-      else if (previous !== stamp) {
-        if (LIVE_PROCESS_FILES.has(path)) warnings.push(`changed  ${path} (a live engine/MCP process, not a test, is expected to write this)`);
+      if (previous === undefined) {
+        if (isLiveProcessFile(path)) warnings.push(`created  ${path} (a live engine/MCP process, not a test, is expected to write this)`);
+        else failures.push(`created  ${path}`);
+      } else if (previous !== stamp) {
+        if (isLiveProcessFile(path)) warnings.push(`changed  ${path} (a live engine/MCP process, not a test, is expected to write this)`);
         else failures.push(`changed  ${path}`);
       }
     }
     for (const path of before.keys()) {
-      if (!seen.has(path)) failures.push(`deleted  ${path}`);
+      if (seen.has(path)) continue;
+      if (isLiveProcessFile(path)) warnings.push(`deleted  ${path} (a live engine/MCP process, not a test, is expected to remove this)`);
+      else failures.push(`deleted  ${path}`);
     }
     if (warnings.length) {
       console.warn(`[real-summer-dir-guard] ${real} saw writes to live-process files during the run:\n  ${warnings.join("\n  ")}`);

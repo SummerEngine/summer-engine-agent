@@ -4,6 +4,7 @@ import { tmpdir } from "node:os";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { afterAll, describe, expect, it } from "vitest";
+import { ENGINE_MAIN_REF, readEngineMainFile } from "../test-helpers/engine-main.ts";
 
 /**
  * assets/autopilot/probe_base.gd is a VENDORED COPY of the engine's canonical
@@ -17,15 +18,12 @@ import { afterAll, describe, expect, it } from "vitest";
  */
 const packageRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const vendored = join(packageRoot, "assets", "autopilot", "probe_base.gd");
-// Engine checkout: $SUMMER_ENGINE_REPO, else the `summerengine` sibling. This
-// package is not inside the engine monorepo, so the old ../../modules path
-// never existed and the tripwire silently never fired.
-const engineRepo = process.env.SUMMER_ENGINE_REPO
-  ? resolve(process.env.SUMMER_ENGINE_REPO)
-  : resolve(packageRoot, "..", "summerengine");
-const canonical = join(engineRepo, "modules", "1summer_engine", "verify", "summer_probe_base.gd");
-const canonicalFound = existsSync(canonical);
-const checkCanonical = canonicalFound ? it : it.skip;
+// The canonical copy is read from the engine repo's `origin/main` (git show),
+// not from the sibling checkout's working tree, which may be on any branch.
+// Resolution and skip reasons: src/test-helpers/engine-main.ts.
+const CANONICAL_PATH = "modules/1summer_engine/verify/summer_probe_base.gd";
+const canonical = readEngineMainFile(CANONICAL_PATH);
+const checkCanonical = canonical.skipReason ? it.skip : it;
 
 describe("repo-lint: autopilot scaffold", () => {
   it("ships every file the scaffold needs", () => {
@@ -67,10 +65,10 @@ describe("repo-lint: autopilot scaffold", () => {
 
   checkCanonical(
     `keeps probe_base.gd byte-identical to the engine's canonical copy${
-      canonicalFound ? "" : ` (SKIPPED: no engine checkout at ${canonical}; set SUMMER_ENGINE_REPO)`
+      canonical.skipReason ? ` (SKIPPED: ${canonical.skipReason})` : ` (engine ${ENGINE_MAIN_REF})`
     }`,
     () => {
-      expect(readFileSync(vendored, "utf-8")).toBe(readFileSync(canonical, "utf-8"));
+      expect(readFileSync(vendored, "utf-8")).toBe(canonical.text);
     }
   );
 });
