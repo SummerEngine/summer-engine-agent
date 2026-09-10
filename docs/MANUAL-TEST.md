@@ -46,7 +46,7 @@ Expected: "Launching Summer Engine in the background (the window will not take f
 ## Known gaps (honest)
 - Windows: silent launch + mouse suppression are written but only CI-compiled (PR #194), never run on Windows.
 - Exit-time leak of Summer singletons when the editor is killed with SIGTERM — pre-existing, dev builds print it.
-- Model-in-the-loop eval: 1 of 8 tasks run (0 tool errors); the other 7 were stopped when the FPS task captured your mouse, before the fix.
+- Model-in-the-loop eval: 1 of 8 tasks run, with no tool-call errors; the other 7 were stopped when the FPS task captured your mouse, before the fix.
 - 25 scripting/runtime tools still carry `status: preview` in the registry until 0.5.66 ships (they work against this engine).
 - `summer_library_feedback` is a 404 in prod until #331 merges.
 
