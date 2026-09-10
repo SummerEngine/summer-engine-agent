@@ -153,7 +153,7 @@ export function resolveTemplate(query: string, entries: readonly TemplateEntry[]
 
 /** Seconds a network git call (`fetch`) may take before it is killed.
  *  `summer create` once hung 42 minutes inside a fetch
- *  (docs/design/TK-VS-FOLD-2026-09-07.md, gap 4). */
+ *  (docs/design/archive/TK-VS-FOLD-2026-09-07.md, gap 4). */
 export const FETCH_TIMEOUT_ENV = "SUMMER_FETCH_TIMEOUT_S";
 export const DEFAULT_FETCH_TIMEOUT_S = 120;
 

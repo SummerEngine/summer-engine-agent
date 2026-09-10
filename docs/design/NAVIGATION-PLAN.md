@@ -1,6 +1,6 @@
 # Navigation — execution plan across the three repos
 
-Follows `NAVIGATION-RESEARCH.md` (why) and `NAVIGATION-DESIGN.md` (what). This is the *how*, decided 2026-09-04 after review with Mathias: the first cut duplicated existing tools and hardcoded editor destinations in the toolkit; the layout of the desktop editor is about to change (agent layout rework), so destinations must live in ONE place per product and the toolkit must stop being a third copy.
+Follows `archive/NAVIGATION-RESEARCH.md` (why) and `NAVIGATION-DESIGN.md` (what). This is the *how*, decided 2026-09-04 after review: the first cut duplicated existing tools and hardcoded editor destinations in the toolkit; the layout of the desktop editor is about to change (agent layout rework), so destinations must live in ONE place per product and the toolkit must stop being a third copy.
 
 ## Principle
 

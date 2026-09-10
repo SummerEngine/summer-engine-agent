@@ -16,7 +16,6 @@ source_refs:
   - sources/web/skin-tokens-cpp-github/source.md
   - sources/web/skintokens-gguf-modelcard/source.md
   - sources/web/vast-ai-skintokens-upstream/source.md
-source_repo: SummerEngine/summer-gamedev-knowledge@cac7d50be8cfb3c0179c48e65438eb0d375b9fe9
 ---
 
 # Auto-Rigging Static Meshes with skin-tokens.cpp (SkinTokens/TokenRig) in SummerEngine

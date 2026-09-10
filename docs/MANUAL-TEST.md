@@ -54,4 +54,4 @@ Expected: "Launching Summer Engine in the background (the window will not take f
 1. Engine: `git -C ~/development/summerengine push origin 4d98f00a9d9:main` → `scripts/release/ship_macos.sh 0.5.66 --source-commit 4d98f00a9d9 --public-base-commit <web sha>` on the signing Mac; Windows via `release.ps1` on the Certum runner.
 2. Toolkit: merge PR #18 → fresh clone of main → `npm publish --tag next` → soak (`summer setup claude-code --channel next`) → `npm dist-tag add summer-engine@3.0.0 latest`. Rollback: `npm dist-tag add summer-engine@2.8.2 latest`. Details: `docs/RELEASE-3.0.0.md`.
 3. Web: merge #328, #332 (auth), #331 (feedback) → `vercel promote`.
-4. Template repos: fast-forward the 14 default branches (`docs/design/TEMPLATES-FF-2026-09-04.md`) so the pins become reachable from main.
+4. Template repos: fast-forward the 14 default branches (`docs/design/archive/TEMPLATES-FF-2026-09-04.md`) so the pins become reachable from main.

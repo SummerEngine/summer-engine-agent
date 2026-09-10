@@ -14,17 +14,6 @@ source_refs:
   - sources/x/wyvernbw-psx-shader/source.md
   - sources/web/calinp-psx-rendering/source.md
 adaptation: translated
-summerengine_refs:
-  - repository: SummerEngine/SummerEngine
-    revision: a8e5ca520efa927bde6131c9fb36557f19c1bb18
-    path: doc/classes/ShaderMaterial.xml
-  - repository: SummerEngine/PublicSummerEngine
-    revision: 63f6e5cf71d0ddd5df9092cbbe82fee9b9ecf6c0
-    path: skills/look/materials-and-vfx/SKILL.md
-  - repository: SummerEngine/summer-engine-agent
-    revision: e49189b93fcfee88b57e22ba8467cc782b292ac0
-    path: skills/workflow/playtesting-a-feature/SKILL.md
-source_repo: SummerEngine/summer-gamedev-knowledge@cac7d50be8cfb3c0179c48e65438eb0d375b9fe9
 ---
 
 # PSX Retro Rendering in Godot 4

@@ -12,17 +12,6 @@ confidence: extracted
 source_refs:
   - sources/web/mertens-ecs-data-oriented-hierarchies/source.md
 adaptation: translated
-summerengine_refs:
-  - repository: SummerEngine/summer-engine-agent
-    revision: d4fb1b3b51fb5b5a2b5b4bde3073bf01e9e976b6
-    path: skills/scene-and-project/scene-composition/SKILL.md
-  - repository: SummerEngine/summer-engine-agent
-    revision: d4fb1b3b51fb5b5a2b5b4bde3073bf01e9e976b6
-    path: references/mcp-tools-reference.md
-  - repository: SummerEngine/summer-engine-agent
-    revision: d4fb1b3b51fb5b5a2b5b4bde3073bf01e9e976b6
-    path: AGENTS.md
-source_repo: SummerEngine/summer-gamedev-knowledge@cac7d50be8cfb3c0179c48e65438eb0d375b9fe9
 ---
 
 # Scene Hierarchy Design for Summer Engine (Data-Oriented Principles)

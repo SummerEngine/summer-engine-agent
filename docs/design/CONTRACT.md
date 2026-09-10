@@ -2,7 +2,7 @@
 
 **Normative spec. Everything in the v3 build is generated from or validated against this document. Changing this file after migration is a breaking change; get sign-off.**
 
-Locked 2026-09-01 by Mathias + Claude (orchestrator) + Codex (reviewer), after a repo audit and a four-agent design board. Reasoning lives in `docs/design/DECISIONS.md`; this file is the rules.
+Locked 2026-09-01 after a repo audit and a multi-reviewer design board. Reasoning lives in `docs/design/DECISIONS.md`; this file is the rules.
 
 Truth pass 2026-09-02: every rule below was re-checked against the code on `v3-foundation`. Where the code does not yet do what the design intends, the rule is marked **planned, not implemented** rather than stated as fact. What is verified and what is not: `STATUS.md`.
 
@@ -76,7 +76,7 @@ Disambiguation rule: a **skill explains the process**; an **example is a finishe
 - `src/core/capabilities/tool-dispatch.ts` is the CLI face: a dispatch table that validates `--args` with the same zod schemas and calls into the same functions. It is a mirror, not a second implementation of behavior, but it is a second registration.
 - The descriptor's `input_schema` is **not** the source the zod is derived from. Instead `src/mcp/tools/descriptor-parity.test.ts` converts each registered zod shape to a structural JSON-Schema form and fails the build when it disagrees with `input_schema` (types, required, property names, enums). `scripts/validate-library` additionally checks that `implementation.module` exists, that `surfaces.mcp.tool_name` is a real registration, and that `input_schema` is a legal schema.
 
-The invariant the contract holds is the parity test, not the folder. Folding the mirrors into a single shared-capabilities registration is scheduled as the post-hardening consolidation pass (REVIEW-2026-09-02.md, P2; tracked in STATUS.md), not claimed here.
+The invariant the contract holds is the parity test, not the folder. Folding the mirrors into a single shared-capabilities registration is scheduled as the post-hardening consolidation pass (archive/REVIEW-2026-09-02.md, P2; tracked in STATUS.md), not claimed here.
 
 ## 4. Identity
 

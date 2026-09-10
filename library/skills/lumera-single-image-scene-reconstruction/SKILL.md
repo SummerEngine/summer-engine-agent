@@ -14,7 +14,6 @@ confidence: extracted
 source_refs:
   - sources/x/haozhao-lumera-announce/source.md
   - sources/web/lumera-arxiv-paper/source.md
-source_repo: SummerEngine/summer-gamedev-knowledge@cac7d50be8cfb3c0179c48e65438eb0d375b9fe9
 ---
 
 # Single-Image → Editable Scene Reconstruction (Lumera-style) in SummerEngine

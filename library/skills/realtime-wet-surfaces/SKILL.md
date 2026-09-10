@@ -12,7 +12,6 @@ tags:
 confidence: extracted
 source_refs:
   - sources/x/tenmomo-unity-realtime-wet/source.md
-source_repo: SummerEngine/summer-gamedev-knowledge@cac7d50be8cfb3c0179c48e65438eb0d375b9fe9
 ---
 
 # Real-Time Wet Surfaces (Value-Preserving Wet Materials in Godot 4)

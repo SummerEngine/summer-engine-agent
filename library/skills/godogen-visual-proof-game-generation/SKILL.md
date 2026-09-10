@@ -16,7 +16,6 @@ source_refs:
   - sources/web/htdt-godogen/source.md
   - sources/web/htdt-godogen-changelog/source.md
   - sources/web/htdt-godogen-setup/source.md
-source_repo: SummerEngine/summer-gamedev-knowledge@cac7d50be8cfb3c0179c48e65438eb0d375b9fe9
 ---
 
 # Godogen-Style Autonomous Game Generation + Visual Proof QC in SummerEngine

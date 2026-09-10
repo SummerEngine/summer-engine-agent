@@ -78,7 +78,7 @@ Scores per task: `playable`, `checks_passed n/m`, `tool_calls` (total / MCP / bu
   2d-brario-platformer asked for features those templates already ship; `tasks.yaml` says what was
   substituted and why.
 
-## Screen and HOME rules (non-negotiable on Mathias's Mac)
+## Screen and HOME rules (non-negotiable on a shared development machine)
 
 - **Nothing opens a visible window.** The editor is launched with `--summer-offscreen`; `summer run`
   is never used (it opens a visible editor). The verify run is the engine's own offscreen instance;
@@ -94,11 +94,11 @@ Scores per task: `playable`, `checks_passed n/m`, `tool_calls` (total / MCP / bu
   this checkout). Why the engine too: on boot the editor restores the machine-wide desktop sign-in
   (native session JWT in the user's data dir + the shared WKWebView cookie store) and plants the real
   `se_session` cookie into its Studio webview — an editor launched with the real HOME would run
-  production Studio as Mathias. `NSHomeDirectory` honours `$HOME`, so Application Support, WebKit,
+  production Studio as the developer. `NSHomeDirectory` honours `$HOME`, so Application Support, WebKit,
   HTTPStorages and `~/.summer` all land under the fake HOME: a cold machine. The instance file the
   toolkit needs therefore appears in the fake `~/.summer/instances/` directly (no copy step);
   `--summer-no-publish` additionally stops the global `api-token`/`api-port` from being written.
-  Mathias's real `~/.claude`, `~/.claude.json` and `~/.summer` are never written by the runner.
+  The developer's real `~/.claude`, `~/.claude.json` and `~/.summer` are never written by the runner.
 - **Isolation audit** (`<task>/isolation.txt`, also in the task notes): `editor.log` must not mention
   `se_session`; the fake HOME must contain no `se_session` / JWT-looking material (verified engine-free
   right after setup: none); the real `~/.summer` must have gained no files since the task started

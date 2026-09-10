@@ -13,7 +13,6 @@ confidence: extracted
 source_refs:
   - sources/web/celeste-player-cs/source.md
   - sources/x/valigo-celeste-movement/source.md
-source_repo: SummerEngine/summer-gamedev-knowledge@cac7d50be8cfb3c0179c48e65438eb0d375b9fe9
 ---
 
 # Celeste-Style Momentum Platforming (Movement System)

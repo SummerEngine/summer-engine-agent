@@ -58,11 +58,11 @@ The contract's ideal is one registration per tool, in `src/core/capabilities/`, 
 - The *property* the contract cares about is "the descriptor never lies about the tool". That is enforceable without the fold: `descriptor-parity.test.ts` fails the build when a zod shape and its `input_schema` disagree, and the validator fails when a descriptor names a module, export, or MCP tool that does not exist. Both found real drift on their first run (three descriptors, one missing required field).
 - A generated-from-`input_schema` zod would have needed a JSON-Schema → zod compiler as a runtime dependency; `zod-to-json-schema` is already transitive through the MCP SDK, so testing in the other direction was free.
 
-What this costs: a second registration table to keep in step (the parity test only covers the MCP face; `tool-dispatch.test.ts` covers the CLI face), and 11 dispatch ↔ MCP mirror pairs that must move together. The fold is the first item of the post-hardening consolidation pass (REVIEW-2026-09-02.md, P2). Until it lands, the contract describes the mirror, not the ideal.
+What this costs: a second registration table to keep in step (the parity test only covers the MCP face; `tool-dispatch.test.ts` covers the CLI face), and 11 dispatch ↔ MCP mirror pairs that must move together. The fold is the first item of the post-hardening consolidation pass (archive/REVIEW-2026-09-02.md, P2). Until it lands, the contract describes the mirror, not the ideal.
 
 ## D14. Many agents, one worktree — commit discipline is part of the design
 
-The v3 build ran as a fleet: up to six agents editing one shared worktree at once. Three commits swept in files other agents had staged; a later "hardening" wave found its own fixes silently reverted by a sibling's commit; a review sub-agent, told to audit, ran `summer logout`, `summer run`, and `summer install` on the developer's machine. None of that was a git bug — it was the absence of rules. The rules now in `docs/DEVELOPMENT.md` ("Working in a shared worktree"):
+Several agents editing one shared worktree at once will sweep each other's staged files into commits, silently revert each other's fixes, and, when a reviewer is allowed to run product commands, change the machine being audited. The rules, also in `docs/DEVELOPMENT.md` ("Working in a shared worktree"):
 
 - Commit only with `git commit --only -- <paths you own>`; never `git add`, never a bare `git commit`, never `--amend`, `reset`, `stash`, or `checkout -- <file>` in a shared tree. Run `git diff --cached HEAD --stat` first and stop if it lists anything.
 - Every agent owns a disjoint set of paths for the duration of a task; the orchestrator assigns them and integrates.

@@ -1,6 +1,6 @@
 # Testing this branch end to end (nothing published)
 
-How a human tests `v3-foundation` on their own machine with the real Summer
+How a human tests an unpublished checkout of this repo on their own machine with the real Summer
 Engine app and a real agent, without publishing to npm. Every command below was
 run while writing this page; the outputs shown are what it printed (engine not
 running unless said otherwise).
@@ -21,7 +21,7 @@ session: `alias summer="node $PWD/dist/bin/summer.js"`.
   writes on launch. Without it, every `[engine]` tool prints
   "Summer Engine is not running (or no project is open)" and exits 1 — that is
   the expected engine-less result, not a bug.
-- A checkout: `git clone https://github.com/SummerEngine/summer-engine-agent && cd summer-engine-agent && git checkout v3-foundation`.
+- A checkout: `git clone https://github.com/SummerEngine/summer-engine-agent && cd summer-engine-agent && git checkout <branch under test>`.
 
 ## b. Build
 
@@ -193,6 +193,6 @@ Two tests skip loudly without a sibling engine checkout / worker build (`docs/DE
 
 Nothing lives only in chat. For each finding:
 
-1. One row in the current review ledger, `docs/design/REVIEW-<date>.md` (P0 blocks publish / P1 wrong and user-visible / P2 debt; one line; an owner). Start a new dated file for a new review.
+1. One row in the current review ledger, `docs/design/archive/REVIEW-<date>.md` (P0 blocks publish / P1 wrong and user-visible / P2 debt; one line; an owner). Start a new dated file for a new review.
 2. Flip the matching row in `docs/design/STATUS.md` — "If it isn't here, it isn't real." Verified rows say *how* they were verified.
 3. Paste the exact command and output. "It didn't work" is not a finding.
