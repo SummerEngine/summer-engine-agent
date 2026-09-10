@@ -10,9 +10,6 @@ tags:
   - controller
   - godot4
 confidence: extracted
-source_refs:
-  - sources/web/celeste-player-cs/source.md
-  - sources/x/valigo-celeste-movement/source.md
 ---
 
 # Celeste-Style Momentum Platforming (Movement System)

@@ -10,8 +10,6 @@ tags:
   - weather
   - materials
 confidence: extracted
-source_refs:
-  - sources/x/tenmomo-unity-realtime-wet/source.md
 ---
 
 # Real-Time Wet Surfaces (Value-Preserving Wet Materials in Godot 4)

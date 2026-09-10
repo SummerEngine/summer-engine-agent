@@ -9,8 +9,6 @@ tags:
   - composition
   - ecs
 confidence: extracted
-source_refs:
-  - sources/web/mertens-ecs-data-oriented-hierarchies/source.md
 adaptation: translated
 ---
 

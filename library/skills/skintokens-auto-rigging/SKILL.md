@@ -11,11 +11,6 @@ tags:
   - ai-tooling
   - godot4
 confidence: extracted
-source_refs:
-  - sources/x/jichiep-skintokens-announce/source.md
-  - sources/web/skin-tokens-cpp-github/source.md
-  - sources/web/skintokens-gguf-modelcard/source.md
-  - sources/web/vast-ai-skintokens-upstream/source.md
 ---
 
 # Auto-Rigging Static Meshes with skin-tokens.cpp (SkinTokens/TokenRig) in SummerEngine

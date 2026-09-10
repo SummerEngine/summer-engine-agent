@@ -10,9 +10,6 @@ tags:
   - psx
   - godot4
 confidence: extracted
-source_refs:
-  - sources/x/wyvernbw-psx-shader/source.md
-  - sources/web/calinp-psx-rendering/source.md
 adaptation: translated
 ---
 

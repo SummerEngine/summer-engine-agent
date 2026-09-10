@@ -11,9 +11,6 @@ tags:
   - procedural-content
   - godot4
 confidence: extracted
-source_refs:
-  - sources/x/haozhao-lumera-announce/source.md
-  - sources/web/lumera-arxiv-paper/source.md
 ---
 
 # Single-Image → Editable Scene Reconstruction (Lumera-style) in SummerEngine

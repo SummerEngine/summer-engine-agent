@@ -11,11 +11,6 @@ tags:
   - godot4
   - automation
 confidence: extracted
-source_refs:
-  - sources/x/axichuhai-godogen/source.md
-  - sources/web/htdt-godogen/source.md
-  - sources/web/htdt-godogen-changelog/source.md
-  - sources/web/htdt-godogen-setup/source.md
 ---
 
 # Godogen-Style Autonomous Game Generation + Visual Proof QC in SummerEngine
