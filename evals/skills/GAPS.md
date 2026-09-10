@@ -15,7 +15,7 @@ Stubs were NOT ported — porting a 19-line TBD adds noise, not coverage. Write
 the spec content first (format in `README.md`), then land it as
 `specs/<slug>.md` with `status: ported`.
 
-## Skills with no spec at all (58 of 79)
+## Skills with no spec at all (74 of 94)
 
 Everything not listed above or present in `specs/`. Highest-value next specs,
 by user traffic and blast radius:

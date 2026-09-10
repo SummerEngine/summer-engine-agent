@@ -259,8 +259,8 @@ This skill writes scene nodes and one or more files (`.gd`, `.summer/mechanics/<
 
 For full character mechanics in a runnable starter:
 
-- FPS variant → `template-id: template-3d-fps` (https://github.com/SummerEngine/FPS-template-Summer-Engine)
-- Platformer → `template-id: template-3d-platformer` (TBD)
+- FPS variant → `summer create 3d-fps-old-school`
+- Platformer → `summer create 3d-third-person-controller` (jump-capable character; no dedicated 3D platformer template yet)
 
 This skill is a workflow that designs and scaffolds — the templates are runnable bases the mechanic plugs into.
 

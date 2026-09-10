@@ -1,19 +1,20 @@
 # Evals
 
-Evidence that the library works. Six families, one rule: **an eval that cannot
+Evidence that the library works. Nine families, one rule: **an eval that cannot
 fail is documentation, not an eval.** Each family README defines its contract;
 this file is the map.
 
 | Family | Tests | Runner status | CI gate |
 |---|---|---|---|
 | [`routing/`](routing/) | Index + metadata quality: do real asks retrieve the right entries? | **LIVE** (`npm run eval:routing`) | no regression vs committed `baseline.json` |
-| [`skills/`](skills/) | Behavioral specs: does following a skill produce correct behavior? | manual (`/skill-test`); 15 ported specs, gaps in `skills/GAPS.md` | none yet (needs LLM+engine harness) |
+| [`skills/`](skills/) | Behavioral specs: does following a skill produce correct behavior? | manual (`/skill-test`); 21 specs in `tests/specs/`, gaps in `skills/GAPS.md` | none yet (needs LLM+engine harness) |
 | [`examples/`](examples/) | Every example executes against its pinned engine + evidence re-verifies | typed interface + SKIP stub | stub runs green; real runner flips it to a gate |
 | [`templates/`](templates/) | Pin integrity: clone-at-commit, tree-digest verify, project-opens smoke | contract defined; lands with template migration | steps 1–3 on `library/templates/**` PRs |
 | [`tools/`](tools/) | Conformance: input_schema round-trips to zod + commander with zero drift | lands with the registry compiler (shares its derivation code) | vitest, once compiler lands |
 | [`end-to-end/`](end-to-end/) | The make-a-game ladder E0–E5: whole-system builds of real games | definition binding; runner future | nightly/weekly, never per-PR |
 | [`canary/`](canary/) | Blind A/B gateway: a stdio MCP proxy that hides or reveals one canary tool per arm, enforces a call budget, records evidence | **LIVE** (`npm run eval:canary`; needs `npm run build` + a fixture project) | none — manual trials; its policy core is unit-tested in `npm test` |
 | [`outcomes/`](outcomes/) | Agent OUTCOMES, not op correctness: replayed trajectories against a fresh engine on pristine fixtures, judged by assertions over snapshots, the saved `.tscn`, a clean play and probe reads from the running game | **LIVE, MVP-0** (`npm run eval:outcomes`; needs `npm run build` + `SUMMER_EDITOR_BIN`; replay only, assertions only) | per PR `--dry-run` (schema + golden drift); the engine-backed replay is nightly, gated on committed `baseline.json` via `--check` |
+| [`mitl/`](mitl/) | Model-in-the-loop: a real model drives this checkout's MCP server against a real editor on a pristine template project; scored by the template's autopilot probe | **LIVE, manual** (needs `npm run build`, a Claude login token and a launch window; 1 of 8 tasks run so far) | none; results are evidence, not a gate |
 
 ## Routing eval (the one that runs today)
 

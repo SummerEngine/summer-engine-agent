@@ -21,7 +21,7 @@ npx clear-npx-cache && npx -y summer-engine@latest setup <agent> --yes --force
 ## Recommended order
 
 1. **Engine 0.5.66 ships first** (or at least is tagged), so the CHANGELOG's "full capability with 0.5.66+" is true on the day `latest` flips. 3.0.0 is safe on 0.5.65 either way; this is about not advertising tools nobody can use yet.
-2. **Merge to `main`**: PR #18 (`v3-foundation`) — the version bump and CHANGELOG are already on the branch. Publish from a fresh clone of that exact `main` commit (NPM_PUBLISH_QUICK_COMMANDS.md steps 1–3), never from a working checkout.
+2. **Merge to `main`**: the integration PR; the version bump and CHANGELOG are already on the branch. Publish from a fresh clone of that exact `main` commit (NPM_PUBLISH_QUICK_COMMANDS.md steps 1–3), never from a working checkout.
 3. **Publish to the `next` dist-tag.** `latest` stays 2.8.2; nobody's MCP config changes.
 
    ```bash

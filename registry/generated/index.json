@@ -213,7 +213,7 @@
       "id": "reference/public-surface-language",
       "kind": "reference",
       "version": "1.0.0",
-      "content_hash": "faf040ec37b98e5523a8ef69e9bc971973f8ec1f06325544a7dbc51bccc651bc",
+      "content_hash": "5c7f2588e5ac97d201a8cb8522f9f281e4ee3b944f25b9592d77e03a1fd3f4cf",
       "summary": "The Summer public-surface language boundary — when to say Summer game / Summer SDK and when Godot terminology remains correct.",
       "use_when": [
         "writing user-facing copy, CLI errors, skill descriptions, or generated prompts",
@@ -760,7 +760,7 @@
       "id": "skill/celeste-momentum-platforming",
       "kind": "skill",
       "version": "0.1.1",
-      "content_hash": "229b5e6d5fb9014e7079cfb47233bf59522be64a23acd9945e9807b170be626a",
+      "content_hash": "f5c03590becbd4d68b62ee43e0c1dce3aadf57218aa5e51f0e35aa027604379c",
       "summary": "Celeste-style 2D precision platformer movement — momentum running, coyote time, variable jumps, dash, wall jump/slide, climb stamina, pixel corner correction.",
       "use_when": [
         "make the platformer movement feel like Celeste",
@@ -1107,7 +1107,7 @@
       "id": "skill/design-level",
       "kind": "skill",
       "version": "1.0.3",
-      "content_hash": "a54d525dca55b1eb48e4daa055d39014e088cd84f3445510d5702b6657fe54e5",
+      "content_hash": "8a749ac076aded1b73b33caca47dacf7f6bb37dadbf4d3b8906f917481584872",
       "summary": "Design a single level — layout, pacing, encounters, secrets, reward gating — outputs a level design doc and a node-tree skeleton for summer_create_scene.",
       "use_when": [
         "designing a single level — layout, pacing, encounters, secrets, reward gating",
@@ -1145,7 +1145,7 @@
       "id": "skill/design-mechanic",
       "kind": "skill",
       "version": "1.0.2",
-      "content_hash": "ad443ee5f52cc5a0d67925a95295b3714001f888d69aad07e93ffd014cfe21a6",
+      "content_hash": "e1c3d5b801154cfa7829420a9847940b4ad3a6be635c0fbee7e0a8f2728ee957",
       "summary": "Design one game mechanic in detail — input, response, feedback, failure modes, depth, tunables — outputs a design doc, node-graph sketch, GDScript stub.",
       "use_when": [
         "designing one specific game mechanic in detail — input, response, feedback, failure modes, depth, tunables",
@@ -1657,7 +1657,7 @@
       "id": "skill/godogen-visual-proof-game-generation",
       "kind": "skill",
       "version": "0.1.1",
-      "content_hash": "663e7cd6eeeaae0a77f7ada602077702f2d105c39ffb36fb94ceec301b42eb2b",
+      "content_hash": "6741ea1cde4468d9539c0a31c9b3539e8cbae91081c96ac6cdd36aa3d80bf04b",
       "summary": "Godogen-style game generation with a visual QC loop — capture frames from the running game, self-verify against the brief, bounded fix rounds, proof clip.",
       "use_when": [
         "generate a whole small game from a short brief and prove it actually runs",
@@ -1828,7 +1828,7 @@
       "id": "skill/lumera-single-image-scene-reconstruction",
       "kind": "skill",
       "version": "0.1.1",
-      "content_hash": "13f2c529e358aa92805c9e35bdd7b55d6c396245ef15bb5eadc1e4d42c8b6d4d",
+      "content_hash": "2eed3649f3b73bc96d5395589e5604cd7114423d8375eff427caee668cabd325",
       "summary": "Lumera-style single image to editable 3D scene — VLM-parsed object boxes and parametric lights, per-object meshes, HDR probe, .tscn assembly, refinement loop.",
       "use_when": [
         "turn this concept art or screenshot into an editable 3D scene with separate objects and lights",
@@ -2283,7 +2283,7 @@
       "id": "skill/psx-retro-rendering",
       "kind": "skill",
       "version": "0.1.1",
-      "content_hash": "9c9dd57b35e4ce79c9535a382f850f84b8f44b5296eb15805b3f4f6903d5efd1",
+      "content_hash": "e81a4ae156b52d2f23f4eec37de28911822d38d1dbe7296a53317b60408e9938",
       "summary": "Hardware-informed PlayStation 1 rendering in Godot 4 — low-res output, RGB5 and exact dither, affine textures, vertex snapping, blend modes, fog; limits named.",
       "use_when": [
         "make my game render like a PlayStation 1 game, with texture warping, vertex wobble, and dithering",
@@ -2321,7 +2321,7 @@
       "id": "skill/realtime-wet-surfaces",
       "kind": "skill",
       "version": "0.1.1",
-      "content_hash": "6f820717e31181c3eabddcb1ae9db4b71c3d71f1b1acf697c661303efbbfa5cd",
+      "content_hash": "44c6a537395e5542701fc5d82fd208ed20284ee6ff6551b604a5cfdbddca1745",
       "summary": "Real-time wetness on existing Godot 4 materials without losing their values — value-copying wet shader, geometry-driven wet mask, instance-uniform wet amount.",
       "use_when": [
         "make surfaces look wet when it rains and dry off afterwards",
@@ -2497,7 +2497,7 @@
       "id": "skill/scene-hierarchy-design",
       "kind": "skill",
       "version": "0.1.1",
-      "content_hash": "29be5fdd7695d7f688842835e9ef1209aa0af4e06a7a5beeaf7e42076ea48e53",
+      "content_hash": "51821958aa514d63815fe43a9c05c8875debb44f35137db70292479fecc468af",
       "summary": "Structure Summer Engine scenes by access pattern — asset vs live hierarchies, wrapper nodes per operation, sub-scenes for reuse, path-agnostic logic.",
       "use_when": [
         "how should I structure the node hierarchy for this level or character",
@@ -2772,7 +2772,7 @@
       "id": "skill/skintokens-auto-rigging",
       "kind": "skill",
       "version": "0.1.1",
-      "content_hash": "44fc636747fc5e873420bc46fec45815c6965a27337d4d59dfb33b09ece1022c",
+      "content_hash": "30ac4dc44f5f716513cd0596c3a423ab180fce8249d81950c3bf8b713910fe4c",
       "summary": "Offline auto-rigging with skin-tokens.cpp (GGML SkinTokens/TokenRig port) — skeleton and skin weights from a static GLB mesh on CPU/Vulkan, into Godot 4.",
       "use_when": [
         "auto-rig this static GLB mesh so I can animate it",

@@ -17,14 +17,12 @@ source of truth is the repository compatibility contract. Neither number is a
 permanent Summer identity, so creator prompts and skills should not pin
 themselves to one upstream release.
 
-Run the focused regression guard and inventory with:
+There is no automated guard for this yet. Before a release, list the remaining
+upstream references across the shipped surfaces and review each one:
 
 ```bash
-npm run test:public-language
+grep -rn -i "godot" README.md AGENTS.md CHANGELOG.md library/ | grep -v -i "project.godot\|\.godot/"
 ```
 
-The guard blocks known Godot-led identity phrases and stale fixed-4.5 scaffold
-language across shipped surfaces. It also prints the remaining Godot-reference
-inventory grouped by file. This is intentionally not a semantic linter: a human
-must still review those references and confirm that each is technical,
-migration-related, attribution, or legal context.
+Keep references that are technical, migration-related, attribution, or legal
+context; rewrite identity claims. This is a human review, not a linter.

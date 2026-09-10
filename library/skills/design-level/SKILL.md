@@ -266,8 +266,8 @@ This skill creates a new scene file (`.tscn`) and a design doc (`.md`). Group wr
 
 This is a workflow that produces a skeleton scene. For runnable level examples, see:
 
-- `template-id: template-3d-fps` (https://github.com/SummerEngine/FPS-template-Summer-Engine) ships a sample arena.
-- `template-id: template-3d-platformer` (TBD) for jump-based level samples.
+- `summer create 3d-fps-old-school` ships a sample arena.
+- `summer create 3d-third-person-controller` gives a jump-capable character to test level layouts against.
 
 The skeleton this skill produces is meant to be filled in via `/design-mechanic`, gridmap blockout, or a template merge.
 

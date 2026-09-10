@@ -1,4 +1,8 @@
-# summer-cli scripts
+# scripts
+
+- `generate-registry/` — the registry compiler (`npm run generate:registry`, `--check` for the CI parity gate). See its README.
+- `validate-library/` — schema, facet and capability lint for `library/` (`npm run validate:library`).
+- `navigation/` — renders the product-map reference and syncs the web route snapshot (`npm run generate:product-map`, `npm run sync:web-routes`).
 
 - `smoke-test.sh` — CLI-level smoke tests (unit tests, command basics, template creation). Engine optional; engine-dependent checks are skipped when no editor is running.
 - `build-api-docs.mjs` — compiles the engine's class-reference XML into `assets/api-docs.json.gz` (served offline by the `summer_api_docs` MCP tool). Needs an engine checkout: `node scripts/build-api-docs.mjs /path/to/summerengine` (or `SUMMER_ENGINE_ROOT`). The asset is committed; rerun after engine API changes.
@@ -7,7 +11,7 @@
 ## Release gate: compat-smoke
 
 ```
-bash tools/summer-cli/scripts/compat-smoke.sh [--project <path>]
+bash scripts/compat-smoke.sh [--project <path>]
 ```
 
 **Run it before every engine release AND before every npm publish of summer-engine.** Both sides of the MCP <-> engine HTTP contract are unit-tested only against mocks (MCP tests mock the engine; engine tests mock the client), so a contract drift between them is invisible to CI. That is exactly how MCP 2.7.0-2.8.0 shipped appending `SaveScene` into multi-op batches while engine 0.5.60+ rejects such batches wholesale (`failure_reason: "unsupported_transport"`) — every scene mutation via MCP was broken for weeks with all tests green.
