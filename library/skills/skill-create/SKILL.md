@@ -1,53 +1,82 @@
 ---
 name: skill-create
-description: Use when a contributor wants to add a new skill to the Summer library — bootstraps the canonical folder structure, frontmatter, and stub sections. Trigger on "create skill", "add skill", "new skill", "scaffold a skill".
+description: Use when a contributor wants to add a new skill to the Summer library. Bootstraps the canonical folder (library/skills/<slug>/ with resource.yaml and SKILL.md), frontmatter, and stub sections. Trigger on "create skill", "add skill", "new skill", "skill-create".
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: workflow
-allowed-tools: Read Write Glob Grep
+allowed-tools: Read Write Glob Grep Bash
 ---
 
-# /skill-create — Bootstrap a New Skill
+# /skill-create: bootstrap a new library skill
+
+Works inside a checkout of the summer-engine agent repository (the one with `library/` and `registry/`). Outside it, capture the lesson with `gameskill` in the game project instead.
 
 ## Steps
 
 ### 1. Get the basics
 
 Ask the user:
-- **Name** (kebab-case, ≤ 64 chars). Example: `state-machine-patterns`.
-- **Category** (must be one of the values in the `SKILL_CATEGORIES` array at `src/lib/skills-registry.ts` — read it, do not guess). Example: `scripting-patterns`.
-- **One-sentence description** for the frontmatter.
-- **Template-id** (optional). Lookup against the template registry: `library/templates/<id>/resource.yaml` (see `library/templates/README.md`).
+- **Slug** (kebab-case, 64 chars or fewer, flat: no category folders). Example: `state-machine-patterns`.
+- **Domain facets**: pick from the vocabulary in `registry/schemas/domains.json` (read it, do not guess). Example: `scripting`, `gameplay`.
+- **One-sentence summary** and a "Use when ..." description for the frontmatter.
+- **Template-id** (optional). Look it up in `library/templates/<id>/resource.yaml`.
 
 ### 2. Create the folder
 
-May I create `skills/<category>/<name>/` with this structure?
+May I create `library/skills/<slug>/` with this structure?
 
 ```
-skills/<category>/<name>/
-├── SKILL.md
-├── references/        (empty, populate as needed)
-├── examples/          (empty, populate as needed)
-└── tests/spec.md
+library/skills/<slug>/
+  resource.yaml      routing metadata (schema: registry/schemas/resource.schema.json + skill.schema.json)
+  SKILL.md           the skill body
+  references/        optional, populate as needed
 ```
 
-### 3. Write SKILL.md (template)
+### 3. Write resource.yaml (template)
+
+```yaml
+id: skill/<slug>
+kind: skill
+version: 1.0.0
+summary: <one sentence, what and when>
+use_when:
+  - <situation the router should match>
+  - <second situation>
+do_not_use_when:
+  - <situation that belongs to a neighbouring skill>
+facets:
+  lifecycle: [build]
+  domains: [<domain>]
+  modalities: [<scripts | scenes | assets | docs>]
+compatibility:
+  engine: ">=4.6"
+related:
+  skills: [skill/<neighbour>]
+source: official
+license: MIT
+status: preview
+recommended: false
+```
+
+`status: preview` until the skill has been exercised against a live engine; flip to `stable` in the same change as the evidence.
+
+### 4. Write SKILL.md (template)
 
 ```markdown
 ---
-name: <name>
-description: <one-sentence what + when. Lead with key trigger phrases.>
+name: <slug>
+description: Use when <situation>. Lead with the trigger phrases.
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
-category: <category>
-template-id: <optional template-id from library/templates/<id>/resource.yaml>
+category: <domain>
+template-id: <optional>
 allowed-tools: Read Grep <summer_* tools this skill uses>
 paths: ["**/*.gd", "**/*.tscn"]
 ---
 
 # <Title> for Summer Engine
 
-<One-paragraph context. Why this exists, who needs it.>
+<One paragraph: why this exists, who needs it.>
 
 ## Steps
 
@@ -59,7 +88,7 @@ paths: ["**/*.gd", "**/*.tscn"]
 summer_<tool>(...)
 \`\`\`
 
-**Fallback (no MCP — edit `<file>` directly):**
+**Fallback (no MCP, edit `<file>` directly):**
 
 \`\`\`
 <raw text/code>
@@ -67,87 +96,43 @@ summer_<tool>(...)
 
 May I <action>?
 
-### 2. <Second step>
-
-...
-
 ## Common mistakes
 
-- <mistake 1, with one-line fix>
-- <mistake 2, with one-line fix>
+- <mistake, with a one-line fix>
 
 ## Want a working starter?
 
-→ **template-id**: `<template-id>`
-→ **Repo**: <github URL from library/templates/<id>/resource.yaml>
-→ **Bootstrap**: `summer create <template-id> my-game` (see `summer list templates` for the slugs)
+`summer create <template-id> my-game` (see `summer list templates` for the slugs)
 
 ## See also
 
-- `../../references/godot-version/godot-version.md`
-- `../../references/mcp-tools-reference/mcp-tools-reference.md`
-- `../../references/gd-style/gd-style.md`
-- (other relevant skills)
+- `godot-version` and `gd-style` in `library/references/`
+- (related skills by bare slug)
 ```
 
-### 4. Write tests/spec.md (template)
+Keep SKILL.md under 500 lines; push shared detail into `library/references/`. Cross-reference other skills by bare slug, never by path or `@` link.
 
-```markdown
-# Skill Spec: /<name>
+### 5. Generate and validate
 
-## Fixture
-- <starting state of the project>
-- <which tools are available — Summer MCP yes/no>
+Nothing is registered by hand. Run:
 
-## Case 1: Happy Path
-**Input:** "<typical user prompt>"
-**Expected MCP tool sequence (in order):**
-1. <first tool call>
-2. <second>
-
-**Assertions:**
-- [ ] <observable outcome>
-- [ ] <skill asks "May I" before any write step>
-
-## Case 2: Failure / Edge
-**Fixture:** <something different>
-**Input:** "<edge prompt>"
-**Expected:** <how the skill should adapt>
+```bash
+npm run generate:registry
+npm run validate:library
+npm test
 ```
 
-### 5. Register the skill
+`generate:registry` rewrites `registry/generated/` and every plugin manifest from `library/`; `validate:library` checks the schema, facets, related links and capability lint; the test suite checks manifest parity. Commit the generated files with the skill.
 
-Two files to update, both required for the skill to load in Claude Code / Cursor / Codex AND to be installable via `summer skills install`:
+### 6. Run /skill-test
 
-**5a. `.claude-plugin/plugin.json`** (and sibling manifests `.codex-plugin/plugin.json`, `.cursor-plugin/plugin.json`). Append to the `skills:` array:
-
-```json
-"./skills/<category>/<name>/",
-```
-
-**5b. `src/lib/skills-registry.ts`** `SKILL_REGISTRY` array. Append a typed entry:
-
-```ts
-{
-  name: "<name>",
-  category: "<category>",
-  public: true,
-  clients: ALL_CLIENTS,
-  recommended: false,
-  requiresMcpTools: ["summer_<tool>", ...],
-  testScenario: "<one-line scenario the skill should handle end-to-end>",
-},
-```
-
-### 6. Run /skill-test in static mode
-
-Confirm the new skill passes the structural checks before commit. The `plugin-manifests.test.ts` test will fail the build if 5a or 5b is missing.
+Confirm the structural checks pass and, if the skill drives tools, that the routing eval still finds it (`npm run eval:routing`).
 
 ## Collaborative protocol
 
-This skill writes files (the new skill folder + plugin manifest update + TS registry update). Always ask before each write step.
+This skill writes files. Always ask before each write step.
 
 ## See also
 
-- `../../references/collaborative-protocol/collaborative-protocol.md`
-- `workflow/skill-test/SKILL.md`
+- `collaborative-protocol` in `library/references/`
+- `skill-test`, `skill-improve`, `gameskill`

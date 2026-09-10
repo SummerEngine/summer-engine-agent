@@ -368,6 +368,8 @@ Testing an unpublished build end to end against the real engine and a real agent
 
 MIT for everything in this repo. Summer Engine itself is proprietary. See [What's open and what's not](#whats-open-and-whats-not).
 
+Some process skills (brainstorming, writing-plans, writing-skills, investigating-bugs) are adapted from [obra/superpowers](https://github.com/obra/superpowers), MIT licensed. Attribution is in [NOTICE](NOTICE).
+
 ## Links
 
 - [Website](https://summerengine.com)

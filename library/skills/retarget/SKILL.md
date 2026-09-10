@@ -15,8 +15,7 @@ paths: ["**/*.tscn", "**/*.tres"]
 
 Summer ships **no** `summer_retarget_motion` tool, and no other MCP tool that
 re-projects an existing animation asset onto a second rig. Verify it yourself:
-`grep -rn 'summer_' tools/summer-cli/src/mcp/tools/*.ts` lists every registered
-tool and there is no retarget entry. Never call one — the MCP server rejects
+`summer tool --list` prints every registered tool and there is no retarget entry. Never call one — the MCP server rejects
 unknown tool names outright, and inventing a cost table for it ("$0.05 a clip")
 is worse than saying nothing.
 

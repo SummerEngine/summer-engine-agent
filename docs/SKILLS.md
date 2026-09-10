@@ -85,7 +85,7 @@ guidance, and `--stable-only` skips it; `deprecated` installs only by name),
 4. Show Summer MCP-preferred + explicit offline/manual fallback in every code-touching skill.
 5. Teach identity-bound file mutation for `.tscn`/`.tres`: use `summer_read_file` plus guarded `summer_replace_text`/`summer_write_file`, and use scene tools for live hierarchy/inspector work.
 6. "May I write this change?" before any user-visible mutation. See `library/references/collaborative-protocol/collaborative-protocol.md`.
-7. Every skill ships `tests/spec.md` with at least one Test Case. See `library/skills/skill-test/SKILL.md`.
+7. A skill may ship `tests/spec.md` with Test Cases; `library/skills/skill-test/SKILL.md` runs the structural checks every skill must pass (frontmatter, `resource.yaml` schema, routing metadata).
 
 ## Standard
 

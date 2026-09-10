@@ -704,7 +704,7 @@
       "id": "skill/brainstorming",
       "kind": "skill",
       "version": "1.0.3",
-      "content_hash": "c843b94b99fc318dda965a6b838dd5acc284d62cdc058629d802728b0a715d1d",
+      "content_hash": "4a96d1b6b1f78f69f3dfca90a385f689c9d87800fb2214289cf90425a1b3bf4f",
       "summary": "Explore user intent, requirements, and design before implementation — must run before any creative work: features, components, mechanics, behavior.",
       "use_when": [
         "starting creative work — designing a game, picking a mechanic, building features or components, modifying behavior",
@@ -1560,10 +1560,10 @@
       "id": "skill/gameskill",
       "kind": "skill",
       "version": "1.0.2",
-      "content_hash": "37ffdcabaabafca0fb3ffa8a56a8a1b838bba5b64fd39d7cfe860142ff95b479",
-      "summary": "Capture what a game-dev session just learned into Summer's canonical skill library so the next session and every Summer user start smarter.",
+      "content_hash": "8dd5d318fad038856afc97d50ba7e78740aaa9374cf8ebe8eb68f27d54bc0526",
+      "summary": "Capture what a game-dev session just learned as a reusable skill (project, user or Summer library) so the next session starts smarter.",
       "use_when": [
-        "finishing a game-development session with learnings worth capturing into Summer's canonical skill library",
+        "finishing a game-development session with learnings worth capturing as a reusable skill",
         "a session found a technique, workaround, or convention worth reusing across Summer sessions"
       ],
       "facets": {
@@ -1799,7 +1799,7 @@
       "id": "skill/investigating-bugs",
       "kind": "skill",
       "version": "1.0.3",
-      "content_hash": "0f575304f0e96047bea40d23eaa95de138dfdbd4749bb04a89959791674b23dc",
+      "content_hash": "f324f074ef664c5f0184fe3536cd2e3bea1336a3d72a5c13ef8d25a80a5096c2",
       "summary": "Systematic investigation of any bug, test failure, or unexpected behavior before proposing fixes.",
       "use_when": [
         "encountering any bug, test failure, or unexpected behavior, before proposing fixes",
@@ -1905,39 +1905,6 @@
       },
       "status": "stable",
       "recommended": true
-    },
-    {
-      "id": "skill/mcpupdate",
-      "kind": "skill",
-      "version": "1.0.3",
-      "content_hash": "83798f7489a57ff185bffadca8b90aa5cc2370b8e020f0792f244edf83ec734b",
-      "summary": "Improve the Summer CLI, its MCP tools, or its skills from a real working session — capture what worked, fix prompts where an agent went down a bad path.",
-      "use_when": [
-        "improving or maintaining the Summer Engine CLI, its MCP tools (summer_*), or its prompt-engineering skills based on a real working session",
-        "an agent went down a bad path with a summer_* tool or skill and the prompt should be fixed from that evidence"
-      ],
-      "facets": {
-        "lifecycle": [
-          "build"
-        ],
-        "domains": [
-          "agent-workflow",
-          "meta"
-        ],
-        "modalities": [
-          "docs"
-        ]
-      },
-      "compatibility": {
-        "engine": ">=4.6"
-      },
-      "related": {
-        "skills": [
-          "skill/skill-create"
-        ]
-      },
-      "status": "stable",
-      "recommended": false
     },
     {
       "id": "skill/music-track",
@@ -2419,7 +2386,7 @@
       "id": "skill/retarget",
       "kind": "skill",
       "version": "1.0.3",
-      "content_hash": "4cd5eaa1efd568e4a708a20e2dcdfd3fad2278c8fa94378a9b9bbbfbaf7a28fc",
+      "content_hash": "bb94020c948de181edcd4cdaa600809189c048314c79d2b1fda063de464c2532",
       "summary": "Apply existing animation clips from one rigged character to a different rigged character — same library, multiple models, no regeneration.",
       "use_when": [
         "applying existing animation clips from one rigged character to a different rigged character — sharing one animation library across models",
@@ -2705,8 +2672,8 @@
       "id": "skill/skill-create",
       "kind": "skill",
       "version": "1.0.3",
-      "content_hash": "9fdb6092bf6a6d54dfb9f5887078a5313c37434da9946cfd92c89c2c7100986f",
-      "summary": "Bootstrap a new Summer library skill — canonical folder structure, frontmatter, and stub sections.",
+      "content_hash": "459ba2a95affdde55cd1cbf3f6b1cb3aff9ec2705c640c4e8d667f91e685415e",
+      "summary": "Bootstrap a new Summer library skill (library/skills/<slug>/ with resource.yaml and SKILL.md), frontmatter, and stub sections.",
       "use_when": [
         "a contributor wants to add a new skill to the Summer library",
         "scaffolding a new library skill folder with canonical structure, frontmatter, and stub sections"
@@ -3769,7 +3736,7 @@
       "id": "skill/writing-plans",
       "kind": "skill",
       "version": "1.0.3",
-      "content_hash": "700ddace6fabf943943fcba5d5f481ba81b5f30178be916cad27b7dc6185f6b5",
+      "content_hash": "a77bb68239505ccfab8a363b1cc79ba81ab25a1d1e2ddfd11780a04916621204",
       "summary": "Turn a spec or requirements for a multi-step task into a written implementation plan before touching code.",
       "use_when": [
         "you have a spec or requirements for a multi-step task, before touching code",
@@ -3797,7 +3764,7 @@
       "id": "skill/writing-skills",
       "kind": "skill",
       "version": "1.0.3",
-      "content_hash": "a24e66d9af8d2f9c72a03a954558d5cfee607a11296bd4997e798dade66179a3",
+      "content_hash": "7f904c09a7d2699d2043413b33c29f6779ce38f494f016c04a8816dc9bfe6200",
       "summary": "Create, edit, and verify agent skills — format, structure, testing with subagents, and best practices.",
       "use_when": [
         "creating new skills, editing existing skills, or verifying skills work before deployment",

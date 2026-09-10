@@ -193,7 +193,7 @@ description: Use when tests use setTimeout/sleep and are flaky
 description: Use when tests have race conditions, timing dependencies, or pass/fail inconsistently
 
 # GOOD: Technology-specific skill with explicit trigger
-description: Use when using React Router and handling authentication redirects
+description: Use when wiring a CharacterBody3D controller and handling slope or stair movement
 ```
 
 ### 2. Keyword Coverage
@@ -243,12 +243,12 @@ Always use subagents (50-100x context savings). REQUIRED: Use [other-skill-name]
 **Compress examples:**
 ```markdown
 # BAD: Verbose example (42 words)
-the user: "How did we handle authentication errors in React Router before?"
-You: I'll search past conversations for React Router authentication patterns.
-[Dispatch subagent with search query: "React Router authentication error handling 401"]
+the user: "How did we handle the camera clipping through walls in the last project?"
+You: I'll search past conversations for camera collision patterns.
+[Dispatch subagent with search query: "SpringArm3D camera collision clipping"]
 
 # GOOD: Minimal example (20 words)
-Partner: "How did we handle auth errors in React Router?"
+Partner: "How did we stop the camera clipping through walls?"
 You: Searching...
 [Dispatch subagent → synthesis]
 ```
@@ -285,7 +285,7 @@ Use skill name only, with explicit requirement markers:
 - Bad: `See library/skills/debug` (unclear if required)
 - Bad: `@library/skills/debug/SKILL.md` (force-loads, burns context)
 
-**Check the skill exists before you point at it.** The registry of shipped skills is the `SKILL_REGISTRY` array in `src/lib/skills-registry.ts` and the `skills:` array in `.claude-plugin/plugin.json`. A `REQUIRED SUB-SKILL` pointing at a skill that was never shipped is worse than no cross-reference: the reader stops and looks for something that does not exist.
+**Check the skill exists before you point at it.** The registry of shipped skills is `registry/generated/skills-registry.json` (generated from `library/skills/`); `summer skills list` prints it. A `REQUIRED SUB-SKILL` pointing at a skill that was never shipped is worse than no cross-reference: the reader stops and looks for something that does not exist.
 
 **Why no @ links:** `@` syntax force-loads files immediately, consuming 200k+ context before you need them.
 
@@ -315,13 +315,7 @@ digraph when_flowchart {
 - Linear instructions → Numbered lists
 - Labels without semantic meaning (step1, helper2)
 
-See @graphviz-conventions.dot for graphviz style rules.
-
-**Visualizing for the user:** Use `render-graphs.js` in this directory to render a skill's flowcharts to SVG:
-```bash
-./render-graphs.js ../some-skill           # Each diagram separately
-./render-graphs.js ../some-skill --combine # All diagrams in one SVG
-```
+Keep graphviz blocks small: one decision per diamond, verbs on edges, no more than a dozen nodes.
 
 ## Code Examples
 
@@ -462,7 +456,7 @@ Different skill types need different test approaches:
 
 Skills that enforce discipline (like TDD) need to resist rationalization. Agents are smart and will find loopholes when under pressure.
 
-**Psychology note:** Understanding WHY persuasion techniques work helps you apply them systematically. See persuasion-principles.md for research foundation (Cialdini, 2021; Meincke et al., 2025) on authority, commitment, scarcity, social proof, and unity principles.
+**Why this works:** explicit authority ("MUST", "NEVER"), commitment (announce the skill before acting), and closing each loophole by name are what make a discipline skill hold under pressure; vague encouragement does not.
 
 ### Close Every Loophole Explicitly
 

@@ -310,7 +310,7 @@
     {
       "id": "skill/gameskill",
       "name": "gameskill",
-      "description": "Use when finishing a game-development session and you want to capture what you just learned into Summer's canonical skill library so the next session and every Summer user start smarter. Trigger on \"gameskill\", \"/gameskill\", \"capture learnings\", \"save to skills\".",
+      "description": "Use when finishing a game-development session and you want to capture what you just learned as a reusable skill so the next session starts smarter. Trigger on \"gameskill\", \"/gameskill\", \"capture learnings\", \"save to skills\".",
       "clients": "all",
       "recommended": false,
       "status": "stable",
@@ -396,15 +396,6 @@
       "recommended": true,
       "status": "stable",
       "path": "library/skills/make-game/"
-    },
-    {
-      "id": "skill/mcpupdate",
-      "name": "mcpupdate",
-      "description": "Use when improving or maintaining the Summer Engine CLI, its MCP tools (summer_* / \"ops\"), or its prompt-engineering skills based on a real working session. Examples: the user types /mcpupdate, says \"mcpskillify this\", \"log this as a skill/example\", \"this <feature> feels great, capture it\", or notes that an agent went down a bad path with the Summer tools/skills and the prompts should be fixed. Works from ANY chat, not just inside the summer-cli repo.",
-      "clients": "all",
-      "recommended": false,
-      "status": "stable",
-      "path": "library/skills/mcpupdate/"
     },
     {
       "id": "skill/music-track",
@@ -589,7 +580,7 @@
     {
       "id": "skill/skill-create",
       "name": "skill-create",
-      "description": "Use when a contributor wants to add a new skill to the Summer library — bootstraps the canonical folder structure, frontmatter, and stub sections. Trigger on \"create skill\", \"add skill\", \"new skill\", \"scaffold a skill\".",
+      "description": "Use when a contributor wants to add a new skill to the Summer library. Bootstraps the canonical folder (library/skills/<slug>/ with resource.yaml and SKILL.md), frontmatter, and stub sections. Trigger on \"create skill\", \"add skill\", \"new skill\", \"skill-create\".",
       "clients": "all",
       "recommended": false,
       "status": "stable",

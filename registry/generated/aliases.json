@@ -87,7 +87,6 @@
     "skills/workflow/gameskill": "skill/gameskill",
     "skills/workflow/headless-scripting": "skill/headless-scripting",
     "skills/workflow/investigating-bugs": "skill/investigating-bugs",
-    "skills/workflow/mcpupdate": "skill/mcpupdate",
     "skills/workflow/playtesting-a-feature": "skill/playtesting-a-feature",
     "skills/workflow/running-in-the-cloud": "skill/running-in-the-cloud",
     "skills/workflow/scene-scripting": "skill/scene-scripting",

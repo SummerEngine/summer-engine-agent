@@ -12,7 +12,6 @@ You run scenarios without the skill (RED - watch agent fail), write skill addres
 
 **REQUIRED BACKGROUND:** the RED-GREEN-REFACTOR cycle as stated just above. This reference supplies the skill-specific test formats on top of it (pressure scenarios, rationalization tables).
 
-**Complete worked example:** See examples/CLAUDE_MD_TESTING.md for a full test campaign testing CLAUDE.md documentation variants.
 
 ## When to Use
 
@@ -139,7 +138,7 @@ Forces explicit choice.
 
 **Best tests combine 3+ pressures.**
 
-**Why this works:** See persuasion-principles.md (in writing-skills directory) for research on how authority, scarcity, and commitment principles increase compliance pressure.
+**Why this works:** authority, scarcity and commitment pressures stack; a scenario that combines them exposes whether the skill holds or the agent rationalizes.
 
 ### Key Elements of Good Scenarios
 

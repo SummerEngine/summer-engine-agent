@@ -15,7 +15,7 @@ Assume they are a skilled developer, but know almost nothing about our toolset o
 
 **Context:** If the work needs isolation from the current checkout, create a git worktree for it before execution starts.
 
-**Save plans to:** `docs/superpowers/plans/YYYY-MM-DD-<feature-name>.md`
+**Save plans to:** `.summer/plans/YYYY-MM-DD-<feature-name>.md` in the game project
 - (User preferences for plan location override this default)
 
 ## Scope Check
@@ -72,27 +72,32 @@ This structure informs the task decomposition. Each task should produce self-con
 
 - [ ] **Step 1: Write the failing test**
 
-```python
-def test_specific_behavior():
-    result = function(input)
-    assert result == expected
+```gdscript
+# tests/unit/test_health.gd (GUT or gdUnit4 style)
+func test_damage_reduces_health():
+    var health := Health.new()
+    health.apply_damage(30)
+    assert_eq(health.current, 70)
 ```
 
 - [ ] **Step 2: Run test to verify it fails**
 
-Run: `pytest tests/path/test.py::test_name -v`
-Expected: FAIL with "function not defined"
+Run: the project's test command (for GUT: `<engine> --headless -s addons/gut/gut_cmdln.gd -gtest=res://tests/unit/test_health.gd`)
+Expected: FAIL because `apply_damage` does not exist yet
 
 - [ ] **Step 3: Write minimal implementation**
 
-```python
-def function(input):
-    return expected
+```gdscript
+# scripts/health.gd
+class_name Health
+var current := 100
+func apply_damage(amount: int) -> void:
+    current -= amount
 ```
 
 - [ ] **Step 4: Run test to verify it passes**
 
-Run: `pytest tests/path/test.py::test_name -v`
+Run: the same test command
 Expected: PASS
 
 - [ ] **Step 5: Commit**
@@ -135,7 +140,7 @@ If you find issues, fix them inline. No need to re-review — just fix and move 
 
 After saving the plan, offer execution choice:
 
-**"Plan complete and saved to `docs/superpowers/plans/<filename>.md`. Two execution options:**
+**"Plan complete and saved to `.summer/plans/<filename>.md`. Two execution options:**
 
 **1. Subagent-Driven (recommended)** - I dispatch a fresh subagent per task, review between tasks, fast iteration
 
