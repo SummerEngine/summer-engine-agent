@@ -6,7 +6,7 @@ is intentionally empty. Support is delivered at install time by
 
 - MCP config: `~/.codeium/windsurf/mcp_config.json`; Windows `%USERPROFILE%/.codeium/windsurf/mcp_config.json` (user); user scope only (project requests fall back with a warning).
   Shape: `mcpServers.summer-engine = { command, args }`.
-- Skills: `~/.codeium/windsurf/skills` (user) or `.windsurf/skills` (project) as `<skill>/SKILL.md`.
+- Skills: `~/.agents/skills` (user) or `.agents/skills` (project) as `<skill>/SKILL.md`.
 - After: Restart Devin Desktop (formerly Windsurf) and refresh MCP servers from the agent settings. Devin's docs say mcp_config.json configures the Cascade agent; for the Devin agent add the server in the app's MCP settings with the same command.
 
 Source of truth: `src/installer/agent-table.ts` (one row per agent).

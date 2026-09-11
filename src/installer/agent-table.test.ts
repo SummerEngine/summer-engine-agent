@@ -11,7 +11,10 @@ import {
   AGENT_IDS,
   agentAliasMap,
   agentSpec,
+  agentsSharingSkills,
   allAgentSpecs,
+  isSharedSkillsPath,
+  legacySkillDirs,
   resolveMcpPath,
   resolveSkillPath,
   skillCapableAgents,
@@ -128,13 +131,35 @@ describe("agent table paths", () => {
     );
   });
 
-  it("Cursor and Devin Desktop now get SKILL.md skills, not rule files", () => {
-    expect(resolveSkillPath(agentSpec("cursor"), "user", ctx("darwin"))).toEqual({
-      kind: "skill-dir",
-      path: "/home/dev/.cursor/skills",
-      scope: "user",
-    });
-    expect(resolveSkillPath(agentSpec("windsurf"), "user", ctx("darwin"))?.path).toBe("/home/dev/.codeium/windsurf/skills");
+  it("agents whose docs read the agentskills.io folder all install to ~/.agents/skills", () => {
+    const shared = agentsSharingSkills("user", ctx("darwin")).map((s) => s.id).sort();
+    expect(shared).toEqual([
+      "amp", "codex", "crush", "cursor", "factory", "grok-build", "kimi-code", "opencode",
+      "rovo-dev", "vscode-copilot", "warp", "windsurf", "zed",
+    ]);
+    for (const id of shared) {
+      expect(resolveSkillPath(agentSpec(id), "user", ctx("darwin"))?.path).toBe("/home/dev/.agents/skills");
+    }
+    // Project scope adds the agents that only read .agents/skills inside a repo.
+    const project = agentsSharingSkills("project", ctx("darwin")).map((s) => s.id);
+    for (const id of ["antigravity", "goose", "hermes", "mistral-vibe"]) expect(project).toContain(id);
+    // Native-only agents stay where their docs say.
+    expect(resolveSkillPath(agentSpec("claude-code"), "user", ctx("darwin"))?.path).toBe("/home/dev/.claude/skills");
+    expect(resolveSkillPath(agentSpec("github-copilot"), "user", ctx("darwin"))?.path).toBe("/home/dev/.copilot/skills");
+    expect(isSharedSkillsPath("/home/dev/.agents/skills")).toBe(true);
+    expect(isSharedSkillsPath("/home/dev/.claude/skills")).toBe(false);
+  });
+
+  it("legacySkillDirs names the 3.1.0 native folders for moved agents and nothing for agents that never moved", () => {
+    expect(legacySkillDirs(agentSpec("cursor"), "user", ctx("darwin"), ["debug", "play"])).toEqual([
+      "/home/dev/.cursor/skills/debug",
+      "/home/dev/.cursor/skills/play",
+    ]);
+    expect(legacySkillDirs(agentSpec("amp"), "project", ctx("darwin"), ["debug"])).toEqual([]);
+    expect(legacySkillDirs(agentSpec("claude-code"), "user", ctx("darwin"), ["debug"])).toBeNull();
+    // Hermes only moved at project scope; its user folder is still current.
+    expect(legacySkillDirs(agentSpec("hermes"), "user", ctx("darwin"), ["debug"])).toEqual([]);
+    expect(legacySkillDirs(agentSpec("hermes"), "project", ctx("darwin"), ["debug"])).toEqual(["/work/game/.hermes/skills/debug"]);
   });
 });
 
