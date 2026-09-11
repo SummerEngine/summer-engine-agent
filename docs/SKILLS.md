@@ -43,7 +43,7 @@ summer skills install --all --stable-only --agent claude-code   # Stable skills 
 summer skills install --recommended --agent cursor --scope project   # Per-project
 ```
 
-Supported agents: `summer`, `codex`, `claude-code`, `cursor`, `windsurf`, `cline`, `roo-code`, `gemini`, `github-copilot`, `vscode-copilot`, `opencode`. Supported scopes: `user`, `project`.
+Supported agents: `summer`, `claude-code`, `codex`, `cursor`, `windsurf`, `antigravity`, `gemini`, `cline`, `cline-cli`, `roo-code`, `kilo-code`, `github-copilot`, `vscode-copilot`, `opencode`, `zed`, `kiro`, `goose`, `hermes`, `qwen-code`, `kimi-code`, `crush`, `amp`, `factory`, `warp`, `rovo-dev`, `qoder`, `grok-build`, `mistral-vibe`. Supported scopes: `user`, `project`.
 
 ## Recommended set
 

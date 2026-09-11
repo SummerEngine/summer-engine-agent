@@ -1,6 +1,6 @@
 {
   "name": "summer-engine",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "description": "Local Summer CLI and MCP server for Summer Engine. Install and run the engine, connect Claude Code, Cursor, Codex, Gemini, and other agents, and build real games with bundled skills, hooks, and plugins.",
   "keywords": [
     "summer-engine",
@@ -86,12 +86,12 @@
     "@modelcontextprotocol/sdk": "^1.30.0",
     "commander": "^12.0.0",
     "open": "^10.0.0",
+    "yaml": "^2.9.0",
     "zod": "^3.23.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
     "typescript": "^5.5.0",
-    "vitest": "^3.2.4",
-    "yaml": "^2.9.0"
+    "vitest": "^3.2.4"
   }
 }

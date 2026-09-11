@@ -2,15 +2,11 @@
 
 No manifest file is generated in this repo for Kilo Code — `manifest-target.json`
 is intentionally empty. Support is delivered at install time by
-`summer setup kilo-code`, which writes:
+`summer setup kilo-code` (aliases: `kilo`, `kilocode`), which writes:
 
-- MCP config: Kilo Code's VS Code global storage
-  (`<VS Code user dir>/globalStorage/kilocode.kilo-code/settings/mcp_settings.json`,
-  user scope) or `./.kilocode/mcp.json` (project scope).
-- Skills: `summer setup kilo-code` installs the whole library in the same
-  scope as the MCP config (user by default), as rule files in
-  `~/.kilocode/rules/summer-<skill>.md` (user) or `./.kilocode/rules/`
-  (project). `summer skills install --agent kilo-code` on its own defaults
-  to project scope; pass `--scope user` to match a user-scope MCP config.
+- MCP config: `~/.config/kilo/kilo.json`; Windows `%APPDATA%/kilo/kilo.json` (user); `kilo.json` (project).
+  Shape: `mcp.summer-engine = { type: "local", command: [npx, ...], enabled: true }`.
+- Skills: `~/.kilo/skills` (user) or `.kilo/skills` (project) as `<skill>/SKILL.md`.
+- After: Restart Kilo (CLI or the VS Code extension) so it reloads kilo.json.
 
-Source of truth: `src/installer/agent-config.ts`, `src/cli/commands/skills.ts`.
+Source of truth: `src/installer/agent-table.ts` (one row per agent).

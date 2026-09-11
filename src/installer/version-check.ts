@@ -14,12 +14,15 @@
 
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { homedir, platform } from "node:os";
+import { parse as parseYaml } from "yaml";
+import { allAgentSpecs, defaultPathContext, resolveSkillPath, type McpFormat } from "./agent-table.js";
 import { join, sep } from "node:path";
 import { PACKAGE_ROOT } from "../core/package-root.js";
 import {
   configureAgentMcp,
   parseAgent,
   SUMMER_MCP_SERVER_NAME,
+  topLevelKey,
   type StdioMcpServerConfig,
 } from "./agent-config.js";
 
@@ -299,34 +302,17 @@ export interface SkillMarkerCandidate {
 }
 
 export function defaultSkillMarkerCandidates(): SkillMarkerCandidate[] {
-  const home = homedir();
+  const ctx = defaultPathContext();
   const candidates: SkillMarkerCandidate[] = [
-    { agent: "claude-code", dir: join(home, ".claude", "skills") },
-    { agent: "codex", dir: join(home, ".agents", "skills") },
-    { agent: "summer", dir: join(home, ".summer", "skills") },
-    { agent: "cline", dir: join(home, "Documents", "Cline", "Rules") },
-    { agent: "roo-code", dir: join(home, "Documents", "Roo", "Rules") },
-    {
-      agent: "gemini",
-      dir: join(home, ".gemini", "extensions", "summer-engine", "skills"),
-    },
+    { agent: "summer", dir: join(ctx.home, ".summer", "skills") },
   ];
-
-  // OpenCode user-scope agent dir is OS-dependent.
-  if (platform() === "win32") {
-    const appData = process.env.APPDATA ?? join(home, "AppData", "Roaming");
-    candidates.push({
-      agent: "opencode",
-      dir: join(appData, "opencode", "agents", "summer"),
-    });
-  } else {
-    const xdg = process.env.XDG_CONFIG_HOME ?? join(home, ".config");
-    candidates.push({
-      agent: "opencode",
-      dir: join(xdg, "opencode", "agents", "summer"),
-    });
+  // Every agent with a user-scope skills home, from the one agent table.
+  // Devin Desktop's single rules file has no dir to mark; skip that kind.
+  for (const spec of allAgentSpecs()) {
+    const home = resolveSkillPath(spec, "user", ctx);
+    if (!home || home.kind === "windsurf-rule-file") continue;
+    candidates.push({ agent: spec.id, dir: home.path });
   }
-
   return candidates;
 }
 
@@ -524,14 +510,31 @@ export function isLocalDevServerConfig(server: StdioMcpServerConfig): boolean {
  *   json-copilot   {"mcpServers": {"summer-engine": {type, command, args}}}
  *   json-vscode    {"servers":    {"summer-engine": {type, command, args}}}
  *   json-opencode  {"mcp":        {"summer-engine": {type, command: [cmd, ...args]}}}
+ *   json-zed       {"context_servers": {"summer-engine": {source, command, args}}}
+ *   yaml-goose     extensions: summer-engine: {cmd, args}
+ *   yaml-hermes    mcp_servers: summer-engine: {command, args}
  *   toml (codex)   [mcp_servers.summer-engine]\ncommand = "…"\nargs = ["…", …]
  * Returns null when the file is missing, unparsable, or has no Summer entry.
  */
 export function readRecordedMcpServer(
   text: string,
-  format: "json" | "toml" | "json-opencode" | "json-copilot" | "json-vscode"
+  format: McpFormat
 ): StdioMcpServerConfig | null {
   if (!text.trim()) return null;
+  if (format === "toml-array") {
+    const block = text.match(
+      new RegExp(`^\\[\\[mcp_servers\\]\\]\\s*$([\\s\\S]*?)(?=^\\[|(?![\\s\\S]))`, "gm")
+    );
+    for (const candidate of block ?? []) {
+      if (!new RegExp(`^name\\s*=\\s*"${SUMMER_MCP_SERVER_NAME}"`, "m").test(candidate)) continue;
+      const command = candidate.match(/^command\s*=\s*"((?:[^"\\]|\\.)*)"/m)?.[1];
+      const argsText = candidate.match(/^args\s*=\s*\[([^\]]*)\]/m)?.[1] ?? "";
+      if (!command) return null;
+      const args = [...argsText.matchAll(/"((?:[^"\\]|\\.)*)"/g)].map((m) => m[1].replace(/\\(.)/g, "$1"));
+      return { command: command.replace(/\\(.)/g, "$1"), args };
+    }
+    return null;
+  }
   if (format === "toml") {
     const table = text.match(
       new RegExp(`^\\[mcp_servers\\.${SUMMER_MCP_SERVER_NAME.replace(/[-.]/g, "\\$&")}\\]\\s*$([\\s\\S]*?)(?=^\\[|(?![\\s\\S]))`, "m")
@@ -545,18 +548,25 @@ export function readRecordedMcpServer(
   }
   let parsed: unknown;
   try {
-    parsed = JSON.parse(text);
+    parsed = format === "yaml-goose" || format === "yaml-hermes" ? parseYaml(text) : JSON.parse(text);
   } catch {
     return null;
   }
   if (!parsed || typeof parsed !== "object") return null;
   const root = parsed as Record<string, unknown>;
-  for (const container of ["mcpServers", "servers", "mcp"]) {
+  // The format's own key first, then the other shapes (a user may have moved to a newer file layout).
+  const containers = [topLevelKey(format), "mcpServers", "servers", "mcp", "context_servers", "extensions", "mcp_servers", "amp.mcpServers"];
+  for (const container of [...new Set(containers)]) {
     const servers = root[container];
     if (!servers || typeof servers !== "object") continue;
     const entry = (servers as Record<string, unknown>)[SUMMER_MCP_SERVER_NAME];
     if (!entry || typeof entry !== "object") continue;
     const record = entry as Record<string, unknown>;
+    if (typeof record.cmd === "string") {
+      // Goose: { cmd, args }
+      const args = Array.isArray(record.args) ? record.args.filter((part): part is string => typeof part === "string") : [];
+      return { command: record.cmd, args };
+    }
     if (Array.isArray(record.command)) {
       const [command, ...args] = record.command.filter((part): part is string => typeof part === "string");
       return command ? { command, args } : null;

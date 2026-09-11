@@ -43,6 +43,27 @@ export const MANIFEST_TARGETS: Record<string, ManifestTarget[]> = {
   // OpenCode consumes the package as a JS module (.opencode/plugins/summer.js)
   // and auto-discovers skills from disk — no generated manifest today.
   opencode: [],
+  // Added with the 3.1 agent-coverage pass; all install-time (summer setup <id>), nothing generated.
+  amp: [],
+  antigravity: [],
+  "claude-desktop": [],
+  "copilot-jetbrains": [],
+  crush: [],
+  goose: [],
+  hermes: [],
+  junie: [],
+  "kimi-code": [],
+  kiro: [],
+  "qwen-code": [],
+  trae: [],
+  "visual-studio": [],
+  zed: [],
+  "cline-cli": [],
+  "grok-build": [],
+  "mistral-vibe": [],
+  qoder: [],
+  "rovo-dev": [],
+  warp: [],
 };
 
 export function allTargets(): ManifestTarget[] {

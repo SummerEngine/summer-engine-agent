@@ -1,13 +1,12 @@
-# Cline integration
+# Cline (VS Code) integration
 
-No manifest file is generated in this repo for Cline — `manifest-target.json`
+No manifest file is generated in this repo for Cline (VS Code) — `manifest-target.json`
 is intentionally empty. Support is delivered at install time by
-`summer setup cline`, which writes:
+`summer setup cline` (aliases: `cline-vscode`), which writes:
 
-- MCP config: Cline's VS Code global storage (extension
-  `saoudrizwan.claude-dev`). User scope only — Cline has no project-scoped MCP
-  config today; project requests fall back to user scope with a warning.
-- Skills: `summer skills install --agent cline` writes rule files to Cline's
-  user rules directory (user scope) or `./.clinerules` (project scope).
+- MCP config: `~/Library/Application Support/Code/User/globalStorage/saoudrizwan.claude-dev/settings/cline_mcp_settings.json`; Linux `~/.config/Code/User/globalStorage/saoudrizwan.claude-dev/settings/cline_mcp_settings.json`; Windows `%APPDATA%/Code/User/globalStorage/saoudrizwan.claude-dev/settings/cline_mcp_settings.json` (user); user scope only (project requests fall back with a warning).
+  Shape: `mcpServers.summer-engine = { command, args }`.
+- Skills: `~/.cline/skills` (user) or `.cline/skills` (project) as `<skill>/SKILL.md`.
+- After: Restart VS Code so Cline reloads its MCP config.
 
-Source of truth: `src/installer/agent-config.ts`, `src/cli/commands/skills.ts`.
+Source of truth: `src/installer/agent-table.ts` (one row per agent).

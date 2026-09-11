@@ -31,6 +31,7 @@ import {
 } from "../../installer/skill-locations.js";
 
 import { PACKAGE_ROOT } from "../../core/package-root.js";
+import { agentLabel as tableAgentLabel, agentSpec, defaultPathContext, legacyRuleFiles } from "../../installer/agent-table.js";
 import { TOOLKIT_VERSION as cliVersion } from "../../core/version.js";
 
 // Skill files live in library/skills/<slug>/ and are resolved through the
@@ -102,32 +103,7 @@ function orDie<T>(parse: () => T): T {
 }
 
 function agentLabel(agent: AgentClient): string {
-  switch (agent) {
-    case "claude-code":
-      return "Claude Code";
-    case "codex":
-      return "Codex";
-    case "cursor":
-      return "Cursor";
-    case "windsurf":
-      return "Devin Desktop (Windsurf)";
-    case "cline":
-      return "Cline";
-    case "roo-code":
-      return "Roo Code";
-    case "kilo-code":
-      return "Kilo Code";
-    case "gemini":
-      return "Gemini CLI";
-    case "github-copilot":
-      return "GitHub Copilot CLI";
-    case "vscode-copilot":
-      return "GitHub Copilot in VS Code";
-    case "opencode":
-      return "OpenCode";
-    case "summer":
-      return "Summer";
-  }
+  return agent === "summer" ? "Summer" : tableAgentLabel(agent);
 }
 
 function previewSkippedLine(count: number): string {
@@ -309,13 +285,10 @@ function printInstallSummary(
   const tildeified = tildeify(location.path);
   console.log(`\n${count} skill${count === 1 ? "" : "s"} ready for ${label} (${scope} scope).`);
 
+  const reloadHint = agent === "summer" ? undefined : agentSpec(agent).skills?.reloadHint;
   if (location.kind === "skill-dir") {
     console.log(`${label} can read skills from ${tildeified}/<skill>/SKILL.md`);
-    if (agent === "gemini") {
-      console.log(
-        "Gemini loads them as extension skills; run `summer setup gemini` once so the extension manifest exists, then restart Gemini CLI."
-      );
-    }
+    if (reloadHint) console.log(reloadHint);
   } else if (location.kind === "cursor-rule-dir") {
     console.log(`Cursor rules are in ${tildeified}/summer-<skill>.mdc`);
   } else if (location.kind === "cline-rule-dir") {
@@ -417,6 +390,17 @@ skillsCommand
     if (opts.force && !name && (location.kind === "skill-dir" || location.kind === "opencode-skill-dir")) {
       for (const pruned of pruneRetiredSkills(location.path, getSkillRegistry().map((entry) => entry.name))) {
         console.log(`  Removed ${pruned.name} -> ${pruned.path} (retired in 3.0.0)`);
+      }
+      // Agents that moved from generated rule files to SKILL.md skills in 3.1
+      // (Cursor, OpenCode): drop the rule files 3.0 wrote so the agent does not
+      // load both for the same slug. Only files with Summer's own naming go.
+      if (agent !== "summer" && !process.env.SUMMER_SKILLS_DIR) {
+        const legacy = legacyRuleFiles(agentSpec(agent), scope, defaultPathContext(), skills.map((skill) => skill.name)) ?? [];
+        for (const file of legacy) {
+          if (!existsSync(file)) continue;
+          rmSync(file, { force: true });
+          console.log(`  Removed ${tildeify(file)} (rule file from Summer 3.0; now a skill)`);
+        }
       }
     }
     if (name && skills[0]?.status === "preview") {

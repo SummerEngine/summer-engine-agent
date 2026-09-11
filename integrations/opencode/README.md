@@ -1,15 +1,12 @@
 # OpenCode integration
 
-Nothing is generated for OpenCode today. OpenCode consumes the npm package as
-a JavaScript module (`.opencode/plugins/summer.js`, wired via the package's
-`main` field). The plugin's `config` hook appends `<package>/library/skills`
-to `skills.paths` (OpenCode's `<dir>/<name>/SKILL.md` layout) and its
-`experimental.chat.messages.transform` hook prepends the Summer orientation to
-the first user message once per session. `summer setup opencode` writes the
-MCP entry to `opencode.json` (`type: "local"`, array `command`) and installs
-skills as markdown under `agents/summer/`. `manifest-target.json` is
-intentionally empty. Install steps: `.opencode/INSTALL.md`.
+No manifest file is generated in this repo for OpenCode — `manifest-target.json`
+is intentionally empty. Support is delivered at install time by
+`summer setup opencode` (aliases: `open-code`), which writes:
 
-If OpenCode grows a declarative manifest, add its builder to
-`scripts/generate-registry/manifests.ts` and its target to
-`scripts/generate-registry/targets.ts` (mirrored here).
+- MCP config: `~/.config/opencode/opencode.json`; Windows `%APPDATA%/opencode/opencode.json` (user); `opencode.json` (project).
+  Shape: `mcp.summer-engine = { type: "local", command: [npx, ...], enabled: true }`.
+- Skills: `~/.config/opencode/skills` (user) or `.opencode/skills` (project) as `<skill>/SKILL.md`. OpenCode loads skills from this folder on the next session. Summer 3.0 and earlier wrote markdown under agents/summer; `--force` removes those.
+- After: Restart OpenCode so it reloads opencode.json.
+
+Source of truth: `src/installer/agent-table.ts` (one row per agent).

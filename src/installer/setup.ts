@@ -7,6 +7,7 @@ import {
   type AgentClient,
 } from "../core/skills-registry.js";
 import { describeInstallLocation, resolveInstallLocation } from "./skill-locations.js";
+import { agentSpec } from "./agent-table.js";
 
 export interface SkillSetupResult {
   status: "installed" | "planned" | "skipped" | "failed";
@@ -74,11 +75,11 @@ export function setupSkills(
   agent: SupportedAgent,
   options: SkillSetupOptions
 ): SkillSetupResult {
-  if (agent === "lm-studio") {
+  const spec = agentSpec(agent);
+  if (!spec.skills) {
     return {
       status: "skipped",
-      message:
-        "LM Studio has no rules or skills folder. The MCP server ships summer_get_agent_playbook, so the model can pull Summer guidance in-chat.",
+      message: spec.noSkillsNote ?? `${spec.label} has no skills folder; the MCP server alone is configured.`,
     };
   }
 

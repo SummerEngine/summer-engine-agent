@@ -3,13 +3,21 @@
  *
  * Lives in the installer layer (not cli/) so `summer setup` can report the
  * destination and count without importing the CLI (import-direction contract
- * §2: shared layers never import cli or mcp).
+ * §2: shared layers never import cli or mcp). The per-agent paths come from
+ * the one agent table (agent-table.ts); only the `summer` pseudo-client is
+ * resolved here.
  */
 
 import { join } from "path";
-import { homedir, platform } from "os";
+import { homedir } from "os";
 import { AGENT_CLIENTS, type AgentClient } from "../core/skills-registry.js";
 import { tildeify } from "../core/format.js";
+import {
+  agentSpec,
+  defaultPathContext,
+  resolveSkillPath,
+  type SkillLocationKind,
+} from "./agent-table.js";
 
 export const SKILL_SCOPES = ["user", "project"] as const;
 export type SkillScope = (typeof SKILL_SCOPES)[number];
@@ -64,134 +72,41 @@ export function resolveSkillAgent(opts: SkillInstallSelection): AgentClient {
   return parseSkillAgent(opts.agent ?? legacyAgent ?? "summer");
 }
 
-/** Explicit --scope wins; otherwise project-rooted agents default to "project". */
+/** Explicit --scope wins; otherwise the agent's default (rule-file agents default to "project"). */
 export function resolveSkillScope(agent: AgentClient, opts: SkillInstallSelection): SkillScope {
   if (opts.scope) return parseSkillScope(opts.scope);
-  if (
-    agent === "cursor" ||
-    agent === "windsurf" ||
-    agent === "cline" ||
-    agent === "roo-code" ||
-    agent === "kilo-code"
-  ) {
-    return "project";
-  }
-  return "user";
+  if (agent === "summer") return "user";
+  return agentSpec(agent).skills?.defaultScope ?? "user";
 }
 
-export type InstallLocation =
-  | { kind: "skill-dir"; path: string }
-  | { kind: "cursor-rule-dir"; path: string }
-  | { kind: "windsurf-rule-file"; path: string }
-  | { kind: "cline-rule-dir"; path: string }
-  | { kind: "opencode-skill-dir"; path: string };
+export interface InstallLocation {
+  kind: SkillLocationKind;
+  path: string;
+}
 
 export function resolveInstallLocation(
   agent: AgentClient,
   scope: SkillScope
 ): InstallLocation {
   const overrideDir = process.env.SUMMER_SKILLS_DIR;
+
+  if (agent === "summer") {
+    const root = scope === "user" ? homedir() : process.cwd();
+    return { kind: "skill-dir", path: overrideDir ?? join(root, ".summer", "skills") };
+  }
+
+  const spec = agentSpec(agent);
+  const resolved = resolveSkillPath(spec, scope, defaultPathContext());
+  if (!resolved) {
+    throw new Error(`${spec.label} has no skills folder. ${spec.noSkillsNote ?? ""}`.trim());
+  }
   if (overrideDir) {
-    if (agent === "cursor") return { kind: "cursor-rule-dir", path: overrideDir };
-    if (agent === "windsurf") {
-      return { kind: "windsurf-rule-file", path: join(overrideDir, ".windsurfrules") };
-    }
-    if (agent === "cline" || agent === "roo-code" || agent === "kilo-code") {
-      return { kind: "cline-rule-dir", path: overrideDir };
-    }
-    if (agent === "gemini") {
-      return { kind: "skill-dir", path: overrideDir };
-    }
-    if (agent === "opencode") {
-      return { kind: "opencode-skill-dir", path: overrideDir };
-    }
-    return { kind: "skill-dir", path: overrideDir };
+    return {
+      kind: resolved.kind,
+      path: resolved.kind === "windsurf-rule-file" ? join(overrideDir, ".windsurfrules") : overrideDir,
+    };
   }
-
-  const root = scope === "user" ? homedir() : process.cwd();
-  switch (agent) {
-    case "codex":
-      return { kind: "skill-dir", path: join(root, ".agents", "skills") };
-    case "claude-code":
-      return { kind: "skill-dir", path: join(root, ".claude", "skills") };
-    case "cursor":
-      return { kind: "cursor-rule-dir", path: join(root, ".cursor", "rules") };
-    case "windsurf":
-      return { kind: "windsurf-rule-file", path: join(root, ".windsurfrules") };
-    case "cline":
-      return {
-        kind: "cline-rule-dir",
-        path:
-          scope === "user"
-            ? clineUserRulesDir()
-            : join(process.cwd(), ".clinerules"),
-      };
-    case "roo-code":
-      return {
-        kind: "cline-rule-dir",
-        path:
-          scope === "user"
-            ? rooCodeUserRulesDir()
-            : join(process.cwd(), ".clinerules"),
-      };
-    case "kilo-code":
-      return {
-        kind: "cline-rule-dir",
-        path:
-          scope === "user"
-            ? join(homedir(), ".kilocode", "rules")
-            : join(process.cwd(), ".kilocode", "rules"),
-      };
-    case "gemini":
-      // Gemini discovers extension skills from <extension>/skills/<name>/SKILL.md
-      // (geminicli.com/docs/extensions/reference), so copy the skill directories
-      // as-is. The extension dir itself is written by `summer setup gemini`.
-      return {
-        kind: "skill-dir",
-        path: join(homedir(), ".gemini", "extensions", "summer-engine", "skills"),
-      };
-    case "github-copilot":
-    case "vscode-copilot":
-      return {
-        kind: "skill-dir",
-        path:
-          scope === "user"
-            ? join(homedir(), ".copilot", "skills")
-            : join(process.cwd(), ".github", "skills"),
-      };
-    case "opencode":
-      return {
-        kind: "opencode-skill-dir",
-        path:
-          scope === "user"
-            ? opencodeUserAgentsDir()
-            : join(process.cwd(), ".opencode", "agents", "summer"),
-      };
-    case "summer":
-      return { kind: "skill-dir", path: join(root, ".summer", "skills") };
-  }
-}
-
-function clineUserRulesDir(): string {
-  // Cline reads global rules from the user's Documents/Cline/Rules folder.
-  return join(homedir(), "Documents", "Cline", "Rules");
-}
-
-function rooCodeUserRulesDir(): string {
-  // Roo Code reads global rules from the user's Documents/Roo/Rules folder.
-  return join(homedir(), "Documents", "Roo", "Rules");
-}
-
-function opencodeUserAgentsDir(): string {
-  // OpenCode's user-scope agent definition directory varies by OS.
-  // On Windows, OpenCode reads from %APPDATA%/opencode/agents/summer.
-  // On Linux/macOS, it reads from $XDG_CONFIG_HOME or ~/.config/opencode/agents/summer.
-  if (platform() === "win32") {
-    const appData = process.env.APPDATA ?? join(homedir(), "AppData", "Roaming");
-    return join(appData, "opencode", "agents", "summer");
-  }
-  const xdg = process.env.XDG_CONFIG_HOME ?? join(homedir(), ".config");
-  return join(xdg, "opencode", "agents", "summer");
+  return { kind: resolved.kind, path: resolved.path };
 }
 
 /** One-line, human path pattern for where an install location puts skills. */
