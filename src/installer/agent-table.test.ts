@@ -274,6 +274,17 @@ describe("config file shapes", () => {
     });
   });
 
+  it("yaml: a fresh file and the printed snippet are block-style, not a flow mapping", async () => {
+    const snippet = renderConfigSnippet("goose", { command: "npx", args: NPX_ARGS });
+    expect(snippet.startsWith("extensions:\n  summer-engine:\n")).toBe(true);
+    expect(snippet.startsWith("{")).toBe(false);
+    const dir = tmp();
+    const path = join(dir, "config.yaml");
+    await configureAgentMcp({ agent: "hermes", scope: "user", env: { SUMMER_HERMES_CONFIG_FILE: path } as NodeJS.ProcessEnv });
+    const text = readFileSync(path, "utf-8");
+    expect(text.startsWith("mcp_servers:\n  summer-engine:\n    command: npx\n")).toBe(true);
+  });
+
   it("yaml-goose: second run is a no-op", async () => {
     const dir = tmp();
     const path = join(dir, "config.yaml");
