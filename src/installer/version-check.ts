@@ -347,9 +347,36 @@ export interface RecordedInstall {
   source: "agent-config" | "running-cli";
 }
 
+export type RefreshChannel = "latest" | "next";
+
+/** The npm dist-tag a refresh command should name. A CLI that is AHEAD of
+ *  npm `latest` was installed from `next` (a soaking release); telling that
+ *  user to run `summer-engine@latest` would silently downgrade the MCP server
+ *  while leaving the newer skills in place (release review P1-3). */
+export function refreshChannel(installedVersion: string, latestVersion: string | undefined): RefreshChannel {
+  const installed = parseSemver(installedVersion);
+  const latest = latestVersion ? parseSemver(latestVersion) : null;
+  if (!installed || !latest) return "latest";
+  return classifyDrift(installed, latest).reason === "ahead" ? "next" : "latest";
+}
+
+/** Default `summer setup` channel when neither --channel nor SUMMER_CHANNEL is
+ *  given: `next` while this CLI is ahead of npm latest, else `latest`. Network
+ *  failure means `latest` (never blocks setup). */
+export async function resolveDefaultChannel(installedVersion: string): Promise<{ channel: RefreshChannel; note?: string }> {
+  const registry = await fetchLatestRegistryVersion();
+  if (!registry.ok) return { channel: "latest" };
+  const channel = refreshChannel(installedVersion, registry.version);
+  return channel === "next"
+    ? { channel, note: `This CLI (${installedVersion}) is ahead of npm latest (${registry.version}); the MCP entry is pinned to summer-engine@next so the agent keeps running this release. Pass --channel latest to override.` }
+    : { channel };
+}
+
 export interface SkillsVersionCheckInput {
   installedCliVersion: string;
   candidates: SkillMarkerCandidate[];
+  /** npm latest, when known, so the refresh command names the right dist-tag. */
+  latestRegistryVersion?: string;
   /** Resolves how the stale agent's MCP entry was recorded; defaults to
    *  detectRecordedInstall. Seam for tests. */
   recordedInstall?: (agent: string) => Promise<RecordedInstall | null> | RecordedInstall | null;
@@ -447,7 +474,7 @@ export async function buildSkillsVersionCheck(
       ...baseDetails,
       drift: worst.drift.reason,
       ...(install ? { install } : {}),
-      recommendedAction: skillsRefreshCommand(worst.agent, install),
+      recommendedAction: skillsRefreshCommand(worst.agent, install, refreshChannel(input.installedCliVersion, input.latestRegistryVersion)),
     },
   };
 }
@@ -471,11 +498,12 @@ async function resolveRecordedInstall(
  * (`setup --local-dev --force` re-copies the checkout's skills); the npx form
  * is for installs that already run the published package.
  */
-export function skillsRefreshCommand(agent: string, install: RecordedInstall | null): string {
+export function skillsRefreshCommand(agent: string, install: RecordedInstall | null, channel: RefreshChannel = "latest"): string {
   if (install?.localDev && install.cliPath) {
     return `node ${install.cliPath} setup ${agent} --local-dev --yes --force`;
   }
-  return `npx clear-npx-cache && npx -y summer-engine@latest setup ${agent} --yes --force`;
+  const tag = channel === "next" ? "next" : "latest";
+  return `npx clear-npx-cache && npx -y summer-engine@${tag} setup ${agent} --yes --force${channel === "next" ? " --channel next" : ""}`;
 }
 
 /** The shape `summer setup --local-dev` writes: `node <…>/dist/bin/summer.js mcp`

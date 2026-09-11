@@ -31,7 +31,7 @@ npx clear-npx-cache && npx -y summer-engine@latest setup <agent> --yes --force
    npm view summer-engine dist-tags        # expect: latest: 2.8.2, next: 3.0.0
    ```
 
-4. **Soak.** Dogfood with the real published tarball. The MCP entry has to point at `@next`, otherwise the agent runs 2.8.2's server with 3.0.0's skills:
+4. **Soak.** Dogfood with the real published tarball. The MCP entry has to point at `@next`, otherwise the agent runs 2.8.2's server with 3.0.0's skills. `summer setup` from a 3.0.0 CLI does this by default while 3.0.0 is ahead of npm `latest` (it prints a note; `--channel latest` overrides), and `summer doctor` recommends the matching `@next --channel next` refresh:
 
    ```bash
    npx clear-npx-cache

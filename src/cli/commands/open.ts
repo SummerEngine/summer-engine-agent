@@ -7,11 +7,13 @@ import { getAuthToken } from "../../core/auth.js";
 import { resolveGatewayUrl } from "../../core/config.js";
 import { EngineApiClient } from "../../core/api-client.js";
 import {
+  resolveTarget,
   runOpen,
   type OpenDeps,
   type OpenResult,
   type OpenSurface,
 } from "../../core/capabilities/navigation/open.js";
+import { getNavTarget } from "../../core/capabilities/navigation/targets.js";
 import { c, sym } from "../../core/format.js";
 
 /**
@@ -39,11 +41,32 @@ export interface OpenNavigationOptions {
   param?: string[];
 }
 
-/** Path-shaped (absolute, relative, home, Windows drive) or an existing directory. */
+/**
+ * Which branch does `summer open <arg>` take?
+ * - An exact product-map id or alias (`billing`, `inspector`) is ALWAYS a
+ *   navigation target, even if a directory of that name exists in cwd — use
+ *   `./billing` to open a project folder that happens to share a name.
+ * - `./x`, `../x`, `~/x`, `.`, `..`, Windows drive paths: project directory.
+ * - `/x`: a project directory when it exists on disk; otherwise a
+ *   summerengine.com path (`/pricing`) when the map knows it; otherwise the
+ *   project-directory branch, which reports "Directory not found".
+ * - Anything else: a project directory only when it exists as one.
+ */
 export function looksLikeProjectPath(arg: string): boolean {
-  if (/^(\/|\.\/|\.\.\/|~)/.test(arg) || /^[A-Za-z]:[\\/]/.test(arg) || arg === "." || arg === "..") return true;
+  const trimmed = arg.trim();
+  if (getNavTarget(trimmed.toLowerCase().replace(/\s+/g, "-"))) return false;
+  if (/^(\.\/|\.\.\/|~)/.test(trimmed) || /^[A-Za-z]:[\\/]/.test(trimmed) || trimmed === "." || trimmed === "..") return true;
+  if (trimmed.startsWith("/")) {
+    if (isDirectory(trimmed)) return true;
+    const resolution = resolveTarget(trimmed, {}, "web");
+    return !(resolution.kind === "target");
+  }
+  return isDirectory(trimmed);
+}
+
+function isDirectory(path: string): boolean {
   try {
-    return statSync(resolve(arg)).isDirectory();
+    return statSync(resolve(path)).isDirectory();
   } catch {
     return false;
   }
@@ -114,6 +137,11 @@ export function formatOpenResult(result: OpenResult): string {
       lines.push(`${sym.warn()} ${result.target?.title ?? result.target?.id} is not available on this Summer Engine build.`);
       if (result.hint) lines.push(`  ${result.hint}`);
       if (result.op) lines.push(`  would send: ${JSON.stringify(result.op)}`);
+      break;
+    case "open_failed":
+    case "blocked_origin":
+      lines.push(c.red(result.hint ?? result.action));
+      if (result.url) lines.push(`  ${result.url}`);
       break;
     case "engine_not_running":
       lines.push(c.red("Summer Engine is not running (or no project is open) — nothing was opened."));

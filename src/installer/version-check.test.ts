@@ -465,3 +465,19 @@ describe("buildBootDriftNotice", () => {
     expect(notice?.text).toContain("setup claude-code");
   });
 });
+
+describe("refresh channel follows where this CLI came from (release review P1-3)", () => {
+  it("a CLI ahead of npm latest refreshes from next; behind or equal refreshes from latest", async () => {
+    const { refreshChannel, skillsRefreshCommand } = await import("./version-check.js");
+    expect(refreshChannel("3.0.0", "2.8.2")).toBe("next");
+    expect(refreshChannel("2.8.2", "2.8.2")).toBe("latest");
+    expect(refreshChannel("2.8.0", "2.8.2")).toBe("latest");
+    expect(refreshChannel("3.0.0", undefined)).toBe("latest");
+    expect(skillsRefreshCommand("claude-code", null, "next")).toBe(
+      "npx clear-npx-cache && npx -y summer-engine@next setup claude-code --yes --force --channel next"
+    );
+    expect(skillsRefreshCommand("claude-code", null)).toBe(
+      "npx clear-npx-cache && npx -y summer-engine@latest setup claude-code --yes --force"
+    );
+  });
+});

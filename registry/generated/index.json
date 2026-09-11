@@ -1945,7 +1945,7 @@
       "id": "skill/navigate-summer",
       "kind": "skill",
       "version": "1.0.0",
-      "content_hash": "eec416519ba3c0aa6338a9f75a0287880f5d251d87335c6a4b6acd93229b1dc1",
+      "content_hash": "aec360ff8c87b41b565457a6464b1dfbee3a1e241d84e1fc67d9a93a42842d5e",
       "summary": "When to open a Summer web page or editor surface FOR the user (billing, their games, the scene just built) versus acting through the API, using summer_open.",
       "use_when": [
         "the user asks to see, check, or decide something — \"show me my billing\", \"where do I change my plan\", \"open my games\", \"let me look at the scene\", \"take me to the MCP guide for Cursor\"",
@@ -3178,7 +3178,7 @@
       "id": "skill/using-summer",
       "kind": "skill",
       "version": "1.0.4",
-      "content_hash": "a14fd976977d7cb4b806a5262988979f17a86129fe55375bd9696c67a4bb243c",
+      "content_hash": "4df2bb87e809a70e8cc165c27997e0060993444d054182ca654fa6380511752d",
       "summary": "Session bootstrap for Summer projects — establishes how to find and use Summer skills and the summer-engine MCP before any response.",
       "use_when": [
         "starting any conversation in a Summer Engine project",

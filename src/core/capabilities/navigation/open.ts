@@ -71,7 +71,9 @@ export type OpenAction =
   | "engine_not_running"
   | "engine_error"
   | "not_found"
-  | "invalid_params";
+  | "invalid_params"
+  | "open_failed"
+  | "blocked_origin";
 
 export interface OpenMatch {
   id: string;
@@ -136,6 +138,67 @@ export interface OpenDeps {
   isLoggedIn(): Promise<boolean>;
   gatewayUrl(): Promise<string>;
   docsOrigin?: string;
+}
+
+// ---------------------------------------------------------------------------
+// Safety rails
+// ---------------------------------------------------------------------------
+
+/** The only origins this tool ever opens a browser on: summerengine.com and its
+ *  subdomains, plus loopback for local web development. A configured gateway
+ *  (SUMMER_GATEWAY_URL / gateway.url) that points anywhere else is refused —
+ *  the API calls may go there, a browser launch never does. */
+export function isAllowedNavigationOrigin(origin: string): boolean {
+  let host: string;
+  try {
+    host = new URL(origin).hostname.toLowerCase();
+  } catch {
+    return false;
+  }
+  return (
+    host === "summerengine.com" ||
+    host.endsWith(".summerengine.com") ||
+    host === "localhost" ||
+    host === "127.0.0.1" ||
+    host === "[::1]" ||
+    host === "::1"
+  );
+}
+
+/** A project resource path the engine may be asked to open: `res://` plus a
+ *  plain relative path — no parent segments, no backslashes, no percent
+ *  escapes, nothing that could name a file outside the project. Returns the
+ *  problem, or null when the path is acceptable. */
+export function resPathProblem(value: string): string | null {
+  if (!value.startsWith("res://")) return `must start with res:// (got "${value}")`;
+  const rest = value.slice("res://".length);
+  if (rest.length === 0) return "must name a file or folder under res://";
+  if (rest.includes("\\")) return "must use forward slashes";
+  if (rest.includes("%")) return "must not contain percent escapes";
+  if (rest.startsWith("/")) return "must be relative to res:// (no leading slash)";
+  if (rest.split("/").some((segment) => segment === ".." || segment === ".")) return "must not contain . or .. segments";
+  if (/[\u0000-\u001f]/.test(rest)) return "must not contain control characters";
+  return null;
+}
+
+/** Launch the browser; a failed launch is a result, not a crash. */
+async function launch(deps: OpenDeps, url: string): Promise<string | null> {
+  try {
+    await deps.openUrl(url);
+    return null;
+  } catch (error) {
+    return error instanceof Error ? error.message : String(error);
+  }
+}
+
+function openFailed(url: string, error: string, extra: Partial<OpenResult> = {}): OpenResult {
+  return {
+    ok: false,
+    action: "open_failed",
+    url,
+    ...extra,
+    hint: `Could not launch a browser on this machine (${error}). Nothing opened — hand the user the url instead.`,
+  };
 }
 
 // ---------------------------------------------------------------------------
@@ -206,12 +269,34 @@ type Resolution =
   | { kind: "not_found"; matches: OpenMatch[]; hint: string };
 
 function resolveResourcePath(path: string, params: Record<string, string>): Resolution {
+  const problem = resPathProblem(path);
+  if (problem) {
+    return { kind: "not_found", matches: [], hint: `Refused resource path: ${problem}.` };
+  }
   const lower = path.toLowerCase();
   const id = lower.endsWith(".tscn") || lower.endsWith(".scn") ? "scene" : lower.endsWith(".gd") || lower.endsWith(".cs") ? "script" : "file";
   return { kind: "target", target: getNavTarget(id)!, params: { ...params, path } };
 }
 
+/** Redirect-style query params on an unmapped path must be relative same-origin
+ *  paths; a full URL there would turn the login page into an open redirect. */
+const REDIRECT_PARAMS = new Set(["returnurl", "redirect", "next", "callbackurl", "redirect_uri", "return_to"]);
+
+export function unsafeRedirectParam(pathWithQuery: string): string | null {
+  const q = pathWithQuery.indexOf("?");
+  if (q === -1) return null;
+  for (const [key, value] of new URLSearchParams(pathWithQuery.slice(q + 1))) {
+    if (!REDIRECT_PARAMS.has(key.toLowerCase())) continue;
+    if (!value.startsWith("/") || value.startsWith("//") || value.startsWith("/\\")) return key;
+  }
+  return null;
+}
+
 function resolveWebPath(path: string, params: Record<string, string>): Resolution {
+  const badParam = unsafeRedirectParam(path);
+  if (badParam) {
+    return { kind: "not_found", matches: [], hint: `Refused: query parameter "${badParam}" must be a relative summerengine.com path (it is used as a redirect target).` };
+  }
   const wanted = path.replace(/\/+$/, "") || "/";
   for (const target of NAV_TARGETS) {
     if (!target.web || target.web.origin !== "gateway") continue;
@@ -239,7 +324,7 @@ export function resolveTarget(rawTarget: string, params: Record<string, string>,
     return {
       kind: "not_found",
       matches,
-      hint: `No destination matches "${raw}". Run 'summer open --list' (or call summer_open with no target) to see every target, or pass a res:// path or a summerengine.com path.`,
+      hint: `No destination matches "${raw.length > 80 ? raw.slice(0, 77) + "..." : raw}". Run 'summer open --list' (or call summer_open with no target) to see every target, or pass a res:// path or a summerengine.com path.`,
     };
   }
   const [top, second] = matches;
@@ -305,8 +390,15 @@ export function renderWebPath(template: string, params: Record<string, string>, 
 
 function requireParams(meta: EditorTargetMeta, params: Record<string, string>): void {
   for (const param of meta.params ?? []) {
-    if (param.required && (params[param.name] === undefined || params[param.name] === "")) {
+    const value = params[param.name];
+    if (param.required && (value === undefined || value === "")) {
       throw new ParamError(`Missing required param: ${param.name}`);
+    }
+    // Resource paths are forwarded to the engine as-is; refuse anything that
+    // does not name a file under the project.
+    if ((param.name === "path" || param.name === "scene") && meta.id !== "assistant" && value !== undefined && value !== "") {
+      const problem = resPathProblem(value);
+      if (problem) throw new ParamError(`${param.name} ${problem}`);
     }
   }
 }
@@ -405,6 +497,13 @@ export async function runOpen(args: OpenArgs, deps: OpenDeps): Promise<OpenResul
   }
 
   const gateway = (await deps.gatewayUrl()).replace(/\/+$/, "");
+  if (!isAllowedNavigationOrigin(gateway) || !isAllowedNavigationOrigin(docsOrigin)) {
+    return {
+      ok: false,
+      action: "blocked_origin",
+      hint: `Refusing to open a browser on ${isAllowedNavigationOrigin(gateway) ? docsOrigin : gateway}: summer_open only opens summerengine.com, its subdomains, and loopback. Check gateway.url / SUMMER_GATEWAY_URL.`,
+    };
+  }
 
   // A full URL is accepted only on the two origins this tool ever opens; the
   // path is then resolved like a summerengine.com path.
@@ -420,7 +519,8 @@ export async function runOpen(args: OpenArgs, deps: OpenDeps): Promise<OpenResul
     if (parsed.origin === docsOrigin) {
       const url = `${docsOrigin}${parsed.pathname}${parsed.search}`;
       if (print) return { ok: true, action: "printed", url, unmapped: true };
-      await deps.openUrl(url);
+      const failure = await launch(deps, url);
+      if (failure) return openFailed(url, failure, { unmapped: true });
       return { ok: true, action: "opened", url, opened_url: url, unmapped: true };
     }
     if (!sameGateway) {
@@ -443,7 +543,7 @@ export async function runOpen(args: OpenArgs, deps: OpenDeps): Promise<OpenResul
       ok: false,
       action: "ambiguous",
       matches: resolution.matches,
-      hint: `"${args.target}" matches several destinations. Call again with one of the ids listed in matches.`,
+      hint: `"${args.target.length > 80 ? args.target.slice(0, 77) + "..." : args.target}" matches several destinations. Call again with one of the ids listed in matches.`,
     };
   }
   if (resolution.kind === "url") {
@@ -456,7 +556,8 @@ export async function runOpen(args: OpenArgs, deps: OpenDeps): Promise<OpenResul
       hint: "This path is not in the product map; it was opened on the Summer gateway origin as given.",
     };
     if (print) return base;
-    await deps.openUrl(url);
+    const failure = await launch(deps, url);
+    if (failure) return openFailed(url, failure, { unmapped: true });
     return { ...base, opened_url: url };
   }
 
@@ -489,7 +590,8 @@ export async function runOpen(args: OpenArgs, deps: OpenDeps): Promise<OpenResul
     };
     if (print) return result;
     const toOpen = needsLogin && loggedIn === false ? loginUrl! : url;
-    await deps.openUrl(toOpen);
+    const failure = await launch(deps, toOpen);
+    if (failure) return openFailed(toOpen, failure, { target: summary, ...(loginUrl ? { login_url: loginUrl } : {}), ...(loggedIn !== undefined ? { logged_in: loggedIn } : {}) });
     return {
       ...result,
       opened_url: toOpen,

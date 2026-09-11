@@ -4,7 +4,8 @@
     "summer-engine": {
       "command": "npx",
       "args": [
-        "summer-engine",
+        "-y",
+        "summer-engine@latest",
         "mcp"
       ]
     }
