@@ -45,15 +45,15 @@ Or download from [summerengine.com/download](https://summerengine.com/download).
 
 ## Where skills live per agent
 
-Each agent has its own home for skills (`<skill>/SKILL.md` unless noted). Agents with no skills folder (Claude Desktop, Copilot in Visual Studio and JetBrains, Trae, Junie, LM Studio) get the MCP server only and pull guidance in-chat via `summer_get_agent_playbook`.
+Skills install as `<skill>/SKILL.md`. Agents whose docs read the agentskills.io folder (`~/.agents/skills`, `.agents/skills`) share it, so one install covers Codex, Cursor, Zed, OpenCode, Copilot in VS Code, Devin Desktop, Amp, Crush, Warp, Kimi, Factory, Rovo Dev and Grok Build; the rest keep their own folder. Agents with no skills folder (Claude Desktop, Copilot in Visual Studio and JetBrains, Trae, Junie, LM Studio) get the MCP server only and pull guidance in-chat via `summer_get_agent_playbook`.
 
 | Agent | User scope | Project scope |
 |---|---|---|
 | `summer` | `~/.summer/skills` | `.summer/skills` |
 | `claude-code` | `~/.claude/skills` | `.claude/skills` |
 | `codex` | `~/.agents/skills` | `.agents/skills` |
-| `cursor` | `~/.cursor/skills` | `.cursor/skills` |
-| `windsurf` | `~/.codeium/windsurf/skills` | `.windsurf/skills` |
+| `cursor` | `~/.agents/skills` | `.agents/skills` |
+| `windsurf` | `~/.agents/skills` | `.agents/skills` |
 | `antigravity` | `~/.gemini/config/skills` | `.agents/skills` |
 | `gemini` (legacy) | `~/.gemini/extensions/summer-engine/skills` | n/a |
 | `cline` | `~/.cline/skills` | `.cline/skills` |
@@ -61,22 +61,22 @@ Each agent has its own home for skills (`<skill>/SKILL.md` unless noted). Agents
 | `roo-code` (legacy) | `~/Documents/Roo/Rules` (rule files `summer-<skill>.md`) | `.clinerules` |
 | `kilo-code` | `~/.kilo/skills` | `.kilo/skills` |
 | `github-copilot` | `~/.copilot/skills` | `.github/skills` |
-| `vscode-copilot` | `~/.copilot/skills` | `.github/skills` |
-| `opencode` | `~/.config/opencode/skills` | `.opencode/skills` |
+| `vscode-copilot` | `~/.agents/skills` | `.agents/skills` |
+| `opencode` | `~/.agents/skills` | `.agents/skills` |
 | `zed` | `~/.agents/skills` | `.agents/skills` |
 | `kiro` | `~/.kiro/skills` | `.kiro/skills` |
 | `goose` | `~/.config/agents/skills` | `.agents/skills` |
-| `hermes` | `~/.hermes/skills` | `.hermes/skills` |
+| `hermes` | `~/.hermes/skills` | `.agents/skills` |
 | `qwen-code` | `~/.qwen/skills` | `.qwen/skills` |
-| `kimi-code` | `~/.kimi-code/skills` | `.kimi-code/skills` |
-| `crush` | `~/.config/crush/skills` | `.crush/skills` |
-| `amp` | `~/.config/amp/skills` | `.agents/skills` |
-| `factory` | `~/.factory/skills` | `.factory/skills` |
-| `warp` | `~/.warp/skills` | `.warp/skills` |
-| `rovo-dev` | `~/.rovodev/skills` | `.rovodev/skills` |
+| `kimi-code` | `~/.agents/skills` | `.agents/skills` |
+| `crush` | `~/.agents/skills` | `.agents/skills` |
+| `amp` | `~/.agents/skills` | `.agents/skills` |
+| `factory` | `~/.agents/skills` | `.agents/skills` |
+| `warp` | `~/.agents/skills` | `.agents/skills` |
+| `rovo-dev` | `~/.agents/skills` | `.agents/skills` |
 | `qoder` | `~/.qoder/skills` | `.qoder/skills` |
-| `grok-build` | `~/.grok/skills` | `.grok/skills` |
-| `mistral-vibe` | `~/.vibe/skills` | `.vibe/skills` |
+| `grok-build` | `~/.agents/skills` | `.agents/skills` |
+| `mistral-vibe` | `~/.vibe/skills` | `.agents/skills` |
 
 Use `--scope project` when you want the skills committed with the game:
 

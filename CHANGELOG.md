@@ -2,6 +2,15 @@
 
 All notable changes to summer-engine will be documented here. Following [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and [Semantic Versioning](https://semver.org/).
 
+## [3.1.1] - 2026-09-11
+
+### Fixed
+- Skill descriptions no longer blow the hosts' skills context budget. Every SKILL.md description is now the skill's 160-character `summary` (94 skills: 13k characters, about 3.3k tokens, down from 32k characters). Codex had started truncating descriptions and Claude Code's budget is about 15k characters. Trigger phrases live in the skill body; `validate-library` fails when a description and its summary differ.
+- `summer setup goose` / `hermes` on an empty config wrote the file as one flow mapping; new files are block-style YAML.
+
+### Changed
+- Agents whose docs read the agentskills.io folder now install skills to `~/.agents/skills` (project: `.agents/skills`) instead of each agent's own folder: Codex, Cursor, Zed, OpenCode, Copilot in VS Code, Devin Desktop, Amp, Crush, Warp, Kimi Code, Factory Droid, Rovo Dev, Grok Build; Antigravity, Goose, Hermes and Mistral Vibe at project scope. One install serves all of them and "where are the skills" has one answer. `skills install --force` removes the copies 3.1.0 wrote in the old per-agent folders.
+
 ## [3.1.0] - 2026-09-11
 
 ### Added

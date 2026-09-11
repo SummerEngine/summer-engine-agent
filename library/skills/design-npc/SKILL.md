@@ -1,6 +1,6 @@
 ---
 name: design-npc
-description: Use when the user wants to design an enemy, NPC, boss, companion, civilian, or wave-spawned mob's behavior. Walks perception, personality knobs, intent layer, action state machine, telegraphs, defeat handling, and group emergence — outputs a state-machine GDScript stub plus the recommended node tree. Trigger on "enemy", "NPC", "boss", "companion", "AI", "behavior", "mob", "perception", "design enemy".
+description: "Design enemy/NPC/boss/companion behavior — perception, personality, intent, action state machine, telegraphs — outputs a GDScript stub plus node tree."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: ai-and-npcs

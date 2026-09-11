@@ -6,7 +6,7 @@ is intentionally empty. Support is delivered at install time by
 
 - MCP config: `~/.config/amp/settings.json`; Windows `%APPDATA%/amp/settings.json` (user); user scope only (project requests fall back with a warning).
   Shape: `"amp.mcpServers".summer-engine = { command, args }`.
-- Skills: `~/.config/amp/skills` (user) or `.agents/skills` (project) as `<skill>/SKILL.md`.
+- Skills: `~/.agents/skills` (user) or `.agents/skills` (project) as `<skill>/SKILL.md`.
 - After: Restart Amp so it reloads settings.json.
 
 Source of truth: `src/installer/agent-table.ts` (one row per agent).

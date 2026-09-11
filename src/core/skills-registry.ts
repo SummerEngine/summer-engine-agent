@@ -69,6 +69,8 @@ export interface SkillRegistryEntry {
   status: SkillStatus;
   /** Package-root-relative skill dir, e.g. "library/skills/3d-lighting/". */
   path: string;
+  /** facets.domains from resource.yaml; the first is the primary domain. Empty on old registries. */
+  domains: string[];
 }
 
 const packageRoot = PACKAGE_ROOT;
@@ -82,6 +84,7 @@ interface RawSkillEntry {
   recommended?: unknown;
   status?: unknown;
   path?: unknown;
+  domains?: unknown;
 }
 
 let cache: SkillRegistryEntry[] | null = null;
@@ -116,6 +119,7 @@ export function parseSkillRegistry(json: unknown): SkillRegistryEntry[] {
       recommended: s.recommended === true,
       status: s.status === "preview" || s.status === "deprecated" ? s.status : "stable",
       path: s.path as string,
+      domains: Array.isArray(s.domains) ? s.domains.filter((d): d is string => typeof d === "string") : [],
     }));
 }
 

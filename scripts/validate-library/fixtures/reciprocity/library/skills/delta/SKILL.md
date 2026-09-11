@@ -1,6 +1,6 @@
 ---
 name: delta
-description: Fixture.
+description: "Fixture skill in a reciprocated pair with gamma."
 ---
 
 # delta

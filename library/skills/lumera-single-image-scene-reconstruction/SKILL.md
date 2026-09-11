@@ -1,6 +1,6 @@
 ---
 name: lumera-single-image-scene-reconstruction
-description: "Use when building a Lumera-style single-image → editable-engine-scene pipeline in SummerEngine: VLM-parsed object boxes and parametric lights, per-object meshes, HDR environment probe, engine-native assembly, and a bounded dual-agent refinement loop."
+description: "Lumera-style single image to editable 3D scene — VLM-parsed object boxes and parametric lights, per-object meshes, HDR probe, .tscn assembly, refinement loop."
 license: MIT
 category: art-pipeline
 tags:

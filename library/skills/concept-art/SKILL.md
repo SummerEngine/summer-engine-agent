@@ -1,6 +1,6 @@
 ---
 name: concept-art
-description: Use when the user is exploring art direction — wants 3-4 rough variants of a character, environment, or prop to pick a vibe before committing to a final asset. Generates a batch of evocative concept images, not finals. Trigger on "concept art", "art direction", "explore the look", "give me some variants", "what could this character look like", "mood board", "rough sketches".
+description: "Explore art direction with 3-4 rough concept variants of a character, environment, or prop to pick a vibe before committing to a final asset."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: 2d-assets

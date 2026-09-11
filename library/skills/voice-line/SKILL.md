@@ -1,6 +1,6 @@
 ---
 name: voice-line
-description: Use when generating TTS voice lines — NPC barks, narrator, dialogue. Covers where voice ids come from, a character-to-voice decision tree, stability/style/similarity guidance, and the multi-line dialogue case via text_to_dialogue. Trigger on "make a voice line", "narrator", "NPC says", "voice for the merchant", "TTS line", "dialogue".
+description: "Generate TTS voice lines — NPC barks, narrator, dialogue — with voice-id sourcing, a character-to-voice decision tree, and multi-line dialogue support."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: audio

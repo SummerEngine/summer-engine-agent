@@ -1,6 +1,6 @@
 ---
 name: peer-to-peer-multiplayer
-description: Use when starting a multiplayer Summer game from scratch with peer-to-peer host authority. Build the network architecture top-down so authoritative state, routing rules, and real-time rendering are not bolted on later. Use before writing game logic, not after. Trigger on "multiplayer", "peer-to-peer", "p2p", "co-op", "host", "multiplayer architecture", "add multiplayer".
+description: "Start a multiplayer game from scratch with peer-to-peer host authority — network architecture built top-down, before writing game logic."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: multiplayer-and-networking

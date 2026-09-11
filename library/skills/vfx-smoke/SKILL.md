@@ -1,6 +1,6 @@
 ---
 name: vfx-smoke
-description: Use when authoring a smoke visual effect — a slow-rising column or puff of soft particles built with a noise + density falloff shader on a quad mesh, GPUParticles3D. Trigger on "smoke", "smoke trail", "puff", "chimney smoke", "smoke from a fire", "steam", "fog cloud", "explosion smoke".
+description: "Smoke effect — a slow-rising column or puff of soft particles built with a noise + density falloff shader on a quad mesh, GPUParticles3D."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: visual-effects

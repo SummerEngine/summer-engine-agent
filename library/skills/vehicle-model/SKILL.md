@@ -1,6 +1,6 @@
 ---
 name: vehicle-model
-description: Use when generating a hard-surface vehicle — car, motorcycle, spaceship, hover bike, boat, mech, tank, helicopter. Static mesh, optional secondary detail-texture pass, wired as Vehicle3D (player-driven) or MeshInstance3D (background). Trigger on "make a car", "spaceship model", "generate a mech", "I need a vehicle", "hover bike", "tank model", "racing car".
+description: "Generate a hard-surface vehicle — car, spaceship, mech, boat, tank — static mesh with optional detail-texture pass, wired as Vehicle3D or MeshInstance3D."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: 3d-assets

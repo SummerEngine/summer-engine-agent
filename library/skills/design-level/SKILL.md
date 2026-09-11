@@ -1,6 +1,6 @@
 ---
 name: design-level
-description: Use when designing a single level — layout, pacing, encounters, secrets, reward gating. Outputs a level design doc and a concrete node-tree skeleton for `summer_create_scene`. Trigger on "design a level", "design level 1", "tutorial level", "boss arena", "design the encounter", "make a level layout".
+description: "Design a single level — layout, pacing, encounters, secrets, reward gating — outputs a level design doc and a node-tree skeleton for summer_create_scene."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: level-design

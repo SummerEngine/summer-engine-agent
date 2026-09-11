@@ -1,6 +1,6 @@
 ---
 name: scene-hierarchy-design
-description: "Use when applying data-oriented hierarchy principles (from Sander Mertens' ECS hierarchies article) to structure Summer Engine scenes: split asset vs. live hierarchies, group by dominant access pattern, use sub-scenes for reuse, and keep logic path-agnostic via MCP scene tools."
+description: "Structure Summer Engine scenes by access pattern — asset vs live hierarchies, wrapper nodes per operation, sub-scenes for reuse, path-agnostic logic."
 license: MIT
 category: workflow
 tags:

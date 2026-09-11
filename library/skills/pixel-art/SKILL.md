@@ -1,6 +1,6 @@
 ---
 name: pixel-art
-description: Use when generating pixel-art assets — sprites, items, tiles, portraits in a pixel style at a specific resolution (32×32, 64×64, 128×128). Pixel-perfect grid, limited palette, retro feel. Trigger on "pixel art", "8-bit art", "16-bit sprite", "pixel sprite", "retro tileset", "pixel icon", "pixel portrait".
+description: "Generate pixel-art assets — sprites, items, tiles, portraits — at a specific resolution with pixel-perfect grid, limited palette, retro feel."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: 2d-assets

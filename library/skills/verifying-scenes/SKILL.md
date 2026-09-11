@@ -1,6 +1,6 @@
 ---
 name: verifying-scenes
-description: Use when verifying that scene work actually landed — after any mutation batch, asset import, lighting change, or during a playtest — and before claiming any visual or structural result. Runs the before/after discipline (summer_world_snapshot → mutate → summer_snapshot_diff + summer_screenshot), reads live runtime state with summer_get_runtime_tree / summer_inspect_runtime_node instead of stopping the game, and enforces honest-claim rules.
+description: "Prove scene work landed — snapshot before, diff + screenshot after (bookmarked viewpoint, labels), live runtime reads during playtests — then claim."
 ---
 
 # Verifying Scenes

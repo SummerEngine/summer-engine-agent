@@ -1,6 +1,6 @@
 ---
 name: spatial-placement
-description: Use when positioning or verifying 3D objects with surrounding-scene evidence — floor and shelf support, wall gaps, collider or mesh overlap, directional clearance, alcoves, rotated props, and post-placement checks. Trigger on "place", "position", "align", "sit on", "against the wall", "inside", "overlap", "clearance", "grounded", "flush", "spatial", "Starcast".
+description: "Place and verify 3D objects with Starcast evidence — inspect, place, starcast, correct, verify; floor, shelf, wall, alcove recipes and overlap repair."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: scene-and-project

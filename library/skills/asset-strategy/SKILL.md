@@ -1,6 +1,6 @@
 ---
 name: asset-strategy
-description: Use when planning asset creation, picking an asset pipeline, or routing an "I need a [thing]" request to the right specialist skill. Disambiguates between 2D / 3D / audio / video / VFX / animation pipelines and dispatches via the Skill tool. Trigger on "assets", "asset pipeline", "make a model", "I need a sound", "create concept art", "generate something", broad creative requests.
+description: "Route any 'I need a [thing]' asset request to the right specialist skill — disambiguates 2D / 3D / audio / video / VFX / animation pipelines."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: asset-pipeline

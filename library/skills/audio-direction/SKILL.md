@@ -1,6 +1,6 @@
 ---
 name: audio-direction
-description: Use when defining the sonic identity — music style, instruments, SFX vocabulary, dynamic music plan. Outputs an audio bible at `.summer/audio-bible.md`. Trigger on "audio direction", "audio bible", "music style", "sound design", "what should it sound like", "dynamic music".
+description: "Define the game's sonic identity — music style, instruments, SFX vocabulary, dynamic music plan — output as an audio bible at .summer/audio-bible.md."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: audio

@@ -1,6 +1,6 @@
 ---
 name: play
-description: Use when the user says "play", "run it", "test it", "let me see it", or "start the game". Runs the project in Summer Engine, briefly waits, then reports what's happening — clean run, errors, or warnings.
+description: "Run the project in Summer Engine, wait briefly, then report what's happening — clean run, errors, or warnings."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: scene-and-project

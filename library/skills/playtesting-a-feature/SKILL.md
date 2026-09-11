@@ -1,6 +1,6 @@
 ---
 name: playtesting-a-feature
-description: Use when about to claim a gameplay feature is done, shipped, or working — requires actually running the game and walking through the feature before declaring completion. Static diagnostics and type checks do not count as playtesting.
+description: "Before claiming a gameplay feature done: actually run the game and walk through the feature. Static diagnostics and type checks do not count."
 ---
 
 # Playtesting A Feature

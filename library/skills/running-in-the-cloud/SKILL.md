@@ -1,6 +1,6 @@
 ---
 name: running-in-the-cloud
-description: Use when Summer Engine runs in a cloud container, CI job, remote agent sandbox, or any Linux box with no desktop — installing the engine there, launching it headless, deciding when xvfb-run and software GL are required, and authenticating without a browser. Also use when a tool reports "engine not running" in an environment that has no display, or when SUMMER_ENGINE_BINARY / SUMMER_TOKEN come up.
+description: "Run Summer Engine on a Linux box with no display — install it, launch headless, know when xvfb + software GL are needed, authenticate without a browser."
 ---
 
 # Running in the Cloud

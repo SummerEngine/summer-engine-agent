@@ -31,7 +31,15 @@ import {
 } from "../../installer/skill-locations.js";
 
 import { PACKAGE_ROOT } from "../../core/package-root.js";
-import { agentLabel as tableAgentLabel, agentSpec, defaultPathContext, legacyRuleFiles } from "../../installer/agent-table.js";
+import {
+  agentLabel as tableAgentLabel,
+  agentSpec,
+  agentsSharingSkills,
+  defaultPathContext,
+  isSharedSkillsPath,
+  legacyRuleFiles,
+  legacySkillDirs,
+} from "../../installer/agent-table.js";
 import { TOOLKIT_VERSION as cliVersion } from "../../core/version.js";
 
 // Skill files live in library/skills/<slug>/ and are resolved through the
@@ -288,6 +296,14 @@ function printInstallSummary(
   const reloadHint = agent === "summer" ? undefined : agentSpec(agent).skills?.reloadHint;
   if (location.kind === "skill-dir") {
     console.log(`${label} can read skills from ${tildeified}/<skill>/SKILL.md`);
+    if (isSharedSkillsPath(location.path)) {
+      const others = agentsSharingSkills(scope, defaultPathContext())
+        .map((spec) => spec.label)
+        .filter((name) => name !== label);
+      if (others.length > 0) {
+        console.log(`This is the shared agentskills.io folder; ${others.join(", ")} read it too, so they are covered by this install.`);
+      }
+    }
     if (reloadHint) console.log(reloadHint);
   } else if (location.kind === "cursor-rule-dir") {
     console.log(`Cursor rules are in ${tildeified}/summer-<skill>.mdc`);
@@ -311,19 +327,33 @@ export const skillsCommand = new Command("skills")
 skillsCommand
   .command("list")
   .description("List available skills")
-  .action(() => {
+  .option("--by-domain", "Group skills by their primary domain (same grouping as library/skills/README.md)")
+  .action((opts: { byDomain?: boolean }) => {
     const skills = getBuiltinSkills();
     if (skills.length === 0) {
       console.log("No skills found.");
       return;
     }
-    console.log("Available public skills:\n");
-    for (const s of skills) {
+    const line = (s: SkillMeta) => {
       const badge = s.recommended ? "recommended" : "optional";
       const tag = s.status === "preview" ? "[preview] " : "";
-      console.log(
-        `  ${s.name.padEnd(24)} ${badge.padEnd(11)} ${tag}${s.description}`
-      );
+      return `  ${s.name.padEnd(24)} ${badge.padEnd(11)} ${tag}${s.description}`;
+    };
+    if (opts.byDomain) {
+      const groups = new Map<string, SkillMeta[]>();
+      for (const s of skills) {
+        const primary = s.domains[0] ?? "uncategorised";
+        groups.set(primary, [...(groups.get(primary) ?? []), s]);
+      }
+      console.log(`${skills.length} skills by primary domain (full index: library/skills/README.md):`);
+      for (const domain of [...groups.keys()].sort()) {
+        const group = groups.get(domain)!;
+        console.log(`\n${domain} (${group.length})`);
+        for (const s of group) console.log(line(s));
+      }
+    } else {
+      console.log("Available public skills:\n");
+      for (const s of skills) console.log(line(s));
     }
     const previewCount = skills.filter((s) => s.status === "preview").length;
     if (previewCount > 0) {
@@ -395,11 +425,20 @@ skillsCommand
       // (Cursor, OpenCode): drop the rule files 3.0 wrote so the agent does not
       // load both for the same slug. Only files with Summer's own naming go.
       if (agent !== "summer" && !process.env.SUMMER_SKILLS_DIR) {
-        const legacy = legacyRuleFiles(agentSpec(agent), scope, defaultPathContext(), skills.map((skill) => skill.name)) ?? [];
+        const names = skills.map((skill) => skill.name);
+        const legacy = legacyRuleFiles(agentSpec(agent), scope, defaultPathContext(), names) ?? [];
         for (const file of legacy) {
           if (!existsSync(file)) continue;
           rmSync(file, { force: true });
           console.log(`  Removed ${tildeify(file)} (rule file from Summer 3.0; now a skill)`);
+        }
+        // 3.1.0 wrote skills into each agent's own folder; agents that read
+        // the shared ~/.agents/skills now install there. Drop Summer's copies
+        // (dirs with a SKILL.md and a library name) from the old folder.
+        for (const dir of legacySkillDirs(agentSpec(agent), scope, defaultPathContext(), names) ?? []) {
+          if (!existsSync(join(dir, "SKILL.md"))) continue;
+          rmSync(dir, { recursive: true, force: true });
+          console.log(`  Removed ${tildeify(dir)} (moved to the shared skills folder)`);
         }
       }
     }

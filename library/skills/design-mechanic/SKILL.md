@@ -1,6 +1,6 @@
 ---
 name: design-mechanic
-description: Use when designing one specific game mechanic in detail — input, response, feedback, failure modes, depth, tunables. Outputs a design doc and a scaffolding-ready node-graph sketch + GDScript stub. Trigger on "design a mechanic", "how should X work", "design the parry", "design the dash", "design the inventory", "the loop is broken".
+description: "Design one game mechanic in detail — input, response, feedback, failure modes, depth, tunables — outputs a design doc, node-graph sketch, GDScript stub."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: gameplay-mechanics

@@ -1,6 +1,6 @@
 ---
 name: animation-tree
-description: Use when the user has clips on a character and needs them to play in response to gameplay — idle/walk/run blend, attacks that interrupt locomotion, hit reactions that override everything. Designs and wires Summer Engine AnimationTree state machines and blend trees. Trigger on "AnimationTree", "state machine", "blend tree", "transition", "play animation when", "character keeps T-posing", "wire animations".
+description: "Design and wire AnimationTree state machines and blend trees so clips respond to gameplay — locomotion blends, attack interrupts, hit reactions."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: animation

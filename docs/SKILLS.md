@@ -55,8 +55,13 @@ Supported agents: `summer`, `claude-code`, `codex`, `cursor`, `windsurf`, `antig
 ## Registry
 
 One source of truth: `library/skills/<slug>/` (`resource.yaml` + `SKILL.md`).
+The folder is flat by design (categories are `facets.domains`, see
+`docs/design/DECISIONS.md` D3); the human view is the generated
+[`library/skills/README.md`](../library/skills/README.md), one section per
+primary domain, and `summer skills list --by-domain` in the terminal.
 Everything else is compiled from it by `npm run generate:registry`:
 
+- `library/skills/README.md`: the browsable index above (`skills-index.md`).
 - `registry/generated/skills-registry.json`: what `summer skills list/install`
   and `summer setup` read (all agents, plugin and non-plugin).
 - `.claude-plugin/plugin.json` `skills:` (plus the `.codex-plugin/`,
@@ -78,6 +83,13 @@ guidance, and `--stable-only` skips it; `deprecated` installs only by name),
 `version`.
 
 ## Authoring rules
+
+- **The SKILL.md `description` is the resource `summary`, verbatim** (≤160 chars).
+  Hosts inject every installed skill's name and description into every
+  session; Codex truncates past its budget and Claude Code's budget is about
+  15k characters for all skills together. Ninety-plus skills only fit when
+  each description is one short line. Put trigger phrases and examples in the
+  skill body, not the description. `npm run validate:library` enforces the match.
 
 1. **Specialist skills:** narrow technical knowledge, auto-trigger via rich `description:`. Set `user-invocable: false`.
 2. **Workflow skills:** action-verb names (`/debug`, `/play`), open with one clarifying question, orchestrate specialists. Set `user-invocable: true`.

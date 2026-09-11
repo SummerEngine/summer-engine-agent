@@ -6,7 +6,7 @@ is intentionally empty. Support is delivered at install time by
 
 - MCP config: `~/.kimi-code/mcp.json`; Windows `%USERPROFILE%/.kimi-code/mcp.json` (user); `.kimi-code/mcp.json` (project).
   Shape: `mcpServers.summer-engine = { command, args }`.
-- Skills: `~/.kimi-code/skills` (user) or `.kimi-code/skills` (project) as `<skill>/SKILL.md`.
+- Skills: `~/.agents/skills` (user) or `.agents/skills` (project) as `<skill>/SKILL.md`.
 - After: Restart Kimi Code CLI so it reconnects its MCP servers.
 
 Source of truth: `src/installer/agent-table.ts` (one row per agent).

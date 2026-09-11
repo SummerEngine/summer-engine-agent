@@ -1,6 +1,6 @@
 ---
 name: skill-create
-description: Use when a contributor wants to add a new skill to the Summer library. Bootstraps the canonical folder (library/skills/<slug>/ with resource.yaml and SKILL.md), frontmatter, and stub sections. Trigger on "create skill", "add skill", "new skill", "skill-create".
+description: "Bootstrap a new Summer library skill (library/skills/<slug>/ with resource.yaml and SKILL.md), frontmatter, and stub sections."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: workflow

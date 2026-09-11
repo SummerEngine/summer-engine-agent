@@ -1,6 +1,6 @@
 ---
 name: instantiate-asset-pack
-description: Use when the user wants to import or spawn an entire asset pack (the multi-slice ArtAsset produced by `create-asset-sheet`) into the current scene — not a single slice, the whole pack. Reads the pack's per-slice metadata (zOrder, isComposite, parentSliceIndex, widget, bbox), groups composites, sorts children by paint order, and emits the Sprite2D / Node2D / NinePatchRect ops to lay it out correctly. Trigger on "import the X pack", "spawn the UI from pack Y", "bring in that asset sheet", "add the panel from the pack".
+description: "Import a whole create-asset-sheet pack into the scene: groups composites, sorts paint order, emits Sprite2D/Node2D/NinePatchRect ops to lay it out."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: 2d-assets

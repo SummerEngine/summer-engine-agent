@@ -1,6 +1,6 @@
 ---
 name: headless-scripting
-description: Use when a Summer project needs an operation no MCP tool exposes, such as baking a navmesh, generating collision shapes, authoring an Animation, building a TileSet, re-importing assets after file changes, or preparing a supported local export. Runs a GDScript file against Summer Engine from the shell. Also use when a plan involves "run it headless and screenshot it", which does not work and this skill explains why.
+description: "Run a GDScript file against Summer Engine from the shell for operations no MCP tool exposes — navmesh baking, collision shapes, TileSets, re-imports."
 ---
 
 # Headless Scripting

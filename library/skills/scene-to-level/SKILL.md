@@ -1,6 +1,6 @@
 ---
 name: scene-to-level
-description: Use when the user wants to go from a scene reference image or concept art to a playable Summer Engine scene populated with the right assets and terrain. Orchestrates concept, asset pack, terrain, composition, and scene assembly. Trigger on "build this scene", "make this playable", "I want a level that looks like this", "from a screenshot to a game", "implement this concept".
+description: "Go from a scene reference image or concept art to a playable scene — orchestrates concept, asset pack, terrain, composition, and scene assembly."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: level-design

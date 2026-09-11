@@ -60,6 +60,7 @@ describe("generateRegistry: catalog outputs", () => {
       "plugin.codex.json",
       "plugin.cursor.json",
       "plugin.factory.json",
+      "skills-index.md",
       "skills-registry.json",
       "templates-registry.json",
     ]);
@@ -178,6 +179,19 @@ describe("generateRegistry: catalog outputs", () => {
     });
   });
 
+  it("skills-index.md groups skills by primary domain with summary and secondary domains", () => {
+    const result = gen(basicRoot);
+    const md = result.files.get("skills-index.md")!;
+    expect(md.startsWith("# Summer skills\n")).toBe(true);
+    expect(md).toContain("> 2 skills, grouped by their primary domain.");
+    expect(md).toContain("## meta");
+    expect(md).toMatch(/\| \[alpha-skill\]\(\.\/alpha-skill\/SKILL\.md\) ★ \| .+ \| verification \|/);
+    // beta is preview: italicised, marked, no star.
+    expect(md).toContain("## meta");
+    expect(md).toMatch(/\| \[\*beta-skill\*\]\(\.\/beta-skill\/SKILL\.md\) \(preview\) \| .+ \| verification \|/);
+    expect(md.endsWith("\n")).toBe(true);
+  });
+
   it("skills-registry.json uses SKILL.md frontmatter with slug/summary fallbacks", () => {
     const result = gen(basicRoot);
     const reg = parse(result.files, "skills-registry.json");
@@ -185,11 +199,12 @@ describe("generateRegistry: catalog outputs", () => {
       {
         id: "skill/alpha-skill",
         name: "alpha-skill",
-        description: 'Use when testing the compiler frontmatter path. Trigger on "alpha".',
+        description: "Fixture skill with SKILL.md frontmatter.",
         clients: "all",
         recommended: true,
         status: "stable",
         path: "library/skills/alpha-skill/",
+        domains: ["meta", "verification"],
       },
       {
         id: "skill/beta-skill",
@@ -199,6 +214,7 @@ describe("generateRegistry: catalog outputs", () => {
         recommended: false,
         status: "preview",
         path: "library/skills/beta-skill/",
+        domains: ["meta", "verification"],
       },
     ]);
   });

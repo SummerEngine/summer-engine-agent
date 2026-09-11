@@ -1,6 +1,6 @@
 ---
 name: sprite-sheet
-description: Use when generating animated 2D character sprites laid out as a sprite sheet (grid of frames) — walk cycle, attack frames, idle bob, death sequence. Wires into AnimatedSprite2D / SpriteFrames. Trigger on "sprite sheet", "walk cycle", "attack frames", "animated sprite", "frame-by-frame animation", "2D character animation".
+description: "Generate animated 2D character sprites laid out as a sprite sheet — walk cycle, attack, idle, death — wired into AnimatedSprite2D / SpriteFrames."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: 2d-assets

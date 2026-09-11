@@ -1,6 +1,6 @@
 ---
 name: tileable-texture
-description: Use when generating a seamless tileable texture for walls, floors, terrain, ceilings — square tile that repeats cleanly on all four edges. Wires onto PlaneMesh / CSGBox3D / MeshInstance3D as a StandardMaterial3D albedo. Trigger on "tileable texture", "seamless texture", "wall texture", "floor texture", "ground texture", "terrain texture", "tiled material".
+description: "Generate a seamless tileable texture for walls, floors, or terrain — repeats cleanly on all four edges, wired as a StandardMaterial3D albedo."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: 2d-assets

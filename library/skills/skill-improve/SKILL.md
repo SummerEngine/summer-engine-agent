@@ -1,6 +1,6 @@
 ---
 name: skill-improve
-description: Use when a contributor wants to upgrade a Summer skill that is underperforming or to fix a regression — runs the skill against a behavioral spec with and without proposed changes via parallel-eval harness and ships the version that wins. Trigger on "improve skill", "iterate on skill", "make this skill better".
+description: "Upgrade an underperforming Summer skill — run it against a behavioral spec with and without changes via a parallel-eval harness; ship the winner."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: workflow
