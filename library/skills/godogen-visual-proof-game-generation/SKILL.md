@@ -1,6 +1,6 @@
 ---
 name: godogen-visual-proof-game-generation
-description: "Use when adopting Godogen's thin-runtime autonomous game generation and its 'proof over claims' visual QC loop for SummerEngine: capture frames from the running engine, let the host agent self-verify against the brief, and drive bounded fix iterations until a proof recording closes the run."
+description: "Godogen-style game generation with a visual QC loop — capture frames from the running game, self-verify against the brief, bounded fix rounds, proof clip."
 license: MIT
 category: workflow
 tags:

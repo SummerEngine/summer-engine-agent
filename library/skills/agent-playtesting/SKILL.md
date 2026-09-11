@@ -1,6 +1,6 @@
 ---
 name: agent-playtesting
-description: Use when proving a gameplay feature, reproducing a bug, or comparing two variants by driving the LIVE running game yourself — deterministic launch (seed, fixed_fps, offscreen instances), frame-stamped probes before and after every action, exact frame stepping, scripted or recorded input. The doctrine behind summer_game_probe, summer_game_input, summer_game_control and the summer_runtime_* tools.
+description: "Playtest by driving the LIVE game — deterministic launch, frame-stamped probes before/after each action, exact frame steps, scripted or recorded input."
 ---
 
 # Agent Playtesting

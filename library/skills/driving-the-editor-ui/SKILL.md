@@ -1,6 +1,6 @@
 ---
 name: driving-the-editor-ui
-description: Use when a task is an editor-workflow step a human would do with the mouse — open Project Settings or a dock, switch the 2D/3D/Script main screen, toggle a panel, clear a dialog that is blocking the editor, read what a dock shows — and when deciding whether a request is UI work or scene work. Drives the editor by NAME through summer_ui_actions, reads it as structure through summer_ui_tree, activates the long tail by path through summer_ui_activate, and treats summer_ui_screenshot as the pixels-last fallback. Preview — the ops ship with a follow-up engine build.
+description: "Drive the editor UI by name: invoke actions, clear blocking dialogs, switch the main screen, read a dock — and route scene work to the scene tools instead."
 ---
 
 # Driving the Editor UI

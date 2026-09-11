@@ -1,6 +1,6 @@
 ---
 name: trailer-shot
-description: Use when generating marketing or trailer footage — slow-mo combat, dramatic establishing shots, hero beats, splash screens, pitch-deck B-roll. Optimizes for maximum visual punch in 5-10 seconds. Trigger on "trailer", "marketing footage", "Steam capsule video", "splash screen", "hero shot", "pitch deck clip", "promo clip", "money shot", "B-roll".
+description: "Generate marketing or trailer footage — slow-mo combat, establishing shots, hero beats, splash screens, pitch-deck B-roll — max punch in 5-10 seconds."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: video

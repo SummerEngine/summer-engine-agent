@@ -1,6 +1,6 @@
 ---
 name: prop-model
-description: Use when generating a single static 3D prop — sword, barrel, chest, lantern, throne, statue, crate, key, potion, banner. One isolated object, no rigging, wired into the scene as a MeshInstance3D. Trigger on "make a sword", "generate a chest", "I need a barrel", "add a lantern model", "give me a treasure prop", "create a statue".
+description: "Generate a single static 3D prop — sword, barrel, chest, lantern, throne, statue — one isolated object, no rigging, wired as a MeshInstance3D."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: 3d-assets

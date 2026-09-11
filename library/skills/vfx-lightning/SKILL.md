@@ -1,6 +1,6 @@
 ---
 name: vfx-lightning
-description: Use when authoring a lightning bolt visual effect — procedural jagged path drawn via ImmediateMesh, glow shader, sparks at endpoints, screen shake. Trigger on "lightning bolt", "chain lightning", "electric attack", "tesla coil", "shock spell", "thunderbolt", "energy beam".
+description: "Lightning bolt effect — procedural jagged path drawn via ImmediateMesh, glow shader, sparks at endpoints, screen shake."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: visual-effects

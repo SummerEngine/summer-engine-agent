@@ -1,6 +1,6 @@
 ---
 name: vfx-hit-spark
-description: Use when authoring a hit-spark visual effect — a one-shot burst of additive billboard particles oriented to a surface normal, fired on impact. Trigger on "hit spark", "impact spark", "bullet hit", "sword clash", "metal-on-metal", "ricochet", "impact effect", "spawn sparks at hit point".
+description: "Hit-spark effect — a one-shot burst of additive billboard particles oriented to a surface normal, fired on impact."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: visual-effects

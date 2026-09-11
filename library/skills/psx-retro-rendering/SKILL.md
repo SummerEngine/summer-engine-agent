@@ -1,6 +1,6 @@
 ---
 name: psx-retro-rendering
-description: "Use when building or reviewing a hardware-informed PlayStation 1 rendering pipeline in Godot 4, including low-resolution output, RGB5 color and exact dithering, affine textures, screen-coordinate snapping, draw-order/depth approximation, vertex lighting, PS1 blend modes, and fog — when accuracy and the limits of each Godot approximation matter, not for a generic pixel-art filter."
+description: "Hardware-informed PlayStation 1 rendering in Godot 4 — low-res output, RGB5 and exact dither, affine textures, vertex snapping, blend modes, fog; limits named."
 license: MIT
 category: shaders
 tags:

@@ -1,6 +1,6 @@
 ---
 name: character-portrait
-description: Use when generating a single, polished bust/portrait of a character for dialogue UI, character-select screens, lore cards, or codex entries. One character, locked composition, VN-style. Trigger on "character portrait", "dialogue portrait", "VN portrait", "character bust", "headshot", "character select image", "lore card art".
+description: "Generate a single polished character bust for dialogue UI, character select, lore cards, or codex entries. One character, locked composition, VN-style."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: 2d-assets

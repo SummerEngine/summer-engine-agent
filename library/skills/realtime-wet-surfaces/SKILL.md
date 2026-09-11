@@ -1,6 +1,6 @@
 ---
 name: realtime-wet-surfaces
-description: "Use when adding real-time wetness to existing Godot 4 materials while preserving their parameter values, mapping Unity's Lit-preserving wet ShaderGraph swap onto a value-copying shader conversion with a geometry-driven wet mask and instance-uniform control."
+description: "Real-time wetness on existing Godot 4 materials without losing their values — value-copying wet shader, geometry-driven wet mask, instance-uniform wet amount."
 license: MIT
 category: shaders
 tags:

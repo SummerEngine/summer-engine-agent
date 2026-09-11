@@ -1,6 +1,6 @@
 ---
 name: auto-fire-targeting
-description: Use when designing or fixing the targeting system for an auto-fire weapon (survivors-genre, top-down ARPG, tower-defense). Covers the pending-damage pattern that prevents over-commit when bullet flight time is longer than fire rate. Trigger on "auto-fire", "auto-aim", "weapon targeting", "targeting", "wasted bullets", "overkill", "damage prediction", "survivors weapon".
+description: "Design or fix auto-fire weapon targeting (survivors, top-down ARPG, tower defense) — the pending-damage pattern that prevents over-commit and overkill."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: gameplay-mechanics

@@ -1,6 +1,6 @@
 ---
 name: retarget
-description: Use when the user wants to apply existing animation clips from one rigged character to a different rigged character — same library, multiple models, no regeneration. Trigger on "retarget", "reuse animation", "apply to other character", "same animations on different model", "share animation library".
+description: "Apply existing animation clips from one rigged character to a different rigged character — same library, multiple models, no regeneration."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: animation

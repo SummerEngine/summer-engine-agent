@@ -1,6 +1,6 @@
 ---
 name: create-asset-sheet
-description: Use when the user wants to generate a pack of 2D game assets from a single prompt — a tile sheet, UI kit, menu screen, character pack, or biome set. The skill plans the prompt, generates a coherent sheet, removes the background, vision-detects each item, classifies it, and saves as a single pack ArtAsset. Trigger on "asset sheet", "asset pack", "tile sheet", "tileset", "UI kit", "asset pack for", "make me a sheet of", "generate a bunch of <category> assets".
+description: "Generate a pack of 2D game assets from one prompt — tile sheet, UI kit, character pack, or biome set — sliced, classified, and saved as one pack ArtAsset."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: 2d-assets

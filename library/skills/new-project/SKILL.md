@@ -1,6 +1,6 @@
 ---
 name: new-project
-description: Use when the user wants a fresh blank Summer Engine project — not from a template. Asks one question (project name) and runs `summer create empty <name>`. Trigger on "new project", "blank project", "empty project", "from scratch", "start fresh", "create new game", "blank canvas", "scaffold a project".
+description: "Create a fresh blank Summer Engine project — asks one question (project name) and runs summer create empty."
 license: MIT
 compatibility: [Cursor, Claude Code, Codex, Windsurf, Gemini, OpenCode]
 category: scene-and-project

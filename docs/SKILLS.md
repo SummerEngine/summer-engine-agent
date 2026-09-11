@@ -84,6 +84,13 @@ guidance, and `--stable-only` skips it; `deprecated` installs only by name),
 
 ## Authoring rules
 
+- **The SKILL.md `description` is the resource `summary`, verbatim** (≤160 chars).
+  Hosts inject every installed skill's name and description into every
+  session; Codex truncates past its budget and Claude Code's budget is about
+  15k characters for all skills together. Ninety-plus skills only fit when
+  each description is one short line. Put trigger phrases and examples in the
+  skill body, not the description. `npm run validate:library` enforces the match.
+
 1. **Specialist skills:** narrow technical knowledge, auto-trigger via rich `description:`. Set `user-invocable: false`.
 2. **Workflow skills:** action-verb names (`/debug`, `/play`), open with one clarifying question, orchestrate specialists. Set `user-invocable: true`.
 3. SKILL.md <= 500 lines. Push shared detail into `library/references/`.

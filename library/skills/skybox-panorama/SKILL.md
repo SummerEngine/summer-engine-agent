@@ -1,6 +1,6 @@
 ---
 name: skybox-panorama
-description: Use when generating a 360° panoramic sky image for use as a Sky resource (PanoramaSkyMaterial) in a 3D scene. Equirectangular projection, 2:1 aspect. Wires into WorldEnvironment.sky. Trigger on "skybox", "sky panorama", "360 background", "environment sky", "HDRI sky", "panoramic background", "panorama sky".
+description: "Generate a 360-degree equirectangular sky panorama and wire it as a PanoramaSkyMaterial Sky resource on WorldEnvironment in a 3D scene."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: 2d-assets

@@ -1,6 +1,6 @@
 ---
 name: cinematic-cutscene
-description: Use when generating a non-interactive cutscene clip — opening scene, story beat, character intro, ending. Locks the look with a reference image, image-to-videos a 5-10s shot, optionally adds TTS dialogue, and wires it as a VideoStreamPlayer that fades in/out. Trigger on "cutscene", "intro cinematic", "opening scene", "ending cinematic", "story beat video", "character intro video", "in-engine cinematic", "non-playable scene".
+description: "Generate a non-interactive cutscene — reference-locked look, a 5-10s image-to-video shot, optional TTS dialogue — wired as a fading VideoStreamPlayer."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: video

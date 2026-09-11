@@ -1,6 +1,6 @@
 ---
 name: 3d-lighting
-description: Use when setting up lighting in a Summer Engine 3D scene — adding lights, configuring WorldEnvironment, sky, or shadows. Covers DirectionalLight3D versus Omni versus Spot, shadow tuning, ambient and sky-driven lighting, and the current Summer rendering conventions. Trigger on "lighting", "shadows", "WorldEnvironment", "sun", "ambient", "sky", "light".
+description: "Set up 3D scene lighting — DirectionalLight3D vs Omni vs Spot, WorldEnvironment, sky, shadow tuning, ambient — per current Summer conventions."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: rendering-and-lighting

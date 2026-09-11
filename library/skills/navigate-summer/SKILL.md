@@ -1,6 +1,6 @@
 ---
 name: navigate-summer
-description: Use when the user wants to SEE, CHECK, or DECIDE something — "show me my billing", "where do I change my plan", "open my games", "let me look at the scene", "open the MCP guide for Cursor". Decides whether to open a Summer web page or editor surface for the user or to act through the API, and lands exactly there with summer_open.
+description: "When to open a Summer web page or editor surface FOR the user (billing, their games, the scene just built) versus acting through the API, using summer_open."
 license: MIT
 compatibility: [Cursor, Claude Code, Codex, Windsurf, Gemini, OpenCode, Factory, Copilot]
 category: _meta

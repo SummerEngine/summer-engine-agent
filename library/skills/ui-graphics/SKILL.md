@@ -1,6 +1,6 @@
 ---
 name: ui-graphics
-description: Use when generating UI elements — icons, buttons, panels, frames, HUD widgets, badges. Flat-design, transparent-background, game-UI style. Wires the result via TextureRect / NinePatchRect / AtlasTexture. Trigger on "UI icon", "button graphic", "HUD element", "panel frame", "menu background", "inventory slot", "ability icon", "badge".
+description: "Generate game-UI elements — icons, buttons, panels, frames, HUD widgets, badges — flat design, transparent background, wired via TextureRect/NinePatchRect."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: 2d-assets

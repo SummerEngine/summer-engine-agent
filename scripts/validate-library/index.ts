@@ -539,6 +539,17 @@ export function runValidation(rootDir: string, options?: { schemasDir?: string }
     } else if (name !== res.slug && !aliases.includes(name)) {
       errors.push(`library/${res.relDir}/SKILL.md: frontmatter name "${name}" does not match the slug "${res.slug}" and is not listed in aliases`);
     }
+    // (f) SKILL.md description == resource summary. Hosts inject every
+    // installed skill's description into every session and truncate past a
+    // budget (Codex; Claude Code's is about 15k characters for all skills), so
+    // the description must be the one short summary line, nothing longer.
+    const description = fm.description;
+    const summary = typeof res.data.summary === "string" ? res.data.summary.trim() : "";
+    if (typeof description !== "string" || description.trim() !== summary) {
+      errors.push(
+        `library/${res.relDir}/SKILL.md: frontmatter description must equal resource.yaml summary verbatim (hosts budget skill descriptions; put trigger phrases in the body). Expected: ${JSON.stringify(summary)}`
+      );
+    }
   }
 
   // --- Evidence media: in-repo files must exist, stay inside the resource dir, and be <=200KB ---

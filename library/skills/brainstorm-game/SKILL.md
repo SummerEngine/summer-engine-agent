@@ -1,6 +1,6 @@
 ---
 name: brainstorm-game
-description: Use when the user wants help deciding what game to make, scoping a new project, or turning a vague idea into a buildable plan. Walks through genre, scope, core loop, mechanics, and art direction, then writes a 1-page brief to `.summer/GameSoul.md`. Trigger on "brainstorm a game", "what should I make", "I want to make a game", "help me scope", "new game idea".
+description: "Turn a vague idea into a buildable plan — genre, scope, core loop, mechanics, art direction — written as a 1-page brief to .summer/GameSoul.md."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: scene-and-project

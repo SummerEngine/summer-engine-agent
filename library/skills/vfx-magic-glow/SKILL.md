@@ -1,6 +1,6 @@
 ---
 name: vfx-magic-glow
-description: Use when authoring a magic-glow visual effect — a pulsing OmniLight3D plus drifting additive motes plus optional emission shader on the source mesh. Trigger on "magic glow", "enchanted item", "soul gem", "pulsing aura", "rune glow", "magical orb", "summon circle glow", "fairy", "wisp".
+description: "Magic-glow effect — a pulsing OmniLight3D plus drifting additive motes plus optional emission shader on the source mesh."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: visual-effects

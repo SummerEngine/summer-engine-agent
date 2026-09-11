@@ -1,6 +1,6 @@
 ---
 name: character-animation-wiring
-description: Use when a rigged, animated character is in the scene (Meshy rig + generated clips, or an imported GLB) and needs to be wired end to end — inspect the clips and bones that actually arrived, build idle/walk/run locomotion with blend times, method-track footsteps and attack frames, still poses and head tracking, blend-shape facial keys, root motion. Trigger on "wire the character", "hook up the animations", "make it walk around", "the GLB has animations", "footstep events", "attack frame", "root motion", "character slides while walking".
+description: "Wire a rigged, animated character end to end — inspect real clips and bones, locomotion state machine, method-track events, poses, blend shapes, root motion."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: animation

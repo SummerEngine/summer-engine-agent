@@ -1,6 +1,6 @@
 ---
 name: debug
-description: Use when the user reports a bug, crash, error, or unexpected behavior in a Summer project, before making code or scene changes. Runs a disciplined script-errors, console, debugger, hypothesis, fix, and verify loop. Trigger on "debug", "crash", "error", "broken", "not working", "freezes", "wrong".
+description: "Disciplined bug/crash/error loop for Summer projects — script errors, console, debugger, hypothesis, fix, verify — before making code or scene changes."
 license: MIT
 compatibility: [Cursor, Claude Code, Codex, Windsurf, Gemini, OpenCode]
 category: debugging

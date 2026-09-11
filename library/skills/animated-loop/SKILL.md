@@ -1,6 +1,6 @@
 ---
 name: animated-loop
-description: Use when generating a short looping video clip — splash screen background, animated logo backdrop, idle title-screen footage, looping environment ambience. Output must loop seamlessly and is wired as a VideoStreamPlayer with autoplay and loop set true. Trigger on "looping background", "splash loop", "title screen video", "animated backdrop", "menu background loop", "ambient loop video", "looping clip", "seamless loop".
+description: "Generate a short seamlessly-looping video clip — splash background, animated logo backdrop, idle title-screen footage — wired as a looping VideoStreamPlayer."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: video

@@ -1,6 +1,6 @@
 ---
 name: debugging-game-feel
-description: Use when a gameplay feature works correctly but feels wrong — floaty jumps, mushy combat, sluggish camera, weightless impacts. Different from logical bug debugging; the bug is subjective and lives in tuning, timing, and feedback layers.
+description: "Debug features that work but feel wrong — floaty jumps, mushy combat, sluggish camera — subjective bugs living in tuning, timing, and feedback layers."
 ---
 
 # Debugging Game Feel

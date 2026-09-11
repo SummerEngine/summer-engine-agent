@@ -1,6 +1,6 @@
 ---
 name: using-summer
-description: Use when starting any conversation in a Summer Engine project — establishes how to find and use Summer skills and the summer-engine MCP, requiring Skill tool invocation before ANY response including clarifying questions.
+description: "Session bootstrap for Summer projects — establishes how to find and use Summer skills and the summer-engine MCP before any response."
 license: MIT
 compatibility: [Cursor, Claude Code, Codex, Windsurf, Gemini, OpenCode, Factory, Copilot]
 category: _meta

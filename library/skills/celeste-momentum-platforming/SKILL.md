@@ -1,6 +1,6 @@
 ---
 name: celeste-momentum-platforming
-description: "Use when building or tuning Celeste-style momentum-based precision platformer movement in SummerEngine (Godot 4): tuned gravity/fall, run acceleration, variable-height jumps with coyote time, dashes, wall jumps/slides, climb stamina, and pixel-scale corner correction, using the exact tuning constants extracted from Celeste's open-source Player class."
+description: "Celeste-style 2D precision platformer movement — momentum running, coyote time, variable jumps, dash, wall jump/slide, climb stamina, pixel corner correction."
 license: MIT
 category: game-feel
 tags:

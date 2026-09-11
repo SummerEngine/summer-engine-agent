@@ -1,6 +1,6 @@
 ---
 name: thin
-description: Fixture.
+description: "Too short."
 ---
 
 # thin

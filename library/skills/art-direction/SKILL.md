@@ -1,6 +1,6 @@
 ---
 name: art-direction
-description: Use when defining the visual style of the game — references, palette, mood, lighting plan, post-processing, do/don't list. Outputs an art bible at `.summer/art-bible.md`. Trigger on "art direction", "art bible", "visual style", "color palette", "what should it look like", "the look".
+description: "Define the game's visual style — references, palette, mood, lighting plan, post-processing, do/don't list — output as an art bible at .summer/art-bible.md."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: rendering-and-lighting

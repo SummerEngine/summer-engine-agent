@@ -1,6 +1,6 @@
 ---
 name: gdscript-patterns
-description: Use when writing or refactoring GDScript — type hints, signals, exports, onready, lifecycle methods (`_ready` vs `_process` vs `_physics_process`), `get_node` vs `$NodePath`, naming conventions. Trigger on "GDScript", "script", "signals", "exports", "onready", "_ready", "_process".
+description: "GDScript conventions — type hints, signals, exports, onready, lifecycle methods, get_node vs $NodePath, naming."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: scripting-patterns

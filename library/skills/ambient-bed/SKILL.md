@@ -1,6 +1,6 @@
 ---
 name: ambient-bed
-description: Use when generating a long looping location ambience — forest at dawn, dungeon air, city street, spaceship hum, cave drip. Non-melodic, low-energy, never draws attention. Wires as a looping AudioStreamPlayer on the Ambient bus with a marked seamless loop. Trigger on "ambient bed", "room tone", "background ambience", "forest ambience", "dungeon air", "make it sound like a cave".
+description: "Generate a long looping location ambience — forest, dungeon, city, spaceship, cave — a looping AudioStreamPlayer on the Ambient bus with a seamless loop."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: audio

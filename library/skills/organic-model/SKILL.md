@@ -1,6 +1,6 @@
 ---
 name: organic-model
-description: Use when generating organic shapes — trees, rocks, mushrooms, coral, bushes, alien plants, vines, crystals, fruit, bones. The "easy mode" of 3D generation; AI artifacts read as natural irregularity. Trigger on "make a tree", "generate rocks", "I need foliage", "mushroom prop", "alien plants", "fill the scene with shrubs", "scatter some boulders".
+description: "Generate organic 3D shapes — trees, rocks, mushrooms, coral, plants, vines, crystals — where AI artifacts read as natural irregularity."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: 3d-assets

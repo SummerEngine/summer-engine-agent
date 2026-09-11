@@ -1,6 +1,6 @@
 ---
 name: generate-motion
-description: Use when the user needs an animation clip on a rigged character — idle/walk/run/attack from the curated Meshy library. Picks the right curated motion, attaches the resulting clip to an AnimationPlayer. Trigger on "animation", "animate", "idle", "walk", "run", "attack animation", "motion", "mocap", "dance", "death animation".
+description: "Attach an animation clip to a rigged character from the curated Meshy motion library — idle, walk, run, attack — wired via AnimationPlayer."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: animation

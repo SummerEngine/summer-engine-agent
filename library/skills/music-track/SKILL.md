@@ -1,6 +1,6 @@
 ---
 name: music-track
-description: Use when generating a looped or cinematic music track. Loops are authored at >=30s with a marked loop point; cinematic tracks at >=60s linear. Trigger on "generate music", "make a calm track", "boss music", "title screen music", "main theme", "exploration loop", "combat track".
+description: "Generate a looped or cinematic music track — loops authored at >=30s with a marked loop point, cinematic tracks at >=60s linear."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: audio

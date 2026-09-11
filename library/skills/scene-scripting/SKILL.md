@@ -1,6 +1,6 @@
 ---
 name: scene-scripting
-description: Use when building or modifying a scene takes more than a couple of node/property calls — scattering instances, procedural meshes, booleans/lathe/sweep geometry, terrain, GridMap fills, lighting rigs, keyframe animation, shader FX, 2D levels (tilemaps, sprites, bodies, cameras, parallax), HUDs and Control trees, persisted signal wiring, attached scripts, prefabs, input actions/autoloads/main scene, or anything with computed placement. Runs one GDScript inside the live editor via summer_run_script instead of long CRUD chains, verifies with summer_snapshot_diff + summer_screenshot, and checks API names with summer_api_docs instead of guessing.
+description: "One GDScript in the live editor (summer_run_script) builds scenes, 2D levels, HUDs and gameplay wiring instead of CRUD chains; verify with diff + screenshot."
 ---
 
 # Scene Scripting

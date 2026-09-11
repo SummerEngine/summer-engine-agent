@@ -1,6 +1,6 @@
 ---
 name: world-building-3d
-description: Use when composing, placing, grounding, spacing, or validating 3D objects in Summer Engine scenes. Trigger on "world building", "place props", "snap to floor", "align objects", "distribute objects", "navigation reachability", or requests to make a 3D scene look deliberately arranged rather than roughly positioned.
+description: "Compose, ground, space, and validate 3D scenes with Summer's four bounded spatial tools — exact paths, one geometric decision at a time, verified."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: scene-and-project

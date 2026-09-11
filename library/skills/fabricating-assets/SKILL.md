@@ -1,6 +1,6 @@
 ---
 name: fabricating-assets
-description: Use when an asset needs Blender's mesh tooling rather than generation or a library download — a modular kit with exact dimensions and snapping, VFX meshes (shatter fragments, curve sweeps, LOD chains), or decimating/UV-unwrapping/baking a generated model — and you are about to write a bpy script for summer_fabricate_3d. Covers the route decision (fabricate vs generate vs import), the bpy rules that survive glTF export, the script -> import -> snapshot -> screenshot loop, every failure_reason and what to do about it, and the licensing shape (the user's own Blender, never bundled).
+description: "Fabricate meshes with a bpy script in the user's own Blender (summer_fabricate_3d) — kits with exact dimensions, VFX meshes, post-processing generated models."
 ---
 
 # Fabricating Assets

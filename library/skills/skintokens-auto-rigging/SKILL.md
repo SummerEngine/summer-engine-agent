@@ -1,6 +1,6 @@
 ---
 name: skintokens-auto-rigging
-description: "Use when auto-rigging a static GLB mesh offline with skin-tokens.cpp (LocalAI's C++/GGML port of VAST-AI SkinTokens/TokenRig) in SummerEngine's art pipeline: generate a skeleton and skin weights on CPU/Vulkan, then import the rigged GLB into Godot 4."
+description: "Offline auto-rigging with skin-tokens.cpp (GGML SkinTokens/TokenRig port) — skeleton and skin weights from a static GLB mesh on CPU/Vulkan, into Godot 4."
 license: MIT
 category: art-pipeline
 tags:
