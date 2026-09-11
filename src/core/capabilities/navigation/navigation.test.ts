@@ -408,3 +408,41 @@ describe("runOpen (editor, engine off)", () => {
     expect(engine).not.toHaveBeenCalled();
   });
 });
+
+describe("safety rails (release review 2026-09-11)", () => {
+  it("refuses to open a browser on a non-Summer gateway origin", async () => {
+    const { d, openUrl } = deps({ gatewayUrl: async () => "https://summerengine.com.evil.com" });
+    const res = await runOpen({ target: "billing" }, d);
+    expect(res).toMatchObject({ ok: false, action: "blocked_origin" });
+    expect(res.hint).toMatch(/evil/);
+    expect(openUrl).not.toHaveBeenCalled();
+    const local = await runOpen({ target: "pricing", open: false }, deps({ gatewayUrl: async () => "http://localhost:3000" }).d);
+    expect(local).toMatchObject({ ok: true, url: "http://localhost:3000/pricing" });
+  });
+
+  it("refuses resource paths that escape the project", async () => {
+    const { d, engine } = deps();
+    for (const bad of ["res://../../etc/passwd", "res://a/../b.tscn", "res://", "res:///abs.tscn", "res://x\\y.gd", "res://%2e%2e/x"]) {
+      const res = await runOpen({ target: bad, open: false }, d);
+      expect(res.action, bad).toBe("not_found");
+      expect(res.hint, bad).toMatch(/Refused resource path/);
+    }
+    const viaParam = await runOpen({ target: "scene", params: { path: "res://../main.tscn" }, open: false }, d);
+    expect(viaParam).toMatchObject({ ok: false, action: "invalid_params" });
+    const viaScene = await runOpen({ target: "node", params: { node: "Player", scene: "res://../x.tscn" }, open: false }, d);
+    expect(viaScene).toMatchObject({ ok: false, action: "invalid_params" });
+    expect(engine).not.toHaveBeenCalled();
+    const good = await runOpen({ target: "res://levels/one.tscn", open: false }, d);
+    expect(good.ok).toBe(true);
+  });
+
+  it("a failed browser launch is a structured result, not a thrown error", async () => {
+    const { d } = deps({ openUrl: async () => { throw new Error("spawn ENOENT open"); } });
+    const res = await runOpen({ target: "pricing" }, d);
+    expect(res).toMatchObject({ ok: false, action: "open_failed", url: `${GATEWAY}/pricing` });
+    expect(res.hint).toMatch(/ENOENT/);
+    const gated = await runOpen({ target: "billing" }, deps({ loggedIn: false, openUrl: async () => { throw new Error("no display"); } }).d);
+    expect(gated).toMatchObject({ ok: false, action: "open_failed", logged_in: false });
+    expect(gated.url).toMatch(/login\?returnUrl=/);
+  });
+});

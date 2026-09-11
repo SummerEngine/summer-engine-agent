@@ -34,7 +34,9 @@ function skillPaths(slugs: string[]): string[] {
  * from the generated root `.mcp.json`.
  */
 export function bundledMcpServer(): { command: string; args: string[] } {
-  return { command: "npx", args: ["summer-engine", "mcp"] };
+  // `-y` so a non-TTY host never hangs on npx's install prompt, `@latest` so a
+  // stale npx cache never serves an old server (README "Troubleshooting").
+  return { command: "npx", args: ["-y", "summer-engine@latest", "mcp"] };
 }
 
 function buildMcpJson(): string {

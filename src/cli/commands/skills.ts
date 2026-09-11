@@ -21,6 +21,7 @@ import {
 } from "../../core/skills-registry.js";
 import { tildeify } from "../../core/format.js";
 import { writeSkillMarker } from "../../installer/version-check.js";
+import { pruneRetiredSkills } from "../../installer/legacy-skills.js";
 import {
   resolveInstallLocation,
   resolveSkillAgent,
@@ -409,6 +410,14 @@ skillsCommand
       });
       // Keep this line's shape: setup tallies it (Installed|Updated|Generated <name> -> <path>).
       console.log(`  ${result.action} ${skill.name} -> ${result.path}`);
+    }
+    // Upgrades: with --force, remove the skills Summer installed in 2.8.x that
+    // v3 retired or renamed (summer-cloud, the un-prefixed vfx recipes, ...),
+    // so no host keeps a skill that points at removed tools.
+    if (opts.force && !name && (location.kind === "skill-dir" || location.kind === "opencode-skill-dir")) {
+      for (const pruned of pruneRetiredSkills(location.path, getSkillRegistry().map((entry) => entry.name))) {
+        console.log(`  Removed ${pruned.name} -> ${pruned.path} (retired in 3.0.0)`);
+      }
     }
     if (name && skills[0]?.status === "preview") {
       console.log(

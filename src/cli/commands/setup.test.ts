@@ -5,6 +5,13 @@ import { setupCommand } from "./setup.js";
 // `summer setup` always ends with a doctor pass (network + engine probes);
 // stub it so the command runs offline. `--print` already keeps the skills
 // step in dry-run mode, so nothing else touches the machine.
+// The default MCP channel consults npm latest; tests must not touch the network
+// and must not depend on whether this checkout is ahead of the published tag.
+vi.mock("../../installer/version-check.js", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("../../installer/version-check.js")>();
+  return { ...actual, resolveDefaultChannel: vi.fn(async () => ({ channel: "latest" })) };
+});
+
 vi.mock("../../core/capabilities/doctor.js", async (importOriginal) => {
   const actual = await importOriginal<typeof import("../../core/capabilities/doctor.js")>();
   return {

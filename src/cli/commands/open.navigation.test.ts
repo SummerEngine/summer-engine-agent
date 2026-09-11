@@ -155,3 +155,26 @@ describe("summer open — navigation results", () => {
     expect(text).toMatch(/Update Summer Engine/);
   });
 });
+
+describe("summer open — branch precedence (release review 2026-09-11)", () => {
+  it("a known web path is navigation, an unknown absolute path is a project path", () => {
+    expect(looksLikeProjectPath("/pricing")).toBe(false);
+    expect(looksLikeProjectPath("/studio?tab=billing")).toBe(false);
+    expect(looksLikeProjectPath("/nonexistent/dir")).toBe(true);
+    expect(looksLikeProjectPath(root)).toBe(true);
+  });
+
+  it("an exact map id wins over a same-named directory in cwd; ./name still means the directory", async () => {
+    const { mkdir } = await import("node:fs/promises");
+    const prev = process.cwd();
+    await mkdir(join(root, "billing"));
+    process.chdir(root);
+    try {
+      expect(looksLikeProjectPath("billing")).toBe(false);
+      expect(looksLikeProjectPath("./billing")).toBe(true);
+      expect(looksLikeProjectPath("somefolder")).toBe(false);
+    } finally {
+      process.chdir(prev);
+    }
+  });
+});

@@ -41,7 +41,9 @@ Never open a browser or switch the editor's tab as a side effect of building. Op
 - `action: "engine_not_running"` — nothing opened. Tell the user to start Summer Engine (`summer run <project>`) or open the project in the desktop app, then offer to retry. Do not fall back to editing files.
 - `action: "unsupported"` (`failure_reason: engine_lacks_op`) — this Summer Engine build cannot open that surface (it predates the `Navigate` op, or does not advertise that id). Say so plainly, tell the user to update Summer Engine, and describe what to open by hand. Never claim it opened.
 - `action: "ambiguous"` — show the top matches by title and ask, or pick the obvious one and say which you picked.
-- `action: "not_found"` — the intent is not a Summer destination. Do not invent a URL; the tool only opens summerengine.com and docs.summerengine.com.
+- `action: "not_found"` — the intent is not a Summer destination (or a `res://` path tried to escape the project). Do not invent a URL; the tool only opens summerengine.com and its subdomains.
+- `action: "open_failed"` — this machine could not launch a browser (headless, no display). Nothing opened; paste the `url` for the user.
+- `action: "blocked_origin"` — the configured gateway is not a Summer origin; nothing opened. Tell the user to check `gateway.url` / `SUMMER_GATEWAY_URL`.
 
 ## When to hand over a link instead
 

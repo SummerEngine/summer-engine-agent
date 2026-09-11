@@ -139,7 +139,7 @@ Do NOT fall back to editing `.tscn` files directly. The engine reads them on dis
 If skills aren't found or the MCP server fails to start:
 
 1. Check whether `summer` is on PATH: `which summer` / `where summer`.
-2. If not, point them at: `npx -y summer-engine@latest setup <agent> --yes --force`.
+2. If not, point them at: `npx -y summer-engine@latest setup <agent> --yes --force` (use `@next` and `--channel next` while a release is soaking on the `next` tag; `summer doctor` prints the right command).
 3. If `summer doctor` is available, run it: `summer doctor` reports auth, engine, port, project memory, and skill state.
 
 ## When Summer Is Stale
@@ -150,7 +150,7 @@ Run `summer doctor` early in a fresh Summer session when setup, MCP tools, slash
 npx clear-npx-cache && npx -y summer-engine@latest setup <agent> --yes --force
 ```
 
-Use the real agent slug from doctor or the current environment (`claude-code`, `codex`, `cursor`, `gemini`, `github-copilot`, `vscode-copilot`, `opencode`, etc.).
+Use the dist-tag `summer doctor` recommends: `@latest` normally, `@next` (with `--channel next`) when this CLI was installed from the soaking release, otherwise the MCP server silently drops back to the older `latest`. Use the real agent slug from doctor or the current environment (`claude-code`, `codex`, `cursor`, `gemini`, `github-copilot`, `vscode-copilot`, `opencode`, etc.).
 
 Why this exact command matters:
 

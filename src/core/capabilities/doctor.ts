@@ -125,10 +125,12 @@ async function checkCliVersionCurrent(): Promise<DoctorCheck> {
  *  recorded by `summer setup`: a `--local-dev` link gets the local-dev form
  *  so the fix does not replace the checkout with the published package. */
 async function checkSkillsVersion(): Promise<DoctorCheck> {
+  const registry = await fetchLatestRegistryVersion();
   const result = await buildSkillsVersionCheck({
     installedCliVersion: version,
     candidates: defaultSkillMarkerCandidates(),
     recordedInstall: detectRecordedInstall,
+    ...(registry.ok ? { latestRegistryVersion: registry.version } : {}),
   });
   return {
     id: "skills-version-stale",

@@ -285,7 +285,7 @@ describe("generateRegistry: manifests (golden shapes)", () => {
     expect(gemini.contextFileName).toBe("GEMINI.md");
     expect((gemini.mcpServers as Record<string, unknown>)["summer-engine"]).toEqual({
       command: "npx",
-      args: ["summer-engine", "mcp"],
+      args: ["-y", "summer-engine@latest", "mcp"],
       cwd: "${extensionPath}",
     });
 

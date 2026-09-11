@@ -11,6 +11,7 @@ import { DoctorResult, printDoctorResult, runDoctor } from "../../core/capabilit
 import { brandLine, c, sym, tildeify } from "../../core/format.js";
 
 import { TOOLKIT_VERSION as cliVersion } from "../../core/version.js";
+import { resolveDefaultChannel } from "../../installer/version-check.js";
 
 const AGENT_LABEL: Record<SupportedAgent, string> = {
   "claude-code": "Claude Code",
@@ -78,14 +79,18 @@ export const setupCommand = new Command("setup")
     const agent = resolveAgentSelection(agentArg, opts.agent);
     const scope = resolveConfigScope(opts.scope);
 
+    const defaultChannel = await resolveDefaultChannel(cliVersion);
     const config = await configureAgentMcp({
       agent,
       scope,
       dryRun: opts.dryRun,
       print: opts.print,
       localDev: Boolean(opts.localDev) || process.env.SUMMER_DEV === "1",
-      channel: opts.channel ?? process.env.SUMMER_CHANNEL,
+      channel: opts.channel ?? process.env.SUMMER_CHANNEL ?? defaultChannel.channel,
     });
+    if (!opts.channel && !process.env.SUMMER_CHANNEL && defaultChannel.note && !opts.print) {
+      console.log(`  ${c.dim(defaultChannel.note)}`);
+    }
 
     const skills = setupSkills(agent, {
       dryRun: Boolean(opts.dryRun || opts.print),
