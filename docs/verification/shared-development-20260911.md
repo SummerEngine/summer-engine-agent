@@ -5,7 +5,7 @@
 - Fresh `origin/main`: `11cc6a32f261a868624d2ca24f69fd501fa6086c`.
 - PR #20 head: `7cdf3f4c97dd15e80842ab5d87d8df1acc2dfd7e`.
 - PR #20 lacked 273 commits reachable from main (including the v3 migration).
-- Integration branch: `codex/shared-development-20260911`. Source PR and main were not changed.
+- Shared integration branch: `develop` (renamed from `codex/develop` on 2026-09-11). Source PR and main were not changed.
 - Generation conflicts retain main's shared boolean `imageGenerationArgsSchema`, modern description, and MCP/CLI forwarding tests for omitted/true/false flags and string rejection.
 - Deleted v2 `src/commands/login.test.ts` stays deleted. Migrated `src/cli/commands/login.test.ts` already compares the persisted token with the original fixture, preserving PR #20's flake correction.
 - The resolved source tree is identical to fresh main. The merge records both histories; this report is the only extra file.
@@ -29,6 +29,6 @@ This is source/build/test evidence, not a staging deployment, desktop integratio
 
 ## Staging gateway selection
 
-`resolveGatewayUrl()` already supports `SUMMER_GATEWAY_URL` first, then `summer config set gateway.url https://<staging-host>`, then production. HTTPS is required except HTTP loopback. Login, generation, assets, polling, and feedback share the resolver. Prefer process-scoped `SUMMER_GATEWAY_URL` for a staging MCP process so the user's persistent configuration is preserved.
+`resolveGatewayUrl()` already supports `SUMMER_GATEWAY_URL` first, then `summer config set gateway.url https://summer-staging-git-develop-summerengine.vercel.app`, then production. HTTPS is required except HTTP loopback. Login, generation, assets, polling, and feedback share the resolver. Prefer process-scoped `SUMMER_GATEWAY_URL` for a staging MCP process so the user's persistent configuration is preserved.
 
 The token store is shared at `~/.summer`; gateway selection alone does not isolate credentials or downstream services. Supply a staging-specific `SUMMER_TOKEN` to the staging process and use an independently isolated staging backend. Creator publication has a separate `creator.apiUrl` setting and credential audience, so changing the gateway does not redirect publishing. No gateway or credential settings were changed in this verification.
