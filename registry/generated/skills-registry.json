@@ -8,7 +8,11 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/3d-lighting/"
+      "path": "library/skills/3d-lighting/",
+      "domains": [
+        "rendering",
+        "lighting"
+      ]
     },
     {
       "id": "skill/adaptive-music",
@@ -17,7 +21,11 @@
       "clients": "all",
       "recommended": false,
       "status": "stable",
-      "path": "library/skills/adaptive-music/"
+      "path": "library/skills/adaptive-music/",
+      "domains": [
+        "audio",
+        "gameplay"
+      ]
     },
     {
       "id": "skill/agent-playtesting",
@@ -26,7 +34,13 @@
       "clients": "all",
       "recommended": true,
       "status": "preview",
-      "path": "library/skills/agent-playtesting/"
+      "path": "library/skills/agent-playtesting/",
+      "domains": [
+        "runtime",
+        "playtest",
+        "verification",
+        "agent-workflow"
+      ]
     },
     {
       "id": "skill/ambient-bed",
@@ -35,7 +49,11 @@
       "clients": "all",
       "recommended": false,
       "status": "stable",
-      "path": "library/skills/ambient-bed/"
+      "path": "library/skills/ambient-bed/",
+      "domains": [
+        "audio",
+        "assets"
+      ]
     },
     {
       "id": "skill/animated-loop",
@@ -44,7 +62,11 @@
       "clients": "all",
       "recommended": false,
       "status": "stable",
-      "path": "library/skills/animated-loop/"
+      "path": "library/skills/animated-loop/",
+      "domains": [
+        "video",
+        "assets"
+      ]
     },
     {
       "id": "skill/animation-tree",
@@ -53,7 +75,11 @@
       "clients": "all",
       "recommended": false,
       "status": "stable",
-      "path": "library/skills/animation-tree/"
+      "path": "library/skills/animation-tree/",
+      "domains": [
+        "animation",
+        "3d"
+      ]
     },
     {
       "id": "skill/art-direction",
@@ -62,7 +88,11 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/art-direction/"
+      "path": "library/skills/art-direction/",
+      "domains": [
+        "rendering",
+        "lighting"
+      ]
     },
     {
       "id": "skill/asset-strategy",
@@ -71,7 +101,11 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/asset-strategy/"
+      "path": "library/skills/asset-strategy/",
+      "domains": [
+        "assets",
+        "pipeline"
+      ]
     },
     {
       "id": "skill/audio-direction",
@@ -80,7 +114,11 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/audio-direction/"
+      "path": "library/skills/audio-direction/",
+      "domains": [
+        "audio",
+        "game-design"
+      ]
     },
     {
       "id": "skill/auto-fire-targeting",
@@ -89,7 +127,11 @@
       "clients": "all",
       "recommended": false,
       "status": "stable",
-      "path": "library/skills/auto-fire-targeting/"
+      "path": "library/skills/auto-fire-targeting/",
+      "domains": [
+        "gameplay",
+        "game-design"
+      ]
     },
     {
       "id": "skill/brainstorm-game",
@@ -98,7 +140,11 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/brainstorm-game/"
+      "path": "library/skills/brainstorm-game/",
+      "domains": [
+        "scenes",
+        "project"
+      ]
     },
     {
       "id": "skill/brainstorming",
@@ -107,7 +153,11 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/brainstorming/"
+      "path": "library/skills/brainstorming/",
+      "domains": [
+        "agent-workflow",
+        "game-design"
+      ]
     },
     {
       "id": "skill/browse-templates",
@@ -116,7 +166,11 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/browse-templates/"
+      "path": "library/skills/browse-templates/",
+      "domains": [
+        "scenes",
+        "project"
+      ]
     },
     {
       "id": "skill/celeste-momentum-platforming",
@@ -125,7 +179,12 @@
       "clients": "all",
       "recommended": false,
       "status": "preview",
-      "path": "library/skills/celeste-momentum-platforming/"
+      "path": "library/skills/celeste-momentum-platforming/",
+      "domains": [
+        "gameplay",
+        "character-controller",
+        "game-design"
+      ]
     },
     {
       "id": "skill/character-animation-wiring",
@@ -134,7 +193,11 @@
       "clients": "all",
       "recommended": false,
       "status": "stable",
-      "path": "library/skills/character-animation-wiring/"
+      "path": "library/skills/character-animation-wiring/",
+      "domains": [
+        "animation",
+        "3d"
+      ]
     },
     {
       "id": "skill/character-model",
@@ -143,7 +206,11 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/character-model/"
+      "path": "library/skills/character-model/",
+      "domains": [
+        "3d",
+        "assets"
+      ]
     },
     {
       "id": "skill/character-portrait",
@@ -152,7 +219,11 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/character-portrait/"
+      "path": "library/skills/character-portrait/",
+      "domains": [
+        "2d",
+        "assets"
+      ]
     },
     {
       "id": "skill/cinematic-cutscene",
@@ -161,7 +232,11 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/cinematic-cutscene/"
+      "path": "library/skills/cinematic-cutscene/",
+      "domains": [
+        "video",
+        "assets"
+      ]
     },
     {
       "id": "skill/concept-art",
@@ -170,7 +245,11 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/concept-art/"
+      "path": "library/skills/concept-art/",
+      "domains": [
+        "2d",
+        "assets"
+      ]
     },
     {
       "id": "skill/create-asset-sheet",
@@ -179,7 +258,11 @@
       "clients": "all",
       "recommended": false,
       "status": "stable",
-      "path": "library/skills/create-asset-sheet/"
+      "path": "library/skills/create-asset-sheet/",
+      "domains": [
+        "2d",
+        "assets"
+      ]
     },
     {
       "id": "skill/debug",
@@ -188,7 +271,11 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/debug/"
+      "path": "library/skills/debug/",
+      "domains": [
+        "debug",
+        "verification"
+      ]
     },
     {
       "id": "skill/debugging-game-feel",
@@ -197,7 +284,11 @@
       "clients": "all",
       "recommended": false,
       "status": "stable",
-      "path": "library/skills/debugging-game-feel/"
+      "path": "library/skills/debugging-game-feel/",
+      "domains": [
+        "agent-workflow",
+        "gameplay"
+      ]
     },
     {
       "id": "skill/design-level",
@@ -206,7 +297,11 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/design-level/"
+      "path": "library/skills/design-level/",
+      "domains": [
+        "level-design",
+        "game-design"
+      ]
     },
     {
       "id": "skill/design-mechanic",
@@ -215,7 +310,11 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/design-mechanic/"
+      "path": "library/skills/design-mechanic/",
+      "domains": [
+        "gameplay",
+        "game-design"
+      ]
     },
     {
       "id": "skill/design-npc",
@@ -224,7 +323,11 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/design-npc/"
+      "path": "library/skills/design-npc/",
+      "domains": [
+        "ai",
+        "npc"
+      ]
     },
     {
       "id": "skill/diagnosing-perf-regressions",
@@ -233,7 +336,11 @@
       "clients": "all",
       "recommended": false,
       "status": "stable",
-      "path": "library/skills/diagnosing-perf-regressions/"
+      "path": "library/skills/diagnosing-perf-regressions/",
+      "domains": [
+        "agent-workflow",
+        "performance"
+      ]
     },
     {
       "id": "skill/dispatching-parallel-agents",
@@ -242,7 +349,11 @@
       "clients": "all",
       "recommended": false,
       "status": "stable",
-      "path": "library/skills/dispatching-parallel-agents/"
+      "path": "library/skills/dispatching-parallel-agents/",
+      "domains": [
+        "agent-workflow",
+        "meta"
+      ]
     },
     {
       "id": "skill/driving-the-editor-ui",
@@ -251,7 +362,12 @@
       "clients": "all",
       "recommended": false,
       "status": "preview",
-      "path": "library/skills/driving-the-editor-ui/"
+      "path": "library/skills/driving-the-editor-ui/",
+      "domains": [
+        "editor",
+        "agent-workflow",
+        "verification"
+      ]
     },
     {
       "id": "skill/environment-kit",
@@ -260,7 +376,11 @@
       "clients": "all",
       "recommended": false,
       "status": "stable",
-      "path": "library/skills/environment-kit/"
+      "path": "library/skills/environment-kit/",
+      "domains": [
+        "3d",
+        "assets"
+      ]
     },
     {
       "id": "skill/export-and-ship",
@@ -269,7 +389,11 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/export-and-ship/"
+      "path": "library/skills/export-and-ship/",
+      "domains": [
+        "deployment",
+        "project"
+      ]
     },
     {
       "id": "skill/fabricating-assets",
@@ -278,7 +402,13 @@
       "clients": "all",
       "recommended": false,
       "status": "preview",
-      "path": "library/skills/fabricating-assets/"
+      "path": "library/skills/fabricating-assets/",
+      "domains": [
+        "3d",
+        "assets",
+        "scripting",
+        "agent-workflow"
+      ]
     },
     {
       "id": "skill/facial-and-lipsync",
@@ -287,7 +417,11 @@
       "clients": "all",
       "recommended": false,
       "status": "stable",
-      "path": "library/skills/facial-and-lipsync/"
+      "path": "library/skills/facial-and-lipsync/",
+      "domains": [
+        "animation",
+        "3d"
+      ]
     },
     {
       "id": "skill/fps-controller",
@@ -296,7 +430,11 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/fps-controller/"
+      "path": "library/skills/fps-controller/",
+      "domains": [
+        "character-controller",
+        "gameplay"
+      ]
     },
     {
       "id": "skill/game-feel",
@@ -305,7 +443,11 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/game-feel/"
+      "path": "library/skills/game-feel/",
+      "domains": [
+        "vfx",
+        "gameplay"
+      ]
     },
     {
       "id": "skill/gameskill",
@@ -314,7 +456,11 @@
       "clients": "all",
       "recommended": false,
       "status": "stable",
-      "path": "library/skills/gameskill/"
+      "path": "library/skills/gameskill/",
+      "domains": [
+        "agent-workflow",
+        "meta"
+      ]
     },
     {
       "id": "skill/gdscript-patterns",
@@ -323,7 +469,11 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/gdscript-patterns/"
+      "path": "library/skills/gdscript-patterns/",
+      "domains": [
+        "scripting",
+        "conventions"
+      ]
     },
     {
       "id": "skill/generate-motion",
@@ -332,7 +482,11 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/generate-motion/"
+      "path": "library/skills/generate-motion/",
+      "domains": [
+        "animation",
+        "3d"
+      ]
     },
     {
       "id": "skill/godogen-visual-proof-game-generation",
@@ -341,7 +495,11 @@
       "clients": "all",
       "recommended": false,
       "status": "preview",
-      "path": "library/skills/godogen-visual-proof-game-generation/"
+      "path": "library/skills/godogen-visual-proof-game-generation/",
+      "domains": [
+        "agent-workflow",
+        "verification"
+      ]
     },
     {
       "id": "skill/headless-scripting",
@@ -350,7 +508,11 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/headless-scripting/"
+      "path": "library/skills/headless-scripting/",
+      "domains": [
+        "agent-workflow",
+        "headless"
+      ]
     },
     {
       "id": "skill/host-authoritative-state",
@@ -359,7 +521,11 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/host-authoritative-state/"
+      "path": "library/skills/host-authoritative-state/",
+      "domains": [
+        "multiplayer",
+        "game-design"
+      ]
     },
     {
       "id": "skill/instantiate-asset-pack",
@@ -368,7 +534,11 @@
       "clients": "all",
       "recommended": false,
       "status": "stable",
-      "path": "library/skills/instantiate-asset-pack/"
+      "path": "library/skills/instantiate-asset-pack/",
+      "domains": [
+        "2d",
+        "assets"
+      ]
     },
     {
       "id": "skill/investigating-bugs",
@@ -377,7 +547,11 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/investigating-bugs/"
+      "path": "library/skills/investigating-bugs/",
+      "domains": [
+        "agent-workflow",
+        "debug"
+      ]
     },
     {
       "id": "skill/lumera-single-image-scene-reconstruction",
@@ -386,7 +560,13 @@
       "clients": "all",
       "recommended": false,
       "status": "preview",
-      "path": "library/skills/lumera-single-image-scene-reconstruction/"
+      "path": "library/skills/lumera-single-image-scene-reconstruction/",
+      "domains": [
+        "assets",
+        "pipeline",
+        "3d",
+        "scenes"
+      ]
     },
     {
       "id": "skill/make-game",
@@ -395,7 +575,11 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/make-game/"
+      "path": "library/skills/make-game/",
+      "domains": [
+        "scenes",
+        "project"
+      ]
     },
     {
       "id": "skill/music-track",
@@ -404,7 +588,11 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/music-track/"
+      "path": "library/skills/music-track/",
+      "domains": [
+        "audio",
+        "assets"
+      ]
     },
     {
       "id": "skill/navigate-summer",
@@ -413,7 +601,12 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/navigate-summer/"
+      "path": "library/skills/navigate-summer/",
+      "domains": [
+        "navigation",
+        "agent-workflow",
+        "meta"
+      ]
     },
     {
       "id": "skill/new-project",
@@ -422,7 +615,11 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/new-project/"
+      "path": "library/skills/new-project/",
+      "domains": [
+        "scenes",
+        "project"
+      ]
     },
     {
       "id": "skill/organic-model",
@@ -431,7 +628,11 @@
       "clients": "all",
       "recommended": false,
       "status": "stable",
-      "path": "library/skills/organic-model/"
+      "path": "library/skills/organic-model/",
+      "domains": [
+        "3d",
+        "assets"
+      ]
     },
     {
       "id": "skill/peer-to-peer-multiplayer",
@@ -440,7 +641,11 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/peer-to-peer-multiplayer/"
+      "path": "library/skills/peer-to-peer-multiplayer/",
+      "domains": [
+        "multiplayer",
+        "project"
+      ]
     },
     {
       "id": "skill/pixel-art",
@@ -449,7 +654,11 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/pixel-art/"
+      "path": "library/skills/pixel-art/",
+      "domains": [
+        "2d",
+        "assets"
+      ]
     },
     {
       "id": "skill/play",
@@ -458,7 +667,11 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/play/"
+      "path": "library/skills/play/",
+      "domains": [
+        "scenes",
+        "project"
+      ]
     },
     {
       "id": "skill/playtesting-a-feature",
@@ -467,7 +680,11 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/playtesting-a-feature/"
+      "path": "library/skills/playtesting-a-feature/",
+      "domains": [
+        "agent-workflow",
+        "verification"
+      ]
     },
     {
       "id": "skill/procedural-animation",
@@ -476,7 +693,11 @@
       "clients": "all",
       "recommended": false,
       "status": "stable",
-      "path": "library/skills/procedural-animation/"
+      "path": "library/skills/procedural-animation/",
+      "domains": [
+        "animation",
+        "3d"
+      ]
     },
     {
       "id": "skill/prop-model",
@@ -485,7 +706,11 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/prop-model/"
+      "path": "library/skills/prop-model/",
+      "domains": [
+        "3d",
+        "assets"
+      ]
     },
     {
       "id": "skill/psx-retro-rendering",
@@ -494,7 +719,11 @@
       "clients": "all",
       "recommended": false,
       "status": "preview",
-      "path": "library/skills/psx-retro-rendering/"
+      "path": "library/skills/psx-retro-rendering/",
+      "domains": [
+        "rendering",
+        "3d"
+      ]
     },
     {
       "id": "skill/realtime-wet-surfaces",
@@ -503,7 +732,11 @@
       "clients": "all",
       "recommended": false,
       "status": "preview",
-      "path": "library/skills/realtime-wet-surfaces/"
+      "path": "library/skills/realtime-wet-surfaces/",
+      "domains": [
+        "rendering",
+        "vfx"
+      ]
     },
     {
       "id": "skill/remote-deploy",
@@ -512,7 +745,11 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/remote-deploy/"
+      "path": "library/skills/remote-deploy/",
+      "domains": [
+        "deployment",
+        "project"
+      ]
     },
     {
       "id": "skill/retarget",
@@ -521,7 +758,11 @@
       "clients": "all",
       "recommended": false,
       "status": "stable",
-      "path": "library/skills/retarget/"
+      "path": "library/skills/retarget/",
+      "domains": [
+        "animation",
+        "3d"
+      ]
     },
     {
       "id": "skill/running-in-the-cloud",
@@ -530,7 +771,11 @@
       "clients": "all",
       "recommended": false,
       "status": "stable",
-      "path": "library/skills/running-in-the-cloud/"
+      "path": "library/skills/running-in-the-cloud/",
+      "domains": [
+        "agent-workflow",
+        "project"
+      ]
     },
     {
       "id": "skill/scene-composition",
@@ -539,7 +784,11 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/scene-composition/"
+      "path": "library/skills/scene-composition/",
+      "domains": [
+        "scenes",
+        "project"
+      ]
     },
     {
       "id": "skill/scene-hierarchy-design",
@@ -548,7 +797,12 @@
       "clients": "all",
       "recommended": false,
       "status": "preview",
-      "path": "library/skills/scene-hierarchy-design/"
+      "path": "library/skills/scene-hierarchy-design/",
+      "domains": [
+        "scenes",
+        "project",
+        "agent-workflow"
+      ]
     },
     {
       "id": "skill/scene-scripting",
@@ -557,7 +811,14 @@
       "clients": "all",
       "recommended": true,
       "status": "preview",
-      "path": "library/skills/scene-scripting/"
+      "path": "library/skills/scene-scripting/",
+      "domains": [
+        "scenes",
+        "scripting",
+        "2d",
+        "ui",
+        "agent-workflow"
+      ]
     },
     {
       "id": "skill/scene-to-level",
@@ -566,7 +827,11 @@
       "clients": "all",
       "recommended": false,
       "status": "stable",
-      "path": "library/skills/scene-to-level/"
+      "path": "library/skills/scene-to-level/",
+      "domains": [
+        "level-design",
+        "game-design"
+      ]
     },
     {
       "id": "skill/setup-multiplayer",
@@ -575,7 +840,11 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/setup-multiplayer/"
+      "path": "library/skills/setup-multiplayer/",
+      "domains": [
+        "multiplayer",
+        "scripting"
+      ]
     },
     {
       "id": "skill/skill-create",
@@ -584,7 +853,11 @@
       "clients": "all",
       "recommended": false,
       "status": "stable",
-      "path": "library/skills/skill-create/"
+      "path": "library/skills/skill-create/",
+      "domains": [
+        "agent-workflow",
+        "meta"
+      ]
     },
     {
       "id": "skill/skill-improve",
@@ -593,7 +866,11 @@
       "clients": "all",
       "recommended": false,
       "status": "stable",
-      "path": "library/skills/skill-improve/"
+      "path": "library/skills/skill-improve/",
+      "domains": [
+        "agent-workflow",
+        "meta"
+      ]
     },
     {
       "id": "skill/skill-test",
@@ -602,7 +879,11 @@
       "clients": "all",
       "recommended": false,
       "status": "stable",
-      "path": "library/skills/skill-test/"
+      "path": "library/skills/skill-test/",
+      "domains": [
+        "agent-workflow",
+        "meta"
+      ]
     },
     {
       "id": "skill/skintokens-auto-rigging",
@@ -611,7 +892,13 @@
       "clients": "all",
       "recommended": false,
       "status": "preview",
-      "path": "library/skills/skintokens-auto-rigging/"
+      "path": "library/skills/skintokens-auto-rigging/",
+      "domains": [
+        "assets",
+        "pipeline",
+        "3d",
+        "animation"
+      ]
     },
     {
       "id": "skill/skybox-panorama",
@@ -620,7 +907,11 @@
       "clients": "all",
       "recommended": false,
       "status": "stable",
-      "path": "library/skills/skybox-panorama/"
+      "path": "library/skills/skybox-panorama/",
+      "domains": [
+        "2d",
+        "assets"
+      ]
     },
     {
       "id": "skill/sound-effect",
@@ -629,7 +920,11 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/sound-effect/"
+      "path": "library/skills/sound-effect/",
+      "domains": [
+        "audio",
+        "assets"
+      ]
     },
     {
       "id": "skill/spatial-placement",
@@ -638,7 +933,14 @@
       "clients": "all",
       "recommended": true,
       "status": "preview",
-      "path": "library/skills/spatial-placement/"
+      "path": "library/skills/spatial-placement/",
+      "domains": [
+        "scenes",
+        "3d",
+        "world-building",
+        "level-design",
+        "verification"
+      ]
     },
     {
       "id": "skill/sprite-sheet",
@@ -647,7 +949,11 @@
       "clients": "all",
       "recommended": false,
       "status": "stable",
-      "path": "library/skills/sprite-sheet/"
+      "path": "library/skills/sprite-sheet/",
+      "domains": [
+        "2d",
+        "assets"
+      ]
     },
     {
       "id": "skill/tileable-texture",
@@ -656,7 +962,11 @@
       "clients": "all",
       "recommended": false,
       "status": "stable",
-      "path": "library/skills/tileable-texture/"
+      "path": "library/skills/tileable-texture/",
+      "domains": [
+        "2d",
+        "assets"
+      ]
     },
     {
       "id": "skill/trailer-shot",
@@ -665,7 +975,11 @@
       "clients": "all",
       "recommended": false,
       "status": "stable",
-      "path": "library/skills/trailer-shot/"
+      "path": "library/skills/trailer-shot/",
+      "domains": [
+        "video",
+        "assets"
+      ]
     },
     {
       "id": "skill/tune-performance",
@@ -674,7 +988,11 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/tune-performance/"
+      "path": "library/skills/tune-performance/",
+      "domains": [
+        "performance",
+        "debug"
+      ]
     },
     {
       "id": "skill/ui-basics",
@@ -683,7 +1001,11 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/ui-basics/"
+      "path": "library/skills/ui-basics/",
+      "domains": [
+        "ui",
+        "ux"
+      ]
     },
     {
       "id": "skill/ui-graphics",
@@ -692,7 +1014,11 @@
       "clients": "all",
       "recommended": false,
       "status": "stable",
-      "path": "library/skills/ui-graphics/"
+      "path": "library/skills/ui-graphics/",
+      "domains": [
+        "2d",
+        "assets"
+      ]
     },
     {
       "id": "skill/use-widget-asset",
@@ -701,7 +1027,11 @@
       "clients": "all",
       "recommended": false,
       "status": "stable",
-      "path": "library/skills/use-widget-asset/"
+      "path": "library/skills/use-widget-asset/",
+      "domains": [
+        "2d",
+        "assets"
+      ]
     },
     {
       "id": "skill/using-summer",
@@ -710,7 +1040,11 @@
       "clients": "all",
       "recommended": false,
       "status": "stable",
-      "path": "library/skills/using-summer/"
+      "path": "library/skills/using-summer/",
+      "domains": [
+        "agent-workflow",
+        "meta"
+      ]
     },
     {
       "id": "skill/vehicle-model",
@@ -719,7 +1053,11 @@
       "clients": "all",
       "recommended": false,
       "status": "stable",
-      "path": "library/skills/vehicle-model/"
+      "path": "library/skills/vehicle-model/",
+      "domains": [
+        "3d",
+        "assets"
+      ]
     },
     {
       "id": "skill/verification-before-completion",
@@ -728,7 +1066,11 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/verification-before-completion/"
+      "path": "library/skills/verification-before-completion/",
+      "domains": [
+        "agent-workflow",
+        "verification"
+      ]
     },
     {
       "id": "skill/verifying-scenes",
@@ -737,7 +1079,12 @@
       "clients": "all",
       "recommended": true,
       "status": "preview",
-      "path": "library/skills/verifying-scenes/"
+      "path": "library/skills/verifying-scenes/",
+      "domains": [
+        "scenes",
+        "verification",
+        "agent-workflow"
+      ]
     },
     {
       "id": "skill/vfx-dissolve",
@@ -746,7 +1093,11 @@
       "clients": "all",
       "recommended": false,
       "status": "stable",
-      "path": "library/skills/vfx-dissolve/"
+      "path": "library/skills/vfx-dissolve/",
+      "domains": [
+        "vfx",
+        "rendering"
+      ]
     },
     {
       "id": "skill/vfx-fire",
@@ -755,7 +1106,11 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/vfx-fire/"
+      "path": "library/skills/vfx-fire/",
+      "domains": [
+        "vfx",
+        "rendering"
+      ]
     },
     {
       "id": "skill/vfx-hit-spark",
@@ -764,7 +1119,11 @@
       "clients": "all",
       "recommended": false,
       "status": "stable",
-      "path": "library/skills/vfx-hit-spark/"
+      "path": "library/skills/vfx-hit-spark/",
+      "domains": [
+        "vfx",
+        "rendering"
+      ]
     },
     {
       "id": "skill/vfx-lightning",
@@ -773,7 +1132,11 @@
       "clients": "all",
       "recommended": false,
       "status": "stable",
-      "path": "library/skills/vfx-lightning/"
+      "path": "library/skills/vfx-lightning/",
+      "domains": [
+        "vfx",
+        "rendering"
+      ]
     },
     {
       "id": "skill/vfx-magic-glow",
@@ -782,7 +1145,11 @@
       "clients": "all",
       "recommended": false,
       "status": "stable",
-      "path": "library/skills/vfx-magic-glow/"
+      "path": "library/skills/vfx-magic-glow/",
+      "domains": [
+        "vfx",
+        "rendering"
+      ]
     },
     {
       "id": "skill/vfx-muzzle-flash",
@@ -791,7 +1158,11 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/vfx-muzzle-flash/"
+      "path": "library/skills/vfx-muzzle-flash/",
+      "domains": [
+        "vfx",
+        "rendering"
+      ]
     },
     {
       "id": "skill/vfx-smoke",
@@ -800,7 +1171,11 @@
       "clients": "all",
       "recommended": false,
       "status": "stable",
-      "path": "library/skills/vfx-smoke/"
+      "path": "library/skills/vfx-smoke/",
+      "domains": [
+        "vfx",
+        "rendering"
+      ]
     },
     {
       "id": "skill/vfx-water-ripple",
@@ -809,7 +1184,11 @@
       "clients": "all",
       "recommended": false,
       "status": "stable",
-      "path": "library/skills/vfx-water-ripple/"
+      "path": "library/skills/vfx-water-ripple/",
+      "domains": [
+        "vfx",
+        "rendering"
+      ]
     },
     {
       "id": "skill/voice-line",
@@ -818,7 +1197,11 @@
       "clients": "all",
       "recommended": true,
       "status": "stable",
-      "path": "library/skills/voice-line/"
+      "path": "library/skills/voice-line/",
+      "domains": [
+        "audio",
+        "assets"
+      ]
     },
     {
       "id": "skill/world-building-3d",
@@ -827,7 +1210,14 @@
       "clients": "all",
       "recommended": true,
       "status": "preview",
-      "path": "library/skills/world-building-3d/"
+      "path": "library/skills/world-building-3d/",
+      "domains": [
+        "scenes",
+        "3d",
+        "world-building",
+        "level-design",
+        "verification"
+      ]
     },
     {
       "id": "skill/writing-plans",
@@ -836,7 +1226,11 @@
       "clients": "all",
       "recommended": false,
       "status": "stable",
-      "path": "library/skills/writing-plans/"
+      "path": "library/skills/writing-plans/",
+      "domains": [
+        "agent-workflow",
+        "meta"
+      ]
     },
     {
       "id": "skill/writing-skills",
@@ -845,7 +1239,11 @@
       "clients": "all",
       "recommended": false,
       "status": "stable",
-      "path": "library/skills/writing-skills/"
+      "path": "library/skills/writing-skills/",
+      "domains": [
+        "agent-workflow",
+        "meta"
+      ]
     }
   ]
 }

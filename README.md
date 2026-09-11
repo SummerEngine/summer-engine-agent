@@ -336,7 +336,7 @@ matchmaking are not promised by this package.
 | `summer list templates` / `projects` | Browse. |
 | `summer events [--follow] [--kinds <csv>] [--since <seq>] [--json]` | The engine events channel (engine 0.5.66+): newest events, or stream them live. |
 | `summer debug [issue…]` | Support-ready Markdown debug report. |
-| `summer skills list` | Show all skills. |
+| `summer skills list` | Show all skills (`--by-domain` groups them; the same grouping is in [`library/skills/README.md`](library/skills/README.md)). |
 | `summer skills install <name>` | Install one. |
 | `summer skills install --all --agent <agent>` / `--recommended` [`--stable-only`] | Install every skill (preview included and labelled), or only the recommended subset; `--stable-only` skips preview skills. |
 | `summer tool <name> --args '<json>'` | Run any Summer tool from the shell — the same implementation the MCP tool uses. `summer tool --list` prints them all. |

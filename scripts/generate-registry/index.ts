@@ -273,9 +273,71 @@ function buildSkillsRegistry(resources: LoadedResource[]): string {
         // (preview is a label; --stable-only skips it), never `deprecated`.
         status: String(res.data.status ?? "stable"),
         path: `library/skills/${res.slug}/`,
+        // First domain is the primary one (authors list it first); the CLI's
+        // `skills list --by-domain` and the generated index group by it.
+        domains: skillDomains(res),
       };
     });
   return stableJson({ _generated: GENERATED_BANNER, skills });
+}
+
+function skillDomains(res: LoadedResource): string[] {
+  const facets = asRecord(res.data.facets);
+  return Array.isArray(facets.domains) ? facets.domains.map(String) : [];
+}
+
+/**
+ * library/skills/README.md — the human view of the flat skills folder
+ * (DECISIONS.md D3: folders are flat, categories are facets). One section per
+ * primary domain, one line per skill: slug, status, the resource summary.
+ * Rendered here so `--check` fails when the index and the library disagree.
+ */
+export function buildSkillsIndexMarkdown(resources: LoadedResource[]): string {
+  const skills = resources.filter((r) => r.kind === "skill");
+  const byDomain = new Map<string, LoadedResource[]>();
+  for (const res of skills) {
+    const primary = skillDomains(res)[0] ?? "uncategorised";
+    const list = byDomain.get(primary) ?? [];
+    list.push(res);
+    byDomain.set(primary, list);
+  }
+  const domains = [...byDomain.keys()].sort();
+  const lines: string[] = [];
+  lines.push("# Summer skills");
+  lines.push("");
+  lines.push(
+    `> ${skills.length} skills, grouped by their primary domain. **Generated** by \`npm run generate:registry\` from each skill's \`resource.yaml\`; \`--check\` fails when this file and the library disagree. Do not edit by hand.`
+  );
+  lines.push("");
+  lines.push(
+    "The folder is flat on purpose (`docs/design/DECISIONS.md`, D3): a skill usually belongs to several domains, so categories live in each skill's `facets.domains` and this index is rendered from them. The first domain listed is the primary one. `summer skills list --by-domain` prints the same grouping; `summer skills info <slug>` shows one skill."
+  );
+  lines.push("");
+  lines.push("Status: **stable** unless marked; *preview* = not yet exercised in-engine by the Summer team; ~~deprecated~~ installs only by name. ★ = installed by `--recommended`.");
+  lines.push("");
+  lines.push("## Domains");
+  lines.push("");
+  for (const domain of domains) {
+    lines.push(`- [${domain}](#${domain}) (${byDomain.get(domain)!.length})`);
+  }
+  lines.push("");
+  for (const domain of domains) {
+    lines.push(`## ${domain}`);
+    lines.push("");
+    lines.push("| skill | when to use | also |");
+    lines.push("|---|---|---|");
+    for (const res of byDomain.get(domain)!.sort((a, b) => (a.slug < b.slug ? -1 : 1))) {
+      const status = String(res.data.status ?? "stable");
+      const name =
+        status === "deprecated" ? `~~${res.slug}~~` : status === "preview" ? `*${res.slug}*` : res.slug;
+      const star = res.data.recommended === true ? " ★" : "";
+      const summary = String(res.data.summary ?? "").replace(/\|/g, "\\|").replace(/\s+/g, " ").trim();
+      const also = skillDomains(res).slice(1).join(", ") || "—";
+      lines.push(`| [${name}](./${res.slug}/SKILL.md)${star}${status === "preview" ? " (preview)" : ""} | ${summary} | ${also} |`);
+    }
+    lines.push("");
+  }
+  return lines.join("\n");
 }
 
 function buildTemplatesRegistry(resources: LoadedResource[]): string {
@@ -356,6 +418,7 @@ export function generateRegistry(rootDir: string, options?: GenerateOptions): Ge
   files.set("aliases.json", aliasesJson);
   files.set("skills-registry.json", buildSkillsRegistry(resources));
   files.set("templates-registry.json", buildTemplatesRegistry(resources));
+  files.set("skills-index.md", buildSkillsIndexMarkdown(resources));
 
   const skillSlugs = resources.filter((r) => r.kind === "skill").map((r) => r.slug);
   for (const [name, content] of buildManifests({
