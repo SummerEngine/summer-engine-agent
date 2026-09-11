@@ -11,7 +11,7 @@ There is no `summer setup factory` target (`summer setup` rejects `factory`).
 Install through the plugin marketplace instead:
 
 ```
-droid plugin marketplace add https://github.com/SummerEngine/summer-engine-agent
+droid plugin marketplace add https://github.com/summerengine/summer
 droid plugin install summer@summer-engine --scope user
 ```
 

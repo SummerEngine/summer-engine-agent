@@ -63,7 +63,7 @@ function buildClaudePlugin(i: ManifestInputs): string {
     description: `Agent tooling for Summer Engine: game-dev skills, lifecycle hooks, and a ${i.toolCount}-tool MCP bridge to the local desktop app.`,
     author: author(),
     homepage: "https://summerengine.com",
-    repository: "https://github.com/SummerEngine/summer-engine-agent",
+    repository: "https://github.com/summerengine/summer",
     license: "MIT",
     keywords: [
       "game-dev",
@@ -133,7 +133,7 @@ function buildCodexPlugin(i: ManifestInputs): string {
     description: `Agent tooling for Summer Engine: game-dev skills, lifecycle hooks, and a ${i.toolCount}-tool MCP bridge. Build games by talking.`,
     author: author(),
     homepage: "https://summerengine.com",
-    repository: "https://github.com/SummerEngine/summer-engine-agent",
+    repository: "https://github.com/summerengine/summer",
     license: "MIT",
     keywords: [
       "game-dev",
@@ -183,7 +183,7 @@ function buildCursorPlugin(i: ManifestInputs): string {
     },
     publisher: "summer-engine",
     homepage: "https://summerengine.com",
-    repository: "https://github.com/SummerEngine/summer-engine-agent",
+    repository: "https://github.com/summerengine/summer",
     license: "MIT",
     category: "developer-tools",
     keywords: [
@@ -213,7 +213,7 @@ function buildFactoryPlugin(i: ManifestInputs): string {
     version: i.version,
     author: author(),
     homepage: "https://summerengine.com",
-    repository: "https://github.com/SummerEngine/summer-engine-agent",
+    repository: "https://github.com/summerengine/summer",
     license: "MIT",
     keywords: ["game-dev", "godot", "ai-game-engine", "skills", "mcp"],
     skills: skillPaths(i.skillSlugs),

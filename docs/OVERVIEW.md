@@ -2,7 +2,7 @@
 
 Summer Engine is the AI game engine. **Summer** — this repo — is the open-source layer that makes any coding agent fluent in it.
 
-Source: [github.com/SummerEngine/summer-engine-agent](https://github.com/SummerEngine/summer-engine-agent)
+Source: [github.com/summerengine/summer](https://github.com/summerengine/summer)
 
 ## What's in here
 

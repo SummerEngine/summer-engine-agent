@@ -7,7 +7,7 @@
     "summer-cli",
     "summer-mcp",
     "summer-agent",
-    "summer-engine-agent",
+    "summer",
     "game-engine",
     "ai-game-engine",
     "godot",
@@ -25,7 +25,7 @@
   "homepage": "https://summerengine.com",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SummerEngine/summer-engine-agent.git"
+    "url": "git+https://github.com/summerengine/summer.git"
   },
   "publishConfig": {
     "access": "public",

@@ -4,7 +4,7 @@ Single page. If it is not here, it is not real. Updated 2026-09-10. Companions: 
 
 ## Where the code is
 
-- Toolkit: this repository (`SummerEngine/summer-engine-agent`), npm package `summer-engine` 3.0.0, unpublished. npm `latest` is still 2.8.2. Release order and rollback: `docs/RELEASE-3.0.0.md`.
+- Toolkit: this repository (`summerengine/summer`), npm package `summer-engine` 3.0.0, unpublished. npm `latest` is still 2.8.2. Release order and rollback: `docs/RELEASE-3.0.0.md`.
 - Engine: Summer Engine 0.5.66 is the combined build the toolkit is verified against (125 ops); 0.5.65 is the shipped engine today.
 - Web: the library-feedback endpoint (`POST /api/mcp/library-feedback`) is a 404 in production until its web PR merges; until then every report returns `dropped:true, reason: endpoint_missing`.
 
