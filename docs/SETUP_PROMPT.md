@@ -1,6 +1,6 @@
 # Copy-Paste Setup Prompt
 
-Use this when a human wants to install Summer Engine from Claude Code, Cursor, Codex, Devin Desktop (formerly Windsurf), Cline, Roo Code, Gemini CLI, GitHub Copilot CLI, GitHub Copilot in VS Code, or OpenCode.
+Use this when a human wants to install Summer Engine from any MCP-capable coding agent: Claude Code, Claude Desktop, Codex, Cursor, Devin Desktop (formerly Windsurf), Antigravity, Cline, Kilo Code, GitHub Copilot CLI, GitHub Copilot in VS Code, GitHub Copilot in Visual Studio, GitHub Copilot in JetBrains IDEs, OpenCode, Zed, Kiro, Goose, Hermes Agent, Trae, Qwen Code, Kimi Code CLI, Crush, Amp, Factory Droid, Junie, LM Studio.
 
 Source: https://github.com/summerengine/summer
 MCP setup page: https://summerengine.com/mcp
@@ -23,7 +23,7 @@ Expected agent behavior:
 6. Create and run a starter project only after choosing a stable parent directory.
 7. Use the `brainstorm-game` skill before building from a vague prompt.
 
-First-class setup targets: `claude-code`, `codex`, `cursor`, `windsurf`, `cline`, `roo-code`, `kilo-code`, `gemini`, `github-copilot`, `vscode-copilot`, `opencode`, `lm-studio`.
+First-class setup targets: `claude-code`, `claude-desktop`, `codex`, `cursor`, `windsurf`, `antigravity`, `cline`, `kilo-code`, `github-copilot`, `vscode-copilot`, `visual-studio`, `copilot-jetbrains`, `opencode`, `zed`, `kiro`, `goose`, `hermes`, `trae`, `qwen-code`, `kimi-code`, `crush`, `amp`, `factory`, `junie`, `lm-studio`. Legacy (still accepted): `gemini`, `roo-code`.
 
 Factory Droid uses its plugin marketplace path today. Other older-school or adjacent surfaces worth watching are Continue, Aider, Zed, JetBrains AI/Junie, Goose, and Amp; do not claim first-class Summer setup support for those until a real config target exists.
 

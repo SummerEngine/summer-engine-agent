@@ -1,13 +1,14 @@
 # Roo Code integration
 
+> **Legacy.** Roo Code shut down on 2026-05-15. The extension may still run, but it is no longer maintained; consider Cline or Kilo Code.
+
 No manifest file is generated in this repo for Roo Code — `manifest-target.json`
 is intentionally empty. Support is delivered at install time by
-`summer setup roo-code`, which writes:
+`summer setup roo-code` (aliases: `roo`, `roocode`), which writes:
 
-- MCP config: Roo Code's VS Code global storage (extension
-  `rooveterinaryinc.roo-cline`). User scope only — no project-scoped MCP config
-  today; project requests fall back to user scope with a warning.
-- Skills: `summer skills install --agent roo-code` writes rule files to Roo
-  Code's user rules directory (user scope) or `./.clinerules` (project scope).
+- MCP config: `~/Library/Application Support/Code/User/globalStorage/rooveterinaryinc.roo-cline/settings/cline_mcp_settings.json`; Linux `~/.config/Code/User/globalStorage/rooveterinaryinc.roo-cline/settings/cline_mcp_settings.json`; Windows `%APPDATA%/Code/User/globalStorage/rooveterinaryinc.roo-cline/settings/cline_mcp_settings.json` (user); user scope only (project requests fall back with a warning).
+  Shape: `mcpServers.summer-engine = { command, args }`.
+- Skills: `~/Documents/Roo/Rules` (user) or `.clinerules` (project) as rule files `summer-<skill>.md`.
+- After: Restart VS Code so Roo Code reloads its MCP config.
 
-Source of truth: `src/installer/agent-config.ts`, `src/cli/commands/skills.ts`.
+Source of truth: `src/installer/agent-table.ts` (one row per agent).

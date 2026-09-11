@@ -14,7 +14,7 @@ Three things, plus glue.
 
 **CLI.** Install the engine, log in, scaffold projects, run them, run doctor — and `summer tool <name>` runs any MCP tool from the terminal. The complete command reference is in [`DEVELOPMENT.md`](DEVELOPMENT.md#cli-command-reference); `summer --help` is the source of truth.
 
-The glue: **lifecycle hooks** (session-start orientation, opt-in pre-commit doctor), plugin manifests for plugin-capable harnesses, and `summer setup` targets for Claude Code, Cursor, Codex, Gemini, OpenCode, GitHub Copilot CLI, GitHub Copilot in VS Code, Cline, Roo Code, Kilo Code, LM Studio, and Devin Desktop (formerly Windsurf). The per-client map is [`../integrations/README.md`](../integrations/README.md).
+The glue: **lifecycle hooks** (session-start orientation, opt-in pre-commit doctor), plugin manifests for plugin-capable harnesses, and `summer setup` targets for Claude Code, Claude Desktop, Codex, Cursor, Devin Desktop (formerly Windsurf), Antigravity, Cline, Kilo Code, GitHub Copilot CLI, GitHub Copilot in VS Code, GitHub Copilot in Visual Studio, GitHub Copilot in JetBrains IDEs, OpenCode, Zed, Kiro, Goose, Hermes Agent, Trae, Qwen Code, Kimi Code CLI, Crush, Amp, Factory Droid, Junie, LM Studio. The per-client map is [`../integrations/README.md`](../integrations/README.md).
 
 ## Quick start
 
@@ -45,21 +45,32 @@ Or download from [summerengine.com/download](https://summerengine.com/download).
 
 ## Where skills live per agent
 
-Each agent has its own home for SKILL.md files:
+Each agent has its own home for skills (`<skill>/SKILL.md` unless noted). Agents with no skills folder (Claude Desktop, Visual Studio, Goose, Crush, Junie, LM Studio) get the MCP server only and pull guidance in-chat via `summer_get_agent_playbook`.
 
 | Agent | User scope | Project scope |
 |---|---|---|
 | `summer` | `~/.summer/skills` | `.summer/skills` |
-| `codex` | `~/.agents/skills` | `.agents/skills` |
 | `claude-code` | `~/.claude/skills` | `.claude/skills` |
-| `cursor` | `~/.cursor/rules` (as `summer-<skill>.mdc`) | `.cursor/rules` |
-| `cline` | `~/Documents/Cline/Rules` | `.clinerules` |
-| `roo-code` | `~/Documents/Roo/Rules` | `.clinerules` |
-| `gemini` | `~/.gemini/extensions/summer-engine/skills` | n/a |
+| `codex` | `~/.agents/skills` | `.agents/skills` |
+| `cursor` | `~/.cursor/skills` | `.cursor/skills` |
+| `windsurf` | `~/.codeium/windsurf/skills` | `.windsurf/skills` |
+| `antigravity` | `~/.gemini/antigravity/skills` | `.agents/skills` |
+| `gemini` (legacy) | `~/.gemini/extensions/summer-engine/skills` | n/a |
+| `cline` | `~/.cline/skills` | `.cline/skills` |
+| `roo-code` (legacy) | `~/Documents/Roo/Rules` (rule files `summer-<skill>.md`) | `.clinerules` |
+| `kilo-code` | `~/.kilo/skills` | `.kilo/skills` |
 | `github-copilot` | `~/.copilot/skills` | `.github/skills` |
 | `vscode-copilot` | `~/.copilot/skills` | `.github/skills` |
-| `opencode` | `~/.config/opencode/agents/summer` | `.opencode/agents/summer` |
-| `windsurf` (Devin Desktop) | `~/.windsurfrules` (managed blocks) | `.windsurfrules` |
+| `copilot-jetbrains` | `~/.copilot/skills` | `.github/skills` |
+| `opencode` | `~/.config/opencode/skills` | `.opencode/skills` |
+| `zed` | `~/.agents/skills` | `.agents/skills` |
+| `kiro` | `~/.kiro/skills` | `.kiro/skills` |
+| `hermes` | `~/.hermes/skills` | n/a |
+| `trae` | `~/.trae/rules` (rule files `summer-<skill>.md`) | `.trae/rules` |
+| `qwen-code` | `~/.qwen/skills` | `.qwen/skills` |
+| `kimi-code` | `~/.kimi/skills` | `.kimi/skills` |
+| `amp` | `~/.config/agents/skills` | `.agents/skills` |
+| `factory` | `~/.factory/skills` | `.factory/skills` |
 
 Use `--scope project` when you want the skills committed with the game:
 

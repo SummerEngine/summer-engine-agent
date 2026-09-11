@@ -12,21 +12,7 @@ import { brandLine, c, sym, tildeify } from "../../core/format.js";
 
 import { TOOLKIT_VERSION as cliVersion } from "../../core/version.js";
 import { resolveDefaultChannel } from "../../installer/version-check.js";
-
-const AGENT_LABEL: Record<SupportedAgent, string> = {
-  "claude-code": "Claude Code",
-  codex: "Codex",
-  cursor: "Cursor",
-  windsurf: "Devin Desktop (Windsurf)",
-  cline: "Cline",
-  "roo-code": "Roo Code",
-  "kilo-code": "Kilo Code",
-  gemini: "Gemini CLI",
-  "github-copilot": "GitHub Copilot CLI",
-  "vscode-copilot": "GitHub Copilot in VS Code",
-  opencode: "OpenCode",
-  "lm-studio": "LM Studio",
-};
+import { agentLabel } from "../../installer/agent-table.js";
 
 interface SetupCommandOptions {
   agent?: string;
@@ -139,14 +125,14 @@ function printSetupResult(
   console.log(brandLine(cliVersion));
   console.log("");
 
-  const agentLabel = AGENT_LABEL[config.agent] ?? config.agent;
+  const label = agentLabel(config.agent);
 
   if (config.dryRun) {
-    console.log(`  ${c.dim("(dry run)")}  Would link to ${agentLabel}  ${c.dim(tildeify(config.path))}`);
+    console.log(`  ${c.dim("(dry run)")}  Would link to ${label}  ${c.dim(tildeify(config.path))}`);
   } else if (config.wrote) {
-    console.log(`  ${sym.ok()}  Linked to ${c.bold(agentLabel)}  ${c.dim(tildeify(config.path))}`);
+    console.log(`  ${sym.ok()}  Linked to ${c.bold(label)}  ${c.dim(tildeify(config.path))}`);
   } else {
-    console.log(`  ${sym.ok()}  Already linked to ${c.bold(agentLabel)}  ${c.dim(tildeify(config.path))}`);
+    console.log(`  ${sym.ok()}  Already linked to ${c.bold(label)}  ${c.dim(tildeify(config.path))}`);
   }
   if (config.localDev) {
     console.log(
@@ -203,7 +189,7 @@ function printSetupResult(
   if (doctor.ok && skills.status !== "failed" && !config.dryRun) {
     console.log("");
     console.log(
-      `${c.dim("Try it:")} open ${AGENT_LABEL[config.agent] ?? config.agent} and ask: ${c.bold("\"add a DirectionalLight3D and Camera3D to my scene\"")}`
+      `${c.dim("Try it:")} open ${label} and ask: ${c.bold("\"add a DirectionalLight3D and Camera3D to my scene\"")}`
     );
   }
 }

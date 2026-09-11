@@ -2,28 +2,23 @@ import { existsSync, readFileSync } from "fs";
 import { copyFile, mkdir, readFile, writeFile } from "fs/promises";
 import { dirname, join, resolve } from "path";
 import { fileURLToPath } from "url";
+import { isMap, parseDocument } from "yaml";
 import { PACKAGE_ROOT } from "../core/package-root.js";
-import { homedir, platform } from "os";
+import {
+  agentAliasMap,
+  agentSpec,
+  defaultPathContext,
+  resolveMcpPath,
+  supportedAgents,
+  type AgentSpec,
+  type ConfigScope,
+  type McpFormat,
+  type SupportedAgent,
+} from "./agent-table.js";
+
+export { supportedAgents, type ConfigScope, type SupportedAgent } from "./agent-table.js";
 
 export const SUMMER_MCP_SERVER_NAME = "summer-engine";
-
-export const supportedAgents = [
-  "codex",
-  "claude-code",
-  "cursor",
-  "windsurf",
-  "cline",
-  "roo-code",
-  "kilo-code",
-  "gemini",
-  "github-copilot",
-  "vscode-copilot",
-  "opencode",
-  "lm-studio",
-] as const;
-
-export type SupportedAgent = (typeof supportedAgents)[number];
-export type ConfigScope = "user" | "project";
 
 export interface StdioMcpServerConfig {
   command: string;
@@ -50,7 +45,7 @@ export interface AgentConfigResult {
   path: string;
   serverName: string;
   server: StdioMcpServerConfig;
-  format: "json" | "toml" | "json-opencode" | "json-copilot" | "json-vscode";
+  format: McpFormat;
   snippet: string;
   changed: boolean;
   wrote: boolean;
@@ -65,39 +60,7 @@ export interface AgentConfigResult {
 
 type JsonObject = Record<string, unknown>;
 
-const agentAliases: Record<string, SupportedAgent> = {
-  claude: "claude-code",
-  "claude-code": "claude-code",
-  codex: "codex",
-  cursor: "cursor",
-  windsurf: "windsurf",
-  devin: "windsurf",
-  "devin-desktop": "windsurf",
-  devindesktop: "windsurf",
-  cline: "cline",
-  "roo-code": "roo-code",
-  roo: "roo-code",
-  roocode: "roo-code",
-  kilo: "kilo-code",
-  kilocode: "kilo-code",
-  "kilo-code": "kilo-code",
-  gemini: "gemini",
-  "gemini-cli": "gemini",
-  copilot: "github-copilot",
-  "copilot-cli": "github-copilot",
-  "github-copilot": "github-copilot",
-  "github-copilot-cli": "github-copilot",
-  vscode: "vscode-copilot",
-  "vs-code": "vscode-copilot",
-  "vscode-copilot": "vscode-copilot",
-  "vs-code-copilot": "vscode-copilot",
-  "github-copilot-vscode": "vscode-copilot",
-  opencode: "opencode",
-  "open-code": "opencode",
-  lmstudio: "lm-studio",
-  "lm-studio": "lm-studio",
-  "lm_studio": "lm-studio",
-};
+const agentAliases: Record<string, SupportedAgent> = agentAliasMap();
 
 export function parseAgent(value: string | undefined): SupportedAgent | null {
   if (!value) return null;
@@ -145,7 +108,8 @@ export async function configureAgentMcp(
   const cwd = resolve(options.cwd ?? process.cwd());
   const channel = normalizeChannel(options.channel);
   const server = createSummerMcpServerConfig(Boolean(options.localDev), process.platform, channel);
-  const target = resolveConfigTarget(options.agent, options.scope, cwd, env);
+  const spec = agentSpec(options.agent);
+  const target = resolveConfigTarget(spec, options.scope, cwd, env);
   const snippet = renderConfigSnippet(options.agent, server);
   const dryRun = Boolean(options.dryRun);
   const print = Boolean(options.print);
@@ -153,17 +117,7 @@ export async function configureAgentMcp(
 
   const update = print
     ? { changed: true }
-    : target.format === "toml"
-      ? await upsertCodexConfig(target.path, server, shouldWrite)
-      : target.format === "json-opencode"
-        ? await upsertOpencodeConfig(target.path, server, shouldWrite)
-        : target.format === "json-copilot"
-          ? await upsertCopilotConfig(target.path, server, shouldWrite)
-          : target.format === "json-vscode"
-            ? await upsertVsCodeMcpConfig(target.path, server, shouldWrite)
-            : options.agent === "gemini"
-              ? await upsertGeminiExtension(target.path, server, shouldWrite)
-              : await upsertJsonMcpConfig(target.path, server, shouldWrite);
+    : await upsertConfig(spec.format, target.path, server, shouldWrite);
 
   return {
     agent: options.agent,
@@ -171,7 +125,7 @@ export async function configureAgentMcp(
     path: target.path,
     serverName: SUMMER_MCP_SERVER_NAME,
     server,
-    format: target.format,
+    format: spec.format,
     snippet,
     changed: update.changed,
     wrote: shouldWrite && update.changed,
@@ -180,8 +134,27 @@ export async function configureAgentMcp(
     localDev: Boolean(options.localDev),
     channel,
     warnings: target.warnings,
-    nextSteps: createNextSteps(options.agent, options.scope, target.path),
+    nextSteps: [`Updated ${target.path}.`, spec.restart],
   };
+}
+
+async function upsertConfig(
+  format: McpFormat,
+  path: string,
+  server: StdioMcpServerConfig,
+  write: boolean
+): Promise<{ changed: boolean }> {
+  switch (format) {
+    case "toml":
+      return upsertCodexConfig(path, server, write);
+    case "json-gemini":
+      return upsertGeminiExtension(path, server, write);
+    case "yaml-goose":
+    case "yaml-hermes":
+      return upsertYamlConfig(path, [topLevelKey(format), SUMMER_MCP_SERVER_NAME], mcpEntry(format, server), write);
+    default:
+      return upsertJsonEntry(path, format, server, write);
+  }
 }
 
 export const DEFAULT_CHANNEL = "latest";
@@ -235,68 +208,79 @@ export function renderConfigSnippet(
   agent: SupportedAgent,
   server: StdioMcpServerConfig
 ): string {
-  if (agent === "codex") {
-    return renderCodexServerTable(server);
-  }
-
-  if (agent === "opencode") {
-    return (
-      JSON.stringify(
-        {
-          $schema: "https://opencode.ai/config.json",
-          mcp: {
-            [SUMMER_MCP_SERVER_NAME]: opencodeServerEntry(server),
-          },
-        },
-        null,
-        2
-      ) + "\n"
-    );
-  }
-
-  if (agent === "github-copilot") {
-    return (
-      JSON.stringify(
-        {
-          mcpServers: {
-            [SUMMER_MCP_SERVER_NAME]: copilotServerEntry(server),
-          },
-        },
-        null,
-        2
-      ) + "\n"
-    );
-  }
-
-  if (agent === "vscode-copilot") {
-    return (
-      JSON.stringify(
-        {
-          servers: {
-            [SUMMER_MCP_SERVER_NAME]: vsCodeServerEntry(server),
-          },
-        },
-        null,
-        2
-      ) + "\n"
-    );
-  }
-
-  if (agent === "gemini") {
+  const format = agentSpec(agent).format;
+  if (format === "toml") return renderCodexServerTable(server);
+  if (format === "json-gemini") {
     return renderJsonFile(geminiExtensionManifest(server, readBundledGeminiManifestSync()));
   }
+  if (format === "yaml-goose" || format === "yaml-hermes") {
+    const doc = parseDocument("{}");
+    doc.setIn([topLevelKey(format), SUMMER_MCP_SERVER_NAME], doc.createNode(mcpEntry(format, server)));
+    return doc.toString();
+  }
+  const file: JsonObject = {};
+  if (format === "json-opencode" && agent === "opencode") file.$schema = OPENCODE_SCHEMA;
+  file[topLevelKey(format)] = { [SUMMER_MCP_SERVER_NAME]: mcpEntry(format, server) };
+  return renderJsonFile(file);
+}
 
-  return (
-    JSON.stringify(
-      {
-        mcpServers: {
-          [SUMMER_MCP_SERVER_NAME]: server,
-        },
-      },
-      null,
-      2
-    ) + "\n"
-  );
+const OPENCODE_SCHEMA = "https://opencode.ai/config.json";
+
+/** The key under which the file lists MCP servers (see McpFormat in agent-table.ts). */
+export function topLevelKey(format: McpFormat): string {
+  switch (format) {
+    case "json-vscode":
+      return "servers";
+    case "json-opencode":
+    case "json-crush":
+      return "mcp";
+    case "json-zed":
+      return "context_servers";
+    case "json-amp":
+      return "amp.mcpServers";
+    case "yaml-goose":
+      return "extensions";
+    case "yaml-hermes":
+    case "toml":
+      return "mcp_servers";
+    default:
+      return "mcpServers";
+  }
+}
+
+/** One server entry in the shape the agent's file expects. */
+export function mcpEntry(format: McpFormat, server: StdioMcpServerConfig): JsonObject {
+  const env = server.env && Object.keys(server.env).length > 0 ? { ...server.env } : undefined;
+  switch (format) {
+    case "json-opencode":
+      return {
+        type: "local",
+        command: [server.command, ...server.args],
+        enabled: true,
+        ...(env ? { environment: env } : {}),
+      };
+    case "json-copilot":
+      return { type: "local", command: server.command, args: server.args, tools: ["*"], ...(env ? { env } : {}) };
+    case "json-vscode":
+    case "json-stdio":
+    case "json-crush":
+      return { type: "stdio", command: server.command, args: server.args, ...(env ? { env } : {}) };
+    case "json-zed":
+      return { source: "custom", command: server.command, args: server.args, env: env ?? {} };
+    case "yaml-goose":
+      return {
+        type: "stdio",
+        name: SUMMER_MCP_SERVER_NAME,
+        description: "Summer Engine: scenes, scripts, play mode and diagnostics over MCP",
+        cmd: server.command,
+        args: server.args,
+        enabled: true,
+        timeout: 300,
+        envs: env ?? {},
+      };
+    default:
+      return { command: server.command, args: server.args, ...(env ? { env } : {}) };
+  }
 }
 
 function resolveLocalCliPath(): string {
@@ -316,286 +300,32 @@ export const GEMINI_EXTENSION_DIR_NAME = "summer-engine";
 const GEMINI_CONTEXT_FILES = ["GEMINI.md", "AGENTS.md"] as const;
 
 function resolveConfigTarget(
-  agent: SupportedAgent,
+  spec: AgentSpec,
   scope: ConfigScope,
   cwd: string,
   env: NodeJS.ProcessEnv
-): { path: string; format: "json" | "toml" | "json-opencode" | "json-copilot" | "json-vscode"; warnings: string[] } {
-  const override = getConfigPathOverride(agent, env);
-  const warnings: string[] = [];
-
-  if (override) {
-    if (
-      scope === "project" &&
-      (agent === "cline" || agent === "roo-code" || agent === "gemini" || agent === "lm-studio")
-    ) {
-      warnings.push(
-        `${agent} MCP config has no project scope today; treating as user scope.`
-      );
-    }
-    return {
-      path: resolve(override),
-      format:
-        agent === "codex"
-          ? "toml"
-          : agent === "opencode"
-            ? "json-opencode"
-            : agent === "github-copilot"
-              ? "json-copilot"
-              : agent === "vscode-copilot"
-                ? "json-vscode"
-            : "json",
-      warnings,
-    };
-  }
-
-  if (agent === "codex") {
-    return {
-      path:
-        scope === "user"
-          ? join(homedir(), ".codex", "config.toml")
-          : join(cwd, ".codex", "config.toml"),
-      format: "toml",
-      warnings,
-    };
-  }
-
-  if (agent === "claude-code") {
-    return {
-      path:
-        scope === "user"
-          ? join(homedir(), ".claude.json")
-          : join(cwd, ".mcp.json"),
-      format: "json",
-      warnings,
-    };
-  }
-
-  if (agent === "cursor") {
-    return {
-      path:
-        scope === "user"
-          ? join(homedir(), ".cursor", "mcp.json")
-          : join(cwd, ".cursor", "mcp.json"),
-      format: "json",
-      warnings,
-    };
-  }
-
-  if (agent === "cline") {
-    if (scope === "project") {
-      warnings.push(
-        "Cline MCP config has no project scope today; writing to user-scope global VS Code storage instead."
-      );
-    }
-    return {
-      path: vsCodeGlobalStoragePath(env, "saoudrizwan.claude-dev"),
-      format: "json",
-      warnings,
-    };
-  }
-
-  if (agent === "roo-code") {
-    if (scope === "project") {
-      warnings.push(
-        "Roo Code MCP config has no project scope today; writing to user-scope global VS Code storage instead."
-      );
-    }
-    return {
-      path: vsCodeGlobalStoragePath(env, "rooveterinaryinc.roo-cline"),
-      format: "json",
-      warnings,
-    };
-  }
-
-  if (agent === "kilo-code") {
-    return {
-      path:
-        scope === "user"
-          ? vsCodeGlobalStoragePath(env, "kilocode.kilo-code", "mcp_settings.json")
-          : join(cwd, ".kilocode", "mcp.json"),
-      format: "json",
-      warnings,
-    };
-  }
-
-  if (agent === "lm-studio") {
-    if (scope === "project") {
-      warnings.push(
-        "LM Studio's MCP config is app-global (~/.lmstudio/mcp.json); treating as user scope."
-      );
-    }
-    return {
-      path: join(homedir(), ".lmstudio", "mcp.json"),
-      format: "json",
-      warnings,
-    };
-  }
-
-  if (agent === "gemini") {
-    if (scope === "project") {
-      warnings.push(
-        "Gemini extensions are user-scoped today; writing to ~/.gemini/extensions/summer-engine/ instead of project."
-      );
-    }
-    return {
-      path: join(
-        homedir(),
-        ".gemini",
-        "extensions",
-        "summer-engine",
-        "gemini-extension.json"
-      ),
-      format: "json",
-      warnings,
-    };
-  }
-
-  if (agent === "github-copilot") {
-    return {
-      path:
-        scope === "user"
-          ? join(homedir(), ".copilot", "mcp-config.json")
-          : join(cwd, ".mcp.json"),
-      format: "json-copilot",
-      warnings,
-    };
-  }
-
-  if (agent === "vscode-copilot") {
-    return {
-      path:
-        scope === "user"
-          ? vsCodeUserMcpPath(env)
-          : join(cwd, ".vscode", "mcp.json"),
-      format: "json-vscode",
-      warnings,
-    };
-  }
-
-  if (agent === "opencode") {
-    return {
-      path:
-        scope === "user"
-          ? opencodeUserConfigPath(env)
-          : join(cwd, "opencode.json"),
-      format: "json-opencode",
-      warnings,
-    };
-  }
-
-  if (scope === "project") {
-    warnings.push(
-      "Devin Desktop (formerly Windsurf) documents MCP configuration as user-scoped; project scope writes .windsurf/mcp_config.json for teams that load workspace config."
-    );
-  }
-
-  return {
-    path:
-      scope === "user"
-        ? join(homedir(), ".codeium", "windsurf", "mcp_config.json")
-        : join(cwd, ".windsurf", "mcp_config.json"),
-    format: "json",
-    warnings,
-  };
+): { path: string; warnings: string[] } {
+  const resolved = resolveMcpPath(spec, scope, defaultPathContext(env, cwd));
+  const override = env[spec.envOverride];
+  return { path: override ? resolve(override) : resolved.path, warnings: resolved.warnings };
 }
 
-function vsCodeGlobalStoragePath(
-  env: NodeJS.ProcessEnv,
-  extensionId: string,
-  fileName = "cline_mcp_settings.json"
-): string {
-  const os = platform();
-  if (os === "win32") {
-    const appData = env.APPDATA ?? join(homedir(), "AppData", "Roaming");
-    return join(
-      appData,
-      "Code",
-      "User",
-      "globalStorage",
-      extensionId,
-      "settings",
-      fileName
-    );
-  }
-
-  if (os === "darwin") {
-    return join(
-      homedir(),
-      "Library",
-      "Application Support",
-      "Code",
-      "User",
-      "globalStorage",
-      extensionId,
-      "settings",
-      fileName
-    );
-  }
-
-  // Linux and other Unix
-  const xdg = env.XDG_CONFIG_HOME ?? join(homedir(), ".config");
-  return join(
-    xdg,
-    "Code",
-    "User",
-    "globalStorage",
-    extensionId,
-    "settings",
-    fileName
-  );
-}
-
-function opencodeUserConfigPath(env: NodeJS.ProcessEnv): string {
-  const os = platform();
-  if (os === "win32") {
-    const appData = env.APPDATA ?? join(homedir(), "AppData", "Roaming");
-    return join(appData, "opencode", "opencode.json");
-  }
-  const xdg = env.XDG_CONFIG_HOME ?? join(homedir(), ".config");
-  return join(xdg, "opencode", "opencode.json");
-}
-
-function vsCodeUserMcpPath(env: NodeJS.ProcessEnv): string {
-  const os = platform();
-  if (os === "win32") {
-    const appData = env.APPDATA ?? join(homedir(), "AppData", "Roaming");
-    return join(appData, "Code", "User", "mcp.json");
-  }
-  if (os === "darwin") {
-    return join(homedir(), "Library", "Application Support", "Code", "User", "mcp.json");
-  }
-  const xdg = env.XDG_CONFIG_HOME ?? join(homedir(), ".config");
-  return join(xdg, "Code", "User", "mcp.json");
-}
-
-function getConfigPathOverride(
-  agent: SupportedAgent,
-  env: NodeJS.ProcessEnv
-): string | undefined {
-  if (agent === "codex") return env.SUMMER_CODEX_CONFIG_FILE;
-  if (agent === "claude-code") return env.SUMMER_CLAUDE_CONFIG_FILE;
-  if (agent === "cursor") return env.SUMMER_CURSOR_MCP_CONFIG_FILE;
-  if (agent === "cline") return env.SUMMER_CLINE_CONFIG_FILE;
-  if (agent === "roo-code") return env.SUMMER_ROO_CODE_CONFIG_FILE;
-  if (agent === "kilo-code") return env.SUMMER_KILO_CODE_CONFIG_FILE;
-  if (agent === "lm-studio") return env.SUMMER_LM_STUDIO_CONFIG_FILE;
-  if (agent === "gemini") return env.SUMMER_GEMINI_CONFIG_FILE;
-  if (agent === "github-copilot") return env.SUMMER_GITHUB_COPILOT_CONFIG_FILE;
-  if (agent === "vscode-copilot") return env.SUMMER_VSCODE_COPILOT_CONFIG_FILE;
-  if (agent === "opencode") return env.SUMMER_OPENCODE_CONFIG_FILE;
-  return env.SUMMER_WINDSURF_MCP_CONFIG_FILE;
-}
-
-async function upsertJsonMcpConfig(
+/** Merge one server entry into a JSON config file under the format's top-level key. */
+async function upsertJsonEntry(
   path: string,
+  format: McpFormat,
   server: StdioMcpServerConfig,
   write: boolean
 ): Promise<{ changed: boolean }> {
   const current = await readJsonConfig(path);
   const next = copyJsonObject(current);
+  const key = topLevelKey(format);
 
-  next.mcpServers = mergeMcpServers(next.mcpServers, server);
+  // OpenCode's file carries its schema; Kilo shares the shape but has its own.
+  if (format === "json-opencode" && typeof next.$schema !== "string" && /opencode\.json$/.test(path)) {
+    next.$schema = OPENCODE_SCHEMA;
+  }
+  next[key] = mergeNamedObject(next[key], SUMMER_MCP_SERVER_NAME, mcpEntry(format, server), key);
 
   const currentRendered = renderJsonFile(current);
   const nextRendered = renderJsonFile(next);
@@ -608,18 +338,38 @@ async function upsertJsonMcpConfig(
   return { changed };
 }
 
-function mergeMcpServers(
-  value: unknown,
-  server: StdioMcpServerConfig
-): Record<string, unknown> {
-  if (value !== undefined && !isJsonObject(value)) {
-    throw new Error("Existing mcpServers value must be a JSON object.");
+/**
+ * Merge one server entry into a YAML config (Goose, Hermes). Uses the yaml
+ * Document API so the user's comments and ordering survive; only the
+ * summer-engine node is replaced.
+ */
+async function upsertYamlConfig(
+  path: string,
+  keyPath: string[],
+  entry: JsonObject,
+  write: boolean
+): Promise<{ changed: boolean }> {
+  const current = await readTextFileIfExists(path);
+  const doc = parseDocument(current.trim() === "" ? "{}" : current);
+  if (doc.errors.length > 0) {
+    throw new Error(`Could not parse YAML in ${path}: ${doc.errors[0].message}`);
+  }
+  if (!isMap(doc.contents)) {
+    throw new Error(`Expected ${path} to contain a YAML mapping.`);
+  }
+  const parent = doc.getIn(keyPath.slice(0, -1));
+  if (parent !== undefined && parent !== null && !isMap(parent)) {
+    throw new Error(`Existing ${keyPath[0]} value in ${path} must be a mapping.`);
+  }
+  doc.setIn(keyPath, doc.createNode(entry));
+  const next = doc.toString();
+  const changed = current !== next;
+
+  if (write && changed) {
+    await writeTextFile(path, next);
   }
 
-  return {
-    ...(isJsonObject(value) ? value : {}),
-    [SUMMER_MCP_SERVER_NAME]: server,
-  };
+  return { changed };
 }
 
 async function readJsonConfig(path: string): Promise<JsonObject> {
@@ -659,87 +409,6 @@ async function upsertCodexConfig(
 
   if (write && changed) {
     await writeTextFile(path, next);
-  }
-
-  return { changed };
-}
-
-async function upsertOpencodeConfig(
-  path: string,
-  server: StdioMcpServerConfig,
-  write: boolean
-): Promise<{ changed: boolean }> {
-  const current = await readJsonConfig(path);
-  const next = copyJsonObject(current);
-
-  if (typeof next.$schema !== "string") {
-    next.$schema = "https://opencode.ai/config.json";
-  }
-
-  const existingMcp = isJsonObject(next.mcp) ? next.mcp : {};
-  next.mcp = {
-    ...existingMcp,
-    [SUMMER_MCP_SERVER_NAME]: opencodeServerEntry(server),
-  };
-
-  const currentRendered = renderJsonFile(current);
-  const nextRendered = renderJsonFile(next);
-  const changed = currentRendered !== nextRendered;
-
-  if (write && changed) {
-    await writeTextFile(path, nextRendered);
-  }
-
-  return { changed };
-}
-
-async function upsertCopilotConfig(
-  path: string,
-  server: StdioMcpServerConfig,
-  write: boolean
-): Promise<{ changed: boolean }> {
-  const current = await readJsonConfig(path);
-  const next = copyJsonObject(current);
-
-  next.mcpServers = mergeNamedObject(
-    next.mcpServers,
-    SUMMER_MCP_SERVER_NAME,
-    copilotServerEntry(server),
-    "mcpServers"
-  );
-
-  const currentRendered = renderJsonFile(current);
-  const nextRendered = renderJsonFile(next);
-  const changed = currentRendered !== nextRendered;
-
-  if (write && changed) {
-    await writeTextFile(path, nextRendered);
-  }
-
-  return { changed };
-}
-
-async function upsertVsCodeMcpConfig(
-  path: string,
-  server: StdioMcpServerConfig,
-  write: boolean
-): Promise<{ changed: boolean }> {
-  const current = await readJsonConfig(path);
-  const next = copyJsonObject(current);
-
-  next.servers = mergeNamedObject(
-    next.servers,
-    SUMMER_MCP_SERVER_NAME,
-    vsCodeServerEntry(server),
-    "servers"
-  );
-
-  const currentRendered = renderJsonFile(current);
-  const nextRendered = renderJsonFile(next);
-  const changed = currentRendered !== nextRendered;
-
-  if (write && changed) {
-    await writeTextFile(path, nextRendered);
   }
 
   return { changed };
@@ -849,42 +518,6 @@ function geminiExtensionManifest(
   return manifest;
 }
 
-function opencodeServerEntry(server: StdioMcpServerConfig): JsonObject {
-  const entry: JsonObject = {
-    type: "local",
-    command: [server.command, ...server.args],
-  };
-  if (server.env && Object.keys(server.env).length > 0) {
-    entry.environment = { ...server.env };
-  }
-  return entry;
-}
-
-function copilotServerEntry(server: StdioMcpServerConfig): JsonObject {
-  const entry: JsonObject = {
-    type: "local",
-    command: server.command,
-    args: server.args,
-    tools: ["*"],
-  };
-  if (server.env && Object.keys(server.env).length > 0) {
-    entry.env = { ...server.env };
-  }
-  return entry;
-}
-
-function vsCodeServerEntry(server: StdioMcpServerConfig): JsonObject {
-  const entry: JsonObject = {
-    type: "stdio",
-    command: server.command,
-    args: server.args,
-  };
-  if (server.env && Object.keys(server.env).length > 0) {
-    entry.env = { ...server.env };
-  }
-  return entry;
-}
-
 async function readTextFileIfExists(path: string): Promise<string> {
   if (!existsSync(path)) return "";
   try {
@@ -983,46 +616,6 @@ async function writeTextFile(path: string, content: string): Promise<void> {
 
 function ensureTrailingNewline(value: string): string {
   return value.endsWith("\n") ? value : `${value}\n`;
-}
-
-function createNextSteps(
-  agent: SupportedAgent,
-  scope: ConfigScope,
-  path: string
-): string[] {
-  const restart =
-    agent === "claude-code"
-      ? "Restart Claude Code or run /mcp in a new session."
-      : agent === "codex"
-        ? "Restart Codex or run /mcp in a new session."
-        : agent === "cursor"
-          ? "Restart Cursor and enable the summer-engine MCP server if prompted."
-          : agent === "cline"
-            ? "Restart VS Code so Cline reloads its MCP config."
-            : agent === "roo-code"
-              ? "Restart VS Code so Roo Code reloads its MCP config."
-              : agent === "kilo-code"
-                ? "Restart VS Code so Kilo Code reloads its MCP config."
-                : agent === "lm-studio"
-                  ? "Open LM Studio, toggle on the summer-engine MCP server in the Program tab, and raise the loaded model's context length to 32k or higher."
-        : agent === "gemini"
-          ? "Run `summer skills install --all --agent gemini` if skills were not installed, then restart Gemini CLI (or `gemini extensions enable summer-engine` if it is disabled)."
-          : agent === "github-copilot"
-            ? "Restart Copilot CLI, or run /mcp reload and /skills reload in the active session."
-            : agent === "vscode-copilot"
-              ? "Restart VS Code or run MCP: List Servers, then start summer-engine in Copilot Agent mode."
-              : agent === "opencode"
-                ? "Restart OpenCode so it reloads opencode.json."
-                : "Restart Devin Desktop (formerly Windsurf) and refresh MCP servers from the agent settings.";
-
-  const projectTrust =
-    scope === "project" && agent === "codex"
-      ? "Codex only loads project .codex/config.toml from trusted projects."
-      : null;
-
-  return [projectTrust, `Updated ${path}.`, restart].filter(
-    (step): step is string => Boolean(step)
-  );
 }
 
 function formatError(error: unknown): string {

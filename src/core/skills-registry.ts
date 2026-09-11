@@ -12,19 +12,35 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { PACKAGE_ROOT } from "./package-root.js";
 
+/**
+ * Clients `summer skills install --agent` accepts: "summer" (the toolkit's
+ * own ~/.summer/skills) plus every agent in the installer's agent table that
+ * has a skills or rules folder. core/ cannot import installer/, so this list
+ * is written out; agent-table.test.ts fails if the two drift.
+ */
 export const AGENT_CLIENTS = [
   "summer",
-  "codex",
   "claude-code",
+  "codex",
   "cursor",
   "windsurf",
+  "antigravity",
+  "gemini",
   "cline",
   "roo-code",
   "kilo-code",
-  "gemini",
   "github-copilot",
   "vscode-copilot",
+  "copilot-jetbrains",
   "opencode",
+  "zed",
+  "kiro",
+  "hermes",
+  "trae",
+  "qwen-code",
+  "kimi-code",
+  "amp",
+  "factory",
 ] as const;
 
 export type AgentClient = (typeof AGENT_CLIENTS)[number];

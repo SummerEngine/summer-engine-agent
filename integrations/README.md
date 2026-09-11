@@ -2,10 +2,11 @@
 
 One folder per supported client. This directory is the single place that
 says which agents Summer supports and how each one consumes the library.
-Adding a new agent (e.g. Grok) = one folder here (plus, if it has a manifest
-file, a builder in `scripts/generate-registry/manifests.ts` and a target in
-`scripts/generate-registry/targets.ts`) + `npm run generate:registry` —
-never hand-editing root files.
+Adding a new agent = one row in `src/installer/agent-table.ts` + one folder
+here + an empty entry in `scripts/generate-registry/targets.ts` (plus, if it
+has a manifest file, a builder in `scripts/generate-registry/manifests.ts`) +
+`npm run generate:registry` — never hand-editing root files. Tests fail when
+the table, this directory, and targets.ts disagree.
 
 Each folder contains:
 
@@ -18,8 +19,8 @@ installs every skill (`skills install --all`, preview included; `--stable-only`
 skips preview) in the SAME scope,
 so a user-scope MCP config never ends up beside project-scope skills.
 `--scope project` moves both; `--recommended` installs only the recommended
-subset. Clients whose MCP config is user-only (cline, roo-code, lm-studio,
-gemini) fall back to user scope with a warning. `.mcp.json` at the repo root
+subset. Clients whose MCP config is user-only (see the table) fall back to user
+scope with a warning. `.mcp.json` at the repo root
 (the MCP pointer the claude / codex / cursor / factory manifests share) is
 generated too — `registry/generated/mcp.json -> .mcp.json`.
 - `manifest-target.json` — mapping of generated file -> repo-root destination
@@ -52,19 +53,33 @@ How the plugin manifests reference skills, and what is verified:
 
 | Client | Manifest generated in this repo | `summer setup` writes |
 |---|---|---|
-| claude | `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`, `.mcp.json` | MCP: `~/.claude.json` (user) / `.mcp.json` (project); skills: `~/.claude/skills/` (user) / `.claude/skills/` (project); slash commands from `commands/` to `~/.claude/commands/` |
-| codex | `.codex-plugin/plugin.json` | MCP: `~/.codex/config.toml` (TOML); skills: `.agents/skills/` |
-| cursor | `.cursor-plugin/plugin.json` | MCP: `~/.cursor/mcp.json` / `.cursor/mcp.json`; skills: `.cursor/rules/` |
-| factory | `.factory-plugin/plugin.json` | nothing — there is no `summer setup factory` target. Install via the plugin marketplace: `droid plugin marketplace add https://github.com/summerengine/summer` then `droid plugin install summer@summer-engine`. Factory reads MCP from the plugin's `.mcp.json` and skills only from a root `skills/` dir (this package ships them under `library/skills/`, so the manifest `skills` array is not read by Factory — open gap) |
-| gemini | `gemini-extension.json` | extension dir `~/.gemini/extensions/summer-engine/`: the generated manifest (renamed `summer-engine` to match the dir, MCP launcher swapped to `npx -y summer-engine@latest mcp`) + `GEMINI.md` + `AGENTS.md`; skills: `~/.gemini/extensions/summer-engine/skills/<slug>/SKILL.md` (Gemini extension-skill discovery; user scope only) |
-| windsurf (Devin Desktop) | — | MCP: `~/.codeium/windsurf/mcp_config.json`; rules: `.windsurfrules` |
-| cline | — | MCP: VS Code global storage (`saoudrizwan.claude-dev`); rules: `.clinerules` |
-| roo-code | — | MCP: VS Code global storage (`rooveterinaryinc.roo-cline`); rules: `.clinerules` |
-| kilo-code | — | MCP: VS Code global storage `kilocode.kilo-code/settings/mcp_settings.json` (user) / `.kilocode/mcp.json` (project); rules: `~/.kilocode/rules/` (user) / `.kilocode/rules/` (project) |
-| github-copilot | — | MCP: `~/.copilot/mcp-config.json` / `.mcp.json`; skills: `~/.copilot/skills/` or `.github/skills/` |
-| vscode-copilot | — | MCP: VS Code user-profile `mcp.json` / `.vscode/mcp.json`; skills: `~/.copilot/skills/` or `.github/skills/` |
-| opencode | — (JS plugin via npm `main`, `.opencode/plugins/summer.js`) | MCP entry in `opencode.json` (`type: "local"`, array `command`); skills: the plugin registers `library/skills/` via `skills.paths`; `skills install --agent opencode` additionally writes `agents/summer/` markdown |
-| lm-studio | — | MCP: `~/.lmstudio/mcp.json` (app-global); no skills folder — guidance via `summer_get_agent_playbook` |
+| claude | `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`, `.mcp.json` | MCP: `~/.claude.json`; Windows `%USERPROFILE%/.claude.json` / `.mcp.json`; skills: `~/.claude/skills` / `.claude/skills` (`<skill>/SKILL.md`) |
+| claude-desktop | — | MCP: `~/Library/Application Support/Claude/claude_desktop_config.json`; Linux `~/.config/Claude/claude_desktop_config.json`; Windows `%APPDATA%/Claude/claude_desktop_config.json`; no skills folder (MCP only) |
+| codex | `.codex-plugin/plugin.json` | MCP: `~/.codex/config.toml`; Windows `%USERPROFILE%/.codex/config.toml` / `.codex/config.toml`; skills: `~/.agents/skills` / `.agents/skills` (`<skill>/SKILL.md`) |
+| cursor | `.cursor-plugin/plugin.json` | MCP: `~/.cursor/mcp.json`; Windows `%USERPROFILE%/.cursor/mcp.json` / `.cursor/mcp.json`; skills: `~/.cursor/skills` / `.cursor/skills` (`<skill>/SKILL.md`) |
+| windsurf | — | MCP: `~/.codeium/windsurf/mcp_config.json`; Windows `%USERPROFILE%/.codeium/windsurf/mcp_config.json`; skills: `~/.codeium/windsurf/skills` / `.windsurf/skills` (`<skill>/SKILL.md`) |
+| antigravity | — | MCP: `~/.gemini/antigravity/mcp_config.json`; Windows `%USERPROFILE%/.gemini/antigravity/mcp_config.json`; skills: `~/.gemini/antigravity/skills` / `.agents/skills` (`<skill>/SKILL.md`) |
+| gemini (legacy) | `gemini-extension.json` | MCP: `~/.gemini/extensions/summer-engine/gemini-extension.json`; Windows `%USERPROFILE%/.gemini/extensions/summer-engine/gemini-extension.json`; skills: `~/.gemini/extensions/summer-engine/skills` (`<skill>/SKILL.md`) |
+| cline | — | MCP: `~/Library/Application Support/Code/User/globalStorage/saoudrizwan.claude-dev/settings/cline_mcp_settings.json`; Linux `~/.config/Code/User/globalStorage/saoudrizwan.claude-dev/settings/cline_mcp_settings.json`; Windows `%APPDATA%/Code/User/globalStorage/saoudrizwan.claude-dev/settings/cline_mcp_settings.json`; skills: `~/.cline/skills` / `.cline/skills` (`<skill>/SKILL.md`) |
+| roo-code (legacy) | — | MCP: `~/Library/Application Support/Code/User/globalStorage/rooveterinaryinc.roo-cline/settings/cline_mcp_settings.json`; Linux `~/.config/Code/User/globalStorage/rooveterinaryinc.roo-cline/settings/cline_mcp_settings.json`; Windows `%APPDATA%/Code/User/globalStorage/rooveterinaryinc.roo-cline/settings/cline_mcp_settings.json`; skills: `~/Documents/Roo/Rules` / `.clinerules` (rule files `summer-<skill>.md`) |
+| kilo-code | — | MCP: `~/.config/kilo/kilo.json`; Windows `%APPDATA%/kilo/kilo.json` / `kilo.json`; skills: `~/.kilo/skills` / `.kilo/skills` (`<skill>/SKILL.md`) |
+| github-copilot | — | MCP: `~/.copilot/mcp-config.json`; Windows `%USERPROFILE%/.copilot/mcp-config.json` / `.mcp.json`; skills: `~/.copilot/skills` / `.github/skills` (`<skill>/SKILL.md`) |
+| vscode-copilot | — | MCP: `~/Library/Application Support/Code/User/mcp.json`; Linux `~/.config/Code/User/mcp.json`; Windows `%APPDATA%/Code/User/mcp.json` / `.vscode/mcp.json`; skills: `~/.copilot/skills` / `.github/skills` (`<skill>/SKILL.md`) |
+| visual-studio | — | MCP: `~/.mcp.json`; Windows `%USERPROFILE%/.mcp.json` / `.mcp.json`; no skills folder (MCP only) |
+| copilot-jetbrains | — | MCP: `~/.config/github-copilot/intellij/mcp.json`; Windows `%APPDATA%/github-copilot/intellij/mcp.json`; skills: `~/.copilot/skills` / `.github/skills` (`<skill>/SKILL.md`) |
+| opencode | — | MCP: `~/.config/opencode/opencode.json`; Windows `%APPDATA%/opencode/opencode.json` / `opencode.json`; skills: `~/.config/opencode/skills` / `.opencode/skills` (`<skill>/SKILL.md`) |
+| zed | — | MCP: `~/.config/zed/settings.json`; Windows `%APPDATA%/zed/settings.json` / `.zed/settings.json`; skills: `~/.agents/skills` / `.agents/skills` (`<skill>/SKILL.md`) |
+| kiro | — | MCP: `~/.kiro/settings/mcp.json`; Windows `%USERPROFILE%/.kiro/settings/mcp.json` / `.kiro/settings/mcp.json`; skills: `~/.kiro/skills` / `.kiro/skills` (`<skill>/SKILL.md`) |
+| goose | — | MCP: `~/.config/goose/config.yaml`; Windows `%APPDATA%/Block/goose/config/config.yaml`; no skills folder (MCP only) |
+| hermes | — | MCP: `~/.hermes/config.yaml`; Windows `%USERPROFILE%/.hermes/config.yaml`; skills: `~/.hermes/skills` (`<skill>/SKILL.md`) |
+| trae | — | MCP: `~/.trae/mcp.json`; Windows `%USERPROFILE%/.trae/mcp.json`; skills: `~/.trae/rules` / `.trae/rules` (rule files `summer-<skill>.md`) |
+| qwen-code | — | MCP: `~/.qwen/settings.json`; Windows `%USERPROFILE%/.qwen/settings.json` / `.qwen/settings.json`; skills: `~/.qwen/skills` / `.qwen/skills` (`<skill>/SKILL.md`) |
+| kimi-code | — | MCP: `~/.kimi/mcp.json`; Windows `%USERPROFILE%/.kimi/mcp.json`; skills: `~/.kimi/skills` / `.kimi/skills` (`<skill>/SKILL.md`) |
+| crush | — | MCP: `~/.config/crush/crush.json`; Windows `%APPDATA%/crush/crush.json` / `.crush.json`; no skills folder (MCP only) |
+| amp | — | MCP: `~/.config/amp/settings.json`; Windows `%APPDATA%/amp/settings.json`; skills: `~/.config/agents/skills` / `.agents/skills` (`<skill>/SKILL.md`) |
+| factory | `.factory-plugin/plugin.json` | MCP: `~/.factory/mcp.json`; Windows `%USERPROFILE%/.factory/mcp.json` / `.factory/mcp.json`; skills: `~/.factory/skills` / `.factory/skills` (`<skill>/SKILL.md`) |
+| junie | — | MCP: `~/.junie/mcp/mcp.json`; Windows `%USERPROFILE%/.junie/mcp/mcp.json` / `.junie/mcp/mcp.json`; no skills folder (MCP only) |
+| lm-studio | — | MCP: `~/.lmstudio/mcp.json`; Windows `%USERPROFILE%/.lmstudio/mcp.json`; no skills folder (MCP only) |
 
 Source of truth for the setup paths: `src/installer/agent-config.ts` and
 `src/cli/commands/skills.ts`.

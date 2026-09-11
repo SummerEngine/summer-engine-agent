@@ -197,7 +197,7 @@ describe("configureAgentMcp", () => {
       env: { SUMMER_CLINE_CONFIG_FILE: path } as NodeJS.ProcessEnv,
     });
     expect(result.wrote).toBe(true);
-    expect(result.warnings.some((w) => w.includes("no project scope"))).toBe(true);
+    expect(result.warnings.some((w) => w.includes("user scope"))).toBe(true);
   });
 
   it("writes a fresh roo-code config in mcpServers shape", async () => {
@@ -214,9 +214,9 @@ describe("configureAgentMcp", () => {
     expect(written.mcpServers["summer-engine"].args).toEqual(NPX_ARGS);
   });
 
-  it("writes a fresh kilo-code config in mcpServers shape", async () => {
+  it("writes a fresh kilo-code config in Kilo's mcp shape (array command, enabled) without OpenCode's $schema", async () => {
     const dir = tmp();
-    const path = join(dir, "mcp_settings.json");
+    const path = join(dir, "kilo.json");
     const result = await configureAgentMcp({
       agent: "kilo-code",
       scope: "user",
@@ -224,11 +224,15 @@ describe("configureAgentMcp", () => {
     });
     expect(result.wrote).toBe(true);
     const written = JSON.parse(readFileSync(path, "utf-8"));
-    expect(written.mcpServers["summer-engine"].command).toBe("npx");
-    expect(written.mcpServers["summer-engine"].args).toEqual(NPX_ARGS);
+    expect(written.$schema).toBeUndefined();
+    expect(written.mcp["summer-engine"]).toEqual({
+      type: "local",
+      command: ["npx", ...NPX_ARGS],
+      enabled: true,
+    });
   });
 
-  it("writes kilo-code project config to .kilocode/mcp.json", async () => {
+  it("writes kilo-code project config to ./kilo.json", async () => {
     const dir = tmp();
     const result = await configureAgentMcp({
       agent: "kilo-code",
@@ -237,9 +241,9 @@ describe("configureAgentMcp", () => {
       env: {} as NodeJS.ProcessEnv,
     });
     expect(result.wrote).toBe(true);
-    expect(result.path).toBe(join(dir, ".kilocode", "mcp.json"));
+    expect(result.path).toBe(join(dir, "kilo.json"));
     const written = JSON.parse(readFileSync(result.path, "utf-8"));
-    expect(written.mcpServers["summer-engine"].command).toBe("npx");
+    expect(written.mcp["summer-engine"].command[0]).toBe("npx");
   });
 
   it("writes a fresh lm-studio config in mcpServers shape", async () => {
@@ -265,7 +269,7 @@ describe("configureAgentMcp", () => {
       env: { SUMMER_LM_STUDIO_CONFIG_FILE: path } as NodeJS.ProcessEnv,
     });
     expect(result.wrote).toBe(true);
-    expect(result.warnings.some((w) => w.includes("no project scope"))).toBe(true);
+    expect(result.warnings.some((w) => w.includes("user scope"))).toBe(true);
   });
 
   it("writes the generated gemini manifest (renamed to the extension dir) plus GEMINI.md/AGENTS.md", async () => {
