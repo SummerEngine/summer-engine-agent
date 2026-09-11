@@ -2,7 +2,7 @@ import { existsSync, readFileSync } from "fs";
 import { copyFile, mkdir, readFile, writeFile } from "fs/promises";
 import { dirname, join, resolve } from "path";
 import { fileURLToPath } from "url";
-import { isMap, parseDocument } from "yaml";
+import { Document, isMap, parseDocument } from "yaml";
 import { PACKAGE_ROOT } from "../core/package-root.js";
 import {
   agentAliasMap,
@@ -217,7 +217,7 @@ export function renderConfigSnippet(
     return renderJsonFile(geminiExtensionManifest(server, readBundledGeminiManifestSync()));
   }
   if (format === "yaml-goose" || format === "yaml-hermes") {
-    const doc = parseDocument("{}");
+    const doc = new Document({});
     doc.setIn([topLevelKey(format), SUMMER_MCP_SERVER_NAME], doc.createNode(mcpEntry(format, server)));
     return doc.toString();
   }
@@ -360,7 +360,9 @@ async function upsertYamlConfig(
   write: boolean
 ): Promise<{ changed: boolean }> {
   const current = await readTextFileIfExists(path);
-  const doc = parseDocument(current.trim() === "" ? "{}" : current);
+  // An empty file starts from a fresh block-style document; parseDocument("{}")
+  // would make the root a flow mapping and the whole file would render as {}.
+  const doc = current.trim() === "" ? new Document({}) : parseDocument(current);
   if (doc.errors.length > 0) {
     throw new Error(`Could not parse YAML in ${path}: ${doc.errors[0].message}`);
   }
