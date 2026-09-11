@@ -1,8 +1,8 @@
 # Releasing `summer-engine`
 
-The npm package is `summer-engine`, its binary is `summer`, and its public source is [SummerEngine/summer-engine-agent](https://github.com/SummerEngine/summer-engine-agent). This nested engine-monorepo copy is kept in sync for product development and testing; it is not the approved npm publication checkout.
+The npm package is `summer-engine`, its binary is `summer`, and its public source is [summerengine/summer](https://github.com/summerengine/summer) — this repository. It is the only checkout that publishes; the engine monorepo carries a `private: true` mirror that must never be published from.
 
-For the exact copy-paste procedure, use [`NPM_PUBLISH_QUICK_COMMANDS.md`](./NPM_PUBLISH_QUICK_COMMANDS.md). It publishes only from a clean, fresh clone of public `main` and stops if the candidate version is not newer than npm `latest`.
+For the exact copy-paste procedure, use [`NPM_PUBLISH_QUICK_COMMANDS.md`](./NPM_PUBLISH_QUICK_COMMANDS.md). It publishes only from a clean, fresh clone of public `main` and stops if the candidate version is not newer than npm `latest`. A major release soaks on the `next` dist-tag before `latest` moves — the 3.0.0 sequence is [`RELEASE-3.0.0.md`](./RELEASE-3.0.0.md).
 
 ## Release contract
 
@@ -44,7 +44,7 @@ No Apple or Windows application-signing certificate is involved in the npm packa
 
 ## Provenance and trusted publishing
 
-Trusted publishing is not the current release path. Before enabling it, configure npm to trust an exact workflow in the public `SummerEngine/summer-engine-agent` repository and review the workflow separately.
+Trusted publishing is not the current release path. Before enabling it, configure npm to trust an exact workflow in the public `summerengine/summer` repository and review the workflow separately.
 
 Current npm requirements include:
 
