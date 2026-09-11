@@ -172,7 +172,7 @@
       "id": "reference/product-map",
       "kind": "reference",
       "version": "1.0.0",
-      "content_hash": "9444ec996ce8f2cb3bb56ad4f5f127f2b00720abb5eef4ebcf101c415ec6c987",
+      "content_hash": "75b94c1c2d2842ba391c536c5720853bf06da7fb707df592efa0fdfb7b6996cc",
       "summary": "The product map — every summerengine.com page and editor surface an agent can open for the user, with intent phrases, URL or op, required context, and status.",
       "use_when": [
         "resolving where a user intent lives — \"where do I change my plan\", \"where are my published games\", \"how do I get to the MCP guide for Codex\"",
