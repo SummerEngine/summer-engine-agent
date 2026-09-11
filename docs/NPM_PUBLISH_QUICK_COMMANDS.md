@@ -2,13 +2,13 @@
 
 This is the approved manual release path until trusted publishing is configured in the public repository. Run it yourself in an interactive macOS Terminal. Do not run the final publish through an AI shell.
 
-The version bump, changelog, and release contents must already be reviewed, committed, and merged to `SummerEngine/summer-engine-agent` `main`. This procedure intentionally makes no source changes.
+The version bump, changelog, and release contents must already be reviewed, committed, and merged to `summerengine/summer` `main`. This procedure intentionally makes no source changes.
 
 ## 1. Clone the exact public source into a new directory
 
 ```bash
-export RELEASE_DIR="$(mktemp -d)/summer-engine-agent"
-git clone --branch main --single-branch https://github.com/SummerEngine/summer-engine-agent.git "$RELEASE_DIR"
+export RELEASE_DIR="$(mktemp -d)/summer"
+git clone --branch main --single-branch https://github.com/summerengine/summer.git "$RELEASE_DIR"
 cd "$RELEASE_DIR"
 git pull --ff-only origin main
 ```

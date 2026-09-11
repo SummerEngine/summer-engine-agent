@@ -18,7 +18,7 @@
 
 ---
 
-This repo is `summerengine/summer` — the front door to Summer. (It is being renamed from `SummerEngine/summer-engine-agent`; redirects keep every old link working.)
+This repo is `summerengine/summer` — the front door to Summer. (It is being renamed from `summerengine/summer`; redirects keep every old link working.)
 
 Your agent gets a real engine, not a chat box. With Summer installed, any AI coding agent can:
 
@@ -33,7 +33,7 @@ You stay in control of every change and release. Summer never publishes, install
 
 Open your AI agent (Claude Code, Cursor, Codex, Copilot, Devin Desktop, etc.) and paste:
 
-> Install Summer Engine and let's make a game. Read github.com/SummerEngine/summer-engine-agent, check what I already have installed, install whatever is missing, log me in, and scaffold a starter project so we can start building.
+> Install Summer Engine and let's make a game. Read github.com/summerengine/summer, check what I already have installed, install whatever is missing, log me in, and scaffold a starter project so we can start building.
 
 That's it. The agent reads this README, detects what's already on your machine, and runs only what's missing via Bash. **No `/plugin` slash commands. No manual installs. One paste.**
 
@@ -306,7 +306,7 @@ Not downloaded, not collected:
 
 | Thing | License | Source |
 |---|---|---|
-| **Summer** (this repo: CLI, MCP server, library, integrations) | **MIT** | [SummerEngine/summer-engine-agent](https://github.com/SummerEngine/summer-engine-agent) |
+| **Summer** (this repo: CLI, MCP server, library, integrations) | **MIT** | [summerengine/summer](https://github.com/summerengine/summer) |
 | **Summer Engine app** (the desktop editor and runtime) | free to download, closed source for now | [summerengine.com/download](https://summerengine.com/download) |
 | **Hosted Summer integrations** | availability and terms vary by rollout; preview features are labeled in the CLI | [summerengine.com/pricing](https://summerengine.com/pricing) |
 
@@ -376,4 +376,4 @@ Some process skills (brainstorming, writing-plans, writing-skills, investigating
 - [Download Summer Engine](https://summerengine.com/download)
 - [Documentation](https://summerengine.com/docs)
 - [Community](https://summerengine.com/community)
-- [Issues](https://github.com/SummerEngine/summer-engine-agent/issues)
+- [Issues](https://github.com/summerengine/summer/issues)

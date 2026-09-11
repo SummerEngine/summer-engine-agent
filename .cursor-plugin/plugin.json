@@ -11,7 +11,7 @@
   },
   "publisher": "summer-engine",
   "homepage": "https://summerengine.com",
-  "repository": "https://github.com/SummerEngine/summer-engine-agent",
+  "repository": "https://github.com/summerengine/summer",
   "license": "MIT",
   "category": "developer-tools",
   "keywords": [

@@ -1,6 +1,6 @@
 # Summer: Development Guide
 
-This repo (npm: `summer-engine`, GitHub: `summerengine/summer` — being renamed from `SummerEngine/summer-engine-agent`, redirects keep old links working) is **MIT, open source**. Treat all commits and code comments as public.
+This repo (npm: `summer-engine`, GitHub: `summerengine/summer` — renamed from `summer-engine-agent` on 2026-09-10; GitHub redirects keep old links working) is **MIT, open source**. Treat all commits and code comments as public.
 
 When committing, don't attribute Cursor, Claude, or any AI tool. Don't reference internal pricing, revenue, or private endpoints. Don't commit secrets. Auth tokens are read from `~/.summer/` at runtime, never hard-coded.
 
@@ -25,7 +25,7 @@ If you're an AI agent or developer with zero context: read [`AGENTS.md`](../AGEN
 |---|---|---|
 | Product | Summer | The system: library + tools + project memory (this repo). |
 | npm package | `summer-engine` | What users install. Never recommend `summer-cli` (an unrelated, inactive package we do not own). |
-| GitHub repo | `summerengine/summer` | Rename pending — today the repo is `SummerEngine/summer-engine-agent`; redirects will hold once renamed. |
+| GitHub repo | `summerengine/summer` | Renamed from `summer-engine-agent` on 2026-09-10; GitHub redirects hold the old URL. Org display casing is still `SummerEngine`; GitHub URLs are case-insensitive. |
 | Binary | `summer` | The CLI entry point. |
 | Brand for the editor | Summer Engine | The closed desktop app (editor + runtime). |
 | Copy rule | — | "Summer" for the system, "`summer-engine` npm package" for the package, "Summer Engine" for the editor. Full conventions: [`NAMING.md`](NAMING.md). |

@@ -21,7 +21,7 @@ session: `alias summer="node $PWD/dist/bin/summer.js"`.
   writes on launch. Without it, every `[engine]` tool prints
   "Summer Engine is not running (or no project is open)" and exits 1 — that is
   the expected engine-less result, not a bug.
-- A checkout: `git clone https://github.com/SummerEngine/summer-engine-agent && cd summer-engine-agent && git checkout <branch under test>`.
+- A checkout: `git clone https://github.com/summerengine/summer && cd summer && git checkout <branch under test>`.
 
 ## b. Build
 

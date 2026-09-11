@@ -8,7 +8,7 @@ One story for what is called what. Three docs used to tell three different ones;
 |---|---|---|
 | **The product** | **Summer** | The open-source system in this repo: the library, the live tools (MCP + CLI), project memory, evals. "Install Summer", "build it with Summer", "Summer's library". |
 | **The editor** | **Summer Engine** | The proprietary desktop app — editor + runtime — that `summer install` downloads. Always two words. Never shorten it to "Summer" when you mean the app; never call the system "Summer Engine". |
-| **GitHub repo** | `summerengine/summer` | **Rename pending.** Today the repo is `SummerEngine/summer-engine-agent`; the rename to `summer` (and the org casing to `summerengine`) happens together with the 3.0.0 release, and GitHub redirects keep old links working. Write the new name in prose, with a parenthetical noting the rename until it lands. |
+| **GitHub repo** | `summerengine/summer` | Renamed from `summer-engine-agent` with the 3.0.0 release (2026-09-10); GitHub redirects keep old links working. The org's display casing is still `SummerEngine` — URLs are case-insensitive, so `summerengine/summer` is the name to write. |
 | **npm package** | `summer-engine` | What users install: `npx -y summer-engine@latest …`. Stays as-is forever — thousands of MCP configs run it. Never recommend `summer-cli` (an unrelated, inactive package we do not own). |
 | **Binary** | `summer` | The CLI entry point (`package.json` `bin.summer`), also the MCP server (`summer mcp`). |
 

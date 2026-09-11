@@ -2,7 +2,7 @@
 
 Use this when a human wants to install Summer Engine from Claude Code, Cursor, Codex, Devin Desktop (formerly Windsurf), Cline, Roo Code, Gemini CLI, GitHub Copilot CLI, GitHub Copilot in VS Code, or OpenCode.
 
-Source: https://github.com/SummerEngine/summer-engine-agent
+Source: https://github.com/summerengine/summer
 MCP setup page: https://summerengine.com/mcp
 
 Paste this into the AI environment:

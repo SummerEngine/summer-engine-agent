@@ -90,6 +90,6 @@ function printIntro(version: string): void {
   console.log(`     ${c.brand("/play")}    ${c.dim("Run the game and report state")}`);
   console.log("");
   console.log(`     ${c.dim("Docs:")} https://summerengine.com/docs`);
-  console.log(`     ${c.dim("Source:")} https://github.com/SummerEngine/summer-engine-agent`);
+  console.log(`     ${c.dim("Source:")} https://github.com/summerengine/summer`);
   console.log("");
 }
