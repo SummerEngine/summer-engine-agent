@@ -35,7 +35,6 @@ const registry = readEngineMainFile(REGISTRY_PATH);
  * deleted with the workaround it excused.
  */
 const KNOWN_UNIMPLEMENTED: Record<string, string> = {
-  Navigate: "one-table editor navigation (summer_open forwards to it)",
   RunSceneScript: "scene scripting: run_script ctx API",
   GetWorldSnapshot: "runtime inspection / world snapshots",
   DiffWorldSnapshot: "runtime inspection / world snapshots",
