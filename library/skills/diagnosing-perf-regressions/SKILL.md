@@ -1,6 +1,6 @@
 ---
 name: diagnosing-perf-regressions
-description: Use when frame rate, frame time, or load time has gotten worse since a known-good state — "it used to run at 60, now it's at 30." Focused on finding the cause of a regression, not general performance tuning.
+description: "Find why frame rate, frame time, or load time got worse since a known-good state — regression hunting, not general performance tuning."
 ---
 
 # Diagnosing Performance Regressions

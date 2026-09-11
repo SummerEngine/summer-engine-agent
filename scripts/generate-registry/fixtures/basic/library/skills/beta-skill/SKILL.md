@@ -1,5 +1,6 @@
 ---
 name: beta-skill
+description: "Fixture skill without frontmatter, exercising fallbacks."
 ---
 
 # Beta skill

@@ -1,6 +1,6 @@
 ---
 name: brainstorming
-description: "Use when starting creative work — designing a game, picking a mechanic, building features or components, modifying behavior. Explores user intent, requirements, and design before implementation. MUST run before any creative work."
+description: "Explore user intent, requirements, and design before implementation — must run before any creative work: features, components, mechanics, behavior."
 ---
 
 # Brainstorming Ideas Into Designs

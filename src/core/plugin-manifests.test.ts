@@ -144,7 +144,7 @@ describe("repo-lint: agent plugin manifests", () => {
 });
 
 describe("repo-lint: skill SKILL.md frontmatter", () => {
-  it("every shipped SKILL.md has name and Use-when-style description", () => {
+  it("every shipped SKILL.md has a name and a one-line description within the hosts' budget", () => {
     const skillDirs = listLibrarySkillDirs();
     const failures: string[] = [];
 
@@ -161,12 +161,12 @@ describe("repo-lint: skill SKILL.md frontmatter", () => {
       const descMatch = fm.match(/^description:\s*(.+)$/m);
       if (!nameMatch || !nameMatch[1].trim()) failures.push(`${rel}: missing name`);
       if (!descMatch || !descMatch[1].trim()) failures.push(`${rel}: missing description`);
-      const desc = descMatch?.[1] ?? "";
-      // Auto-trigger discipline: description must contain "Use when"
-      if (desc && !/\bUse when\b/i.test(desc)) {
-        failures.push(
-          `${rel}: description must contain "Use when ..." (got: "${desc.slice(0, 80)}...")`
-        );
+      const desc = (descMatch?.[1] ?? "").trim().replace(/^"(.*)"$/, "$1");
+      // Context budget: hosts inject every description into every session
+      // (Codex truncates; Claude Code's budget is about 15k chars for all
+      // skills), so the description is the resource summary: one line, <=160.
+      if (desc.length > 160) {
+        failures.push(`${rel}: description is ${desc.length} chars; the budget rule is <=160 (use the resource.yaml summary)`);
       }
     }
 

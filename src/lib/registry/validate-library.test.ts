@@ -107,7 +107,7 @@ describe("validate-library: id namespacing (CONTRACT.md §4)", () => {
   function writeSkill(root: string, dir: string, id: string): void {
     const abs = path.join(root, "library", "skills", dir);
     fs.mkdirSync(abs, { recursive: true });
-    fs.writeFileSync(path.join(abs, "SKILL.md"), `---\nname: ${dir}\ndescription: Fixture.\n---\n\n# ${dir}\n`);
+    fs.writeFileSync(path.join(abs, "SKILL.md"), `---\nname: ${dir}\ndescription: Fixture skill used to exercise publisher-namespaced ids.\n---\n\n# ${dir}\n`);
     fs.writeFileSync(
       path.join(abs, "resource.yaml"),
       [

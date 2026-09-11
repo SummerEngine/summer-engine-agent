@@ -1,6 +1,6 @@
 ---
 name: tune-performance
-description: Use when the user reports the game is slow, drops framerate, stutters, takes forever to start, or runs poorly on specific hardware. Profiles the running game via summer_get_diagnostics, identifies hotspots (rendering / physics / scripting), and proposes specific fixes with before/after metric expectations. Trigger on "slow", "lag", "fps drop", "stuttering", "performance", "optimize", "profile", "framerate".
+description: "Profile a slow game via summer_get_diagnostics, identify rendering/physics/scripting hotspots, propose fixes with before/after metric expectations."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: performance

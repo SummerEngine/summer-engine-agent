@@ -1,6 +1,6 @@
 ---
 name: environment-kit
-description: Use when generating a modular environment kit — wall pieces, floor tiles, pillars, doors, arches, corner blocks that snap together to form a level. Multiple meshes that share a visual style. Trigger on "build a dungeon kit", "modular walls", "level kit", "tileset", "interior pieces", "snap-together pieces", "make a kit for the temple".
+description: "Generate a modular environment kit — wall pieces, floor tiles, pillars, doors, arches, corners — snap-together meshes sharing one visual style."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: 3d-assets

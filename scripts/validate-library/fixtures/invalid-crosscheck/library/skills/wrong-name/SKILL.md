@@ -1,6 +1,6 @@
 ---
 name: something-else
-description: Fixture.
+description: "Frontmatter fixture wrong-name."
 ---
 
 # wrong-name

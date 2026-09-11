@@ -1,6 +1,6 @@
 ---
 name: create-environment-kit
-description: Fixture skill for the valid library.
+description: "Build a coherent, reusable environment kit for a scene."
 ---
 
 # Create an environment kit

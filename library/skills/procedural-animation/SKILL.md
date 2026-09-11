@@ -1,6 +1,6 @@
 ---
 name: procedural-animation
-description: Use when the user needs runtime-driven bone modification on top of clips — head look-at, foot IK on uneven ground, hand-grabs-prop, additive lean, hit-direction recoil. Code-and-modifier patterns, not generation. Trigger on "look at", "IK", "foot placement", "foot IK", "lean", "additive layer", "feet floating", "hand penetration", "head tracks player", "ragdoll".
+description: "Runtime bone modification on top of clips — head look-at, foot IK, hand-grabs-prop, additive lean, recoil. Code-and-modifier patterns, not generation."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: animation

@@ -1,6 +1,6 @@
 ---
 name: skill-test
-description: Use when a contributor wants to lint a Summer skill before commit, audit the whole library, or check a behavioral spec assertion — validates against static structural rules and per-skill behavioral specs. Trigger on "skill test", "lint skill", "validate skill".
+description: "Lint a Summer skill before commit, audit the whole library, or check a behavioral spec assertion — static structural rules plus behavioral specs."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: workflow

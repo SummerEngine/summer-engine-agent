@@ -1,6 +1,6 @@
 ---
 name: gameskill
-description: Use when finishing a game-development session and you want to capture what you just learned as a reusable skill so the next session starts smarter. Trigger on "gameskill", "/gameskill", "capture learnings", "save to skills".
+description: "Capture what a game-dev session just learned as a reusable skill (project, user or Summer library) so the next session starts smarter."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: workflow

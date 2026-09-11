@@ -1,6 +1,6 @@
 ---
 name: sound-effect
-description: Use when generating short SFX one-shots — footsteps, weapon swings, UI clicks, hit impacts, environmental cues. Wires the resulting clip as an AudioStreamPlayer / 2D / 3D and auto-frees on finished. Trigger on "make a sword swing sound", "generate a UI click", "I need a footstep", "add a hit sound", "spawn an SFX".
+description: "Generate short SFX one-shots — footsteps, weapon swings, UI clicks, hit impacts — wired as AudioStreamPlayer/2D/3D that auto-frees on finished."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: audio

@@ -1,6 +1,6 @@
 ---
 name: vfx-dissolve
-description: Use when authoring a dissolve effect — an object's mesh disintegrating with a glowing burning edge, driven by a noise threshold ShaderMaterial overriding the target's existing material. Trigger on "dissolve", "disintegrate", "burn away", "Thanos snap", "vanish into ash", "enemy fades out", "object burns up".
+description: "Dissolve effect — a mesh disintegrating with a glowing burning edge, driven by a noise-threshold ShaderMaterial overriding the target's material."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: visual-effects

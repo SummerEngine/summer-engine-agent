@@ -1,6 +1,6 @@
 ---
 name: vfx-fire
-description: Use when authoring a fire visual effect — animated flames built with a particle shader, GPUParticles3D, and a noise-based color ramp. Trigger on "torch", "campfire", "bonfire", "flame", "fire effect", "burning", "make this thing on fire", "candle".
+description: "Fire effect — animated flames built with a particle shader, GPUParticles3D, and a noise-based color ramp — torches, campfires, candles."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: visual-effects

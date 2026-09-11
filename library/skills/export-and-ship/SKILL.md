@@ -1,6 +1,6 @@
 ---
 name: export-and-ship
-description: Use when the user wants to assess or prepare a Summer game export. Inventories the templates and targets actually available in the installed Summer Engine build, validates release assets and configuration, and produces only locally supported builds after approval. It does not publish, upload, host, or submit a game. Trigger on "export", "ship", "release", "build", "Steam", "itch", "HTML5", "iOS", "Android", "submit", "publish".
+description: "Assess and prepare a game export: inventory installed templates and targets, validate release assets and config, produce supported builds after approval."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: deployment

@@ -1,6 +1,6 @@
 ---
 name: character-model
-description: Use when generating a humanoid character ready for animation — player avatar, NPC, enemy, boss, companion. Generates a T-pose reference image, gates an un-rigged preview past the user, then runs the Meshy auto-rig pass and wires the result as a CharacterBody3D (movement) or Node3D (cinematic). Trigger on "make a character", "generate the player", "I need an enemy model", "create an NPC", "rigged humanoid", "character with a skeleton", "model for animation".
+description: "Generate a rigged humanoid — player, NPC, enemy, boss — via T-pose reference, user-gated preview, and Meshy auto-rig, wired as CharacterBody3D or Node3D."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: 3d-assets

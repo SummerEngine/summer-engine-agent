@@ -1,6 +1,6 @@
 ---
 name: facial-and-lipsync
-description: Use when the user has a voice-over (or wants one) and needs the character's mouth to actually move with the words — phoneme extraction from audio, mapping to viseme blendshapes, plus emotional facial expressions (smile, frown, surprise). Trigger on "lipsync", "lip sync", "talking head", "phonemes", "viseme", "facial animation", "blendshapes", "make him talk", "dialogue animation".
+description: "Make a character's mouth move with a voice-over — phoneme extraction from audio, viseme blendshape mapping, and emotional facial expressions."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: animation

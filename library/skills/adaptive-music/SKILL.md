@@ -1,6 +1,6 @@
 ---
 name: adaptive-music
-description: Use when wiring music stems to game state — combat / explore / boss / tension crossfades on a shared bus. Pairs generated stems with a state machine and AudioBus structure. Trigger on "adaptive music", "dynamic music", "music changes when combat starts", "layered music", "vertical music", "wire stems".
+description: "Wire music stems to game state — combat/explore/boss/tension crossfades on a shared bus, paired with a state machine and AudioBus structure."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: audio

@@ -199,7 +199,7 @@ describe("generateRegistry: catalog outputs", () => {
       {
         id: "skill/alpha-skill",
         name: "alpha-skill",
-        description: 'Use when testing the compiler frontmatter path. Trigger on "alpha".',
+        description: "Fixture skill with SKILL.md frontmatter.",
         clients: "all",
         recommended: true,
         status: "stable",

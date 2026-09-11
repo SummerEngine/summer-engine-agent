@@ -1,6 +1,6 @@
 ---
 name: vfx-muzzle-flash
-description: Use when authoring a muzzle-flash visual effect — a one-shot ~80 ms burst at a gun barrel built with a particle one-shot OR a flashing quad with a star-burst shader. Trigger on "muzzle flash", "gun fire", "weapon flash", "barrel flash", "shoot a gun", "spell-cast burst at hand".
+description: "Muzzle-flash effect — a one-shot ~80 ms burst at a gun barrel built with a particle one-shot or a flashing quad with a star-burst shader."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: visual-effects

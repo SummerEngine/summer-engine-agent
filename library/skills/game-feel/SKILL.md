@@ -1,6 +1,6 @@
 ---
 name: game-feel
-description: Use when a Summer game "feels flat", "lacks impact", "needs juice", or "needs punch", or the user asks for hit feedback, screen shake, camera shake, audio ducking, or general game feel. Walks through Summer Engine's hit-flash, trauma camera shake, and audio-ducking stack, wired so one hit fires all three. Trigger on "vfx", "juice", "punch", "feels flat", "game feel", "hit flash", "screen shake", "camera shake", "ducking".
+description: "Add juice: hit-flash, trauma-based camera shake, and audio ducking wired so one hit fires all three — for games that feel flat or lack impact."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: visual-effects

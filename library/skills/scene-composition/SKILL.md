@@ -1,6 +1,6 @@
 ---
 name: scene-composition
-description: "Use when building or organizing Summer Engine scenes: node hierarchy conventions, when to extract sub-scenes, reusable prefab patterns, and instance-versus-add-node decisions. Trigger on \"scene\", \"sub-scene\", \"instance\", \"prefab\", \"node hierarchy\", \"scene structure\", \"PackedScene\"."
+description: "Scene structure conventions — node hierarchy, when to extract sub-scenes, reusable prefab patterns, and instance-versus-add-node decisions."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: scene-and-project

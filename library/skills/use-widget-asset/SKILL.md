@@ -1,6 +1,6 @@
 ---
 name: use-widget-asset
-description: Use when consuming a widget slice (panel, button, slider, progress bar, or toggle pair) from a `create-asset-sheet` pack in a Summer Engine scene. The pack's metadata.sliceMeta carries 9-slice margins, fill rects, and on/off pair links per slice. This skill explains how to wire those into NinePatchRect, TextureProgressBar, or TextureRect so the asset behaves like a real UI control instead of a static texture.
+description: "Wire a widget slice from a create-asset-sheet pack (panel, button, slider, bar, toggle) into NinePatchRect, TextureProgressBar, or TextureRect via sliceMeta."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: 2d-assets

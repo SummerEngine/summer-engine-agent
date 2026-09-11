@@ -1,6 +1,6 @@
 ---
 name: remote-deploy
-description: Use when the user wants to run or test the game on a real target instead of the editor — a phone, tablet, or another computer ("deploy to my phone", "run on device", "test on Android/iOS", "remote deploy", "one-click deploy", "play on hardware"). Covers the topnav Remote Deploy button, runnable export presets, export templates, and on-device remote debugging. Use when the Remote Deploy button is greyed out and the user wants to know why.
+description: "Run or test the game on a real device — phone, tablet, another computer — via the Remote Deploy button, runnable export presets, and on-device debugging."
 license: MIT
 compatibility: [Cursor, Claude Code, Windsurf, Codex]
 category: deployment
