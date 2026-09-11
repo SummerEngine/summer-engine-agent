@@ -55,8 +55,13 @@ Supported agents: `summer`, `claude-code`, `codex`, `cursor`, `windsurf`, `antig
 ## Registry
 
 One source of truth: `library/skills/<slug>/` (`resource.yaml` + `SKILL.md`).
+The folder is flat by design (categories are `facets.domains`, see
+`docs/design/DECISIONS.md` D3); the human view is the generated
+[`library/skills/README.md`](../library/skills/README.md), one section per
+primary domain, and `summer skills list --by-domain` in the terminal.
 Everything else is compiled from it by `npm run generate:registry`:
 
+- `library/skills/README.md`: the browsable index above (`skills-index.md`).
 - `registry/generated/skills-registry.json`: what `summer skills list/install`
   and `summer setup` read (all agents, plugin and non-plugin).
 - `.claude-plugin/plugin.json` `skills:` (plus the `.codex-plugin/`,

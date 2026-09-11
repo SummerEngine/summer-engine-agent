@@ -311,19 +311,33 @@ export const skillsCommand = new Command("skills")
 skillsCommand
   .command("list")
   .description("List available skills")
-  .action(() => {
+  .option("--by-domain", "Group skills by their primary domain (same grouping as library/skills/README.md)")
+  .action((opts: { byDomain?: boolean }) => {
     const skills = getBuiltinSkills();
     if (skills.length === 0) {
       console.log("No skills found.");
       return;
     }
-    console.log("Available public skills:\n");
-    for (const s of skills) {
+    const line = (s: SkillMeta) => {
       const badge = s.recommended ? "recommended" : "optional";
       const tag = s.status === "preview" ? "[preview] " : "";
-      console.log(
-        `  ${s.name.padEnd(24)} ${badge.padEnd(11)} ${tag}${s.description}`
-      );
+      return `  ${s.name.padEnd(24)} ${badge.padEnd(11)} ${tag}${s.description}`;
+    };
+    if (opts.byDomain) {
+      const groups = new Map<string, SkillMeta[]>();
+      for (const s of skills) {
+        const primary = s.domains[0] ?? "uncategorised";
+        groups.set(primary, [...(groups.get(primary) ?? []), s]);
+      }
+      console.log(`${skills.length} skills by primary domain (full index: library/skills/README.md):`);
+      for (const domain of [...groups.keys()].sort()) {
+        const group = groups.get(domain)!;
+        console.log(`\n${domain} (${group.length})`);
+        for (const s of group) console.log(line(s));
+      }
+    } else {
+      console.log("Available public skills:\n");
+      for (const s of skills) console.log(line(s));
     }
     const previewCount = skills.filter((s) => s.status === "preview").length;
     if (previewCount > 0) {

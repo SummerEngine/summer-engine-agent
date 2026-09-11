@@ -66,6 +66,15 @@ export const MANIFEST_TARGETS: Record<string, ManifestTarget[]> = {
   warp: [],
 };
 
+/**
+ * Generated documents that are not agent manifests. Applied and drift-checked
+ * exactly like the manifests, but not mirrored in integrations/.
+ */
+export const DOC_TARGETS: ManifestTarget[] = [
+  // The human index of the flat skills folder (see buildSkillsIndexMarkdown).
+  { generated: "skills-index.md", destination: "library/skills/README.md" },
+];
+
 export function allTargets(): ManifestTarget[] {
-  return Object.values(MANIFEST_TARGETS).flat();
+  return [...Object.values(MANIFEST_TARGETS).flat(), ...DOC_TARGETS];
 }
