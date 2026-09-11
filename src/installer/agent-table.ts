@@ -24,6 +24,7 @@ export const AGENT_IDS = [
   "antigravity",
   "gemini",
   "cline",
+  "cline-cli",
   "roo-code",
   "kilo-code",
   "github-copilot",
@@ -42,6 +43,11 @@ export const AGENT_IDS = [
   "amp",
   "factory",
   "junie",
+  "warp",
+  "rovo-dev",
+  "qoder",
+  "grok-build",
+  "mistral-vibe",
   "lm-studio",
 ] as const;
 
@@ -55,10 +61,13 @@ export type ConfigScope = "user" | "project";
  *  json-vscode   { servers:    { <name>: { type: "stdio", command, args, env? } } }
  *  json-copilot  { mcpServers: { <name>: { type: "local", command, args, tools: ["*"], env? } } }
  *  json-opencode { mcp:        { <name>: { type: "local", command: [..], enabled: true, environment? } } }
- *  json-zed      { context_servers: { <name>: { source: "custom", command, args, env } } }
+ *  json-servers  { servers:    { <name>: { command, args, env? } } }               (Copilot in JetBrains)
+ *  json-zed      { context_servers: { <name>: { command, args, env } } }
  *  json-amp      { "amp.mcpServers": { <name>: { command, args, env? } } }
  *  json-crush    { mcp:        { <name>: { type: "stdio", command, args, env? } } }
- *  toml          [mcp_servers.<name>] command/args/env
+ *  json-transport{ mcpServers: { <name>: { command, args, transport: "stdio", env? } } } (Rovo Dev)
+ *  toml          [mcp_servers.<name>] command/args/env                              (Codex, Grok Build)
+ *  toml-array    [[mcp_servers]] name/transport/command/args                         (Mistral Vibe)
  *  yaml-goose    extensions: <name>: { type: stdio, name, cmd, args, enabled, timeout, envs }
  *  yaml-hermes   mcp_servers: <name>: { command, args, env? }
  *  json-gemini   the Gemini extension manifest (legacy)
@@ -69,10 +78,13 @@ export type McpFormat =
   | "json-vscode"
   | "json-copilot"
   | "json-opencode"
+  | "json-servers"
   | "json-zed"
   | "json-amp"
   | "json-crush"
+  | "json-transport"
   | "toml"
+  | "toml-array"
   | "yaml-goose"
   | "yaml-hermes"
   | "json-gemini";
@@ -120,7 +132,8 @@ export interface AgentSpec {
   envOverride: string;
   format: McpFormat;
   mcp: {
-    user: (ctx: PathContext) => string;
+    /** null: user-level servers are managed in the app's UI; a user request writes the project file with a warning. */
+    user: ((ctx: PathContext) => string) | null;
     /** null: user-only config; a project request falls back to user with a warning. */
     project: ((ctx: PathContext) => string) | null;
     /** Extra warning printed when project scope is requested (also when it is honoured). */
@@ -180,7 +193,7 @@ const SPECS: readonly AgentSpec[] = [
     aliases: ["claude"],
     status: "active",
     envOverride: "SUMMER_CLAUDE_CONFIG_FILE",
-    format: "json",
+    format: "json-stdio",
     mcp: { user: home(".claude.json"), project: project(".mcp.json") },
     restart: "Restart Claude Code or run /mcp in a new session.",
     skills: skillDirs(home(".claude", "skills"), project(".claude", "skills")),
@@ -222,7 +235,7 @@ const SPECS: readonly AgentSpec[] = [
     aliases: [],
     status: "active",
     envOverride: "SUMMER_CURSOR_MCP_CONFIG_FILE",
-    format: "json",
+    format: "json-stdio",
     mcp: { user: home(".cursor", "mcp.json"), project: project(".cursor", "mcp.json") },
     restart: "Restart Cursor and enable the summer-engine MCP server if prompted.",
     skills: skillDirs(home(".cursor", "skills"), project(".cursor", "skills"), {
@@ -241,7 +254,7 @@ const SPECS: readonly AgentSpec[] = [
       user: home(".codeium", "windsurf", "mcp_config.json"),
       project: null,
     },
-    restart: "Restart Devin Desktop (formerly Windsurf) and refresh MCP servers from the agent settings.",
+    restart: "Restart Devin Desktop (formerly Windsurf) and refresh MCP servers from the agent settings. Devin's docs say mcp_config.json configures the Cascade agent; for the Devin agent add the server in the app's MCP settings with the same command.",
     skills: skillDirs(home(".codeium", "windsurf", "skills"), project(".windsurf", "skills")),
   },
   {
@@ -252,11 +265,11 @@ const SPECS: readonly AgentSpec[] = [
     envOverride: "SUMMER_ANTIGRAVITY_CONFIG_FILE",
     format: "json",
     mcp: {
-      user: home(".gemini", "antigravity", "mcp_config.json"),
-      project: null,
+      user: home(".gemini", "config", "mcp_config.json"),
+      project: project(".agents", "mcp_config.json"),
     },
-    restart: "In Antigravity open the agent panel's MCP servers view and refresh; summer-engine appears in the list.",
-    skills: skillDirs(home(".gemini", "antigravity", "skills"), project(".agents", "skills")),
+    restart: "In Antigravity open the agent panel's MCP servers view and refresh; summer-engine appears in the list (IDE and CLI share this file).",
+    skills: skillDirs(home(".gemini", "config", "skills"), project(".agents", "skills")),
   },
   {
     id: "gemini",
@@ -277,8 +290,8 @@ const SPECS: readonly AgentSpec[] = [
   },
   {
     id: "cline",
-    label: "Cline",
-    aliases: ["cline-cli"],
+    label: "Cline (VS Code)",
+    aliases: ["cline-vscode"],
     status: "active",
     envOverride: "SUMMER_CLINE_CONFIG_FILE",
     format: "json",
@@ -287,6 +300,17 @@ const SPECS: readonly AgentSpec[] = [
       project: null,
     },
     restart: "Restart VS Code so Cline reloads its MCP config.",
+    skills: skillDirs(home(".cline", "skills"), project(".cline", "skills")),
+  },
+  {
+    id: "cline-cli",
+    label: "Cline CLI",
+    aliases: ["clinecli"],
+    status: "active",
+    envOverride: "SUMMER_CLINE_CLI_CONFIG_FILE",
+    format: "json",
+    mcp: { user: home(".cline", "data", "settings", "cline_mcp_settings.json"), project: null },
+    restart: "Restart the Cline CLI so it reloads its MCP settings.",
     skills: skillDirs(home(".cline", "skills"), project(".cline", "skills")),
   },
   {
@@ -363,13 +387,14 @@ const SPECS: readonly AgentSpec[] = [
     aliases: ["jetbrains-copilot", "intellij-copilot", "copilot-intellij"],
     status: "active",
     envOverride: "SUMMER_COPILOT_JETBRAINS_CONFIG_FILE",
-    format: "json-vscode",
+    format: "json-servers",
     mcp: {
       user: (ctx) => join(xdgOrAppData(ctx), "github-copilot", "intellij", "mcp.json"),
       project: null,
     },
     restart: "Restart the JetBrains IDE and open Copilot Chat in Agent mode; summer-engine shows in the tools list.",
-    skills: skillDirs(home(".copilot", "skills"), project(".github", "skills")),
+    skills: null,
+    noSkillsNote: "Copilot in JetBrains documents no skills folder; the MCP server ships summer_get_agent_playbook for in-chat guidance.",
   },
   {
     id: "opencode",
@@ -397,7 +422,7 @@ const SPECS: readonly AgentSpec[] = [
     format: "json-zed",
     mcp: {
       user: (ctx) => join(xdgOrAppData(ctx), "zed", "settings.json"),
-      project: project(".zed", "settings.json"),
+      project: null,
     },
     restart: "Zed reloads settings.json live; open the Agent panel and check summer-engine under MCP servers.",
     skills: skillDirs(home(".agents", "skills"), project(".agents", "skills")),
@@ -428,8 +453,7 @@ const SPECS: readonly AgentSpec[] = [
       project: null,
     },
     restart: "Restart Goose (CLI or Desktop); summer-engine is listed under Extensions.",
-    skills: null,
-    noSkillsNote: "Goose has no skills folder; put project guidance in .goosehints. The MCP server ships summer_get_agent_playbook for in-chat guidance.",
+    skills: skillDirs((ctx) => join(xdgConfig(ctx), "agents", "skills"), project(".agents", "skills")),
   },
   {
     id: "hermes",
@@ -439,8 +463,10 @@ const SPECS: readonly AgentSpec[] = [
     envOverride: "SUMMER_HERMES_CONFIG_FILE",
     format: "yaml-hermes",
     mcp: { user: home(".hermes", "config.yaml"), project: null },
-    restart: "Restart Hermes Agent so it reconnects its MCP servers.",
-    skills: skillDirs(home(".hermes", "skills"), null),
+    restart: "Run /reload-mcp in Hermes Agent (or restart it).",
+    skills: skillDirs(home(".hermes", "skills"), project(".hermes", "skills"), {
+      reloadHint: "Project skills need `hermes skills trust` before Hermes loads them.",
+    }),
   },
   {
     id: "trae",
@@ -449,14 +475,14 @@ const SPECS: readonly AgentSpec[] = [
     status: "active",
     envOverride: "SUMMER_TRAE_CONFIG_FILE",
     format: "json",
-    mcp: { user: home(".trae", "mcp.json"), project: null },
-    restart: "Restart Trae and open the MCP settings; summer-engine should show as connected.",
-    skills: {
-      kind: "cline-rule-dir",
-      user: home(".trae", "rules"),
-      project: project(".trae", "rules"),
-      defaultScope: "project",
+    mcp: {
+      user: null,
+      project: project(".trae", "mcp.json"),
+      projectNote: "Trae manages user-level MCP servers in its UI; writing the project file .trae/mcp.json instead.",
     },
+    restart: "Restart Trae and open the MCP settings; summer-engine should show as connected.",
+    skills: null,
+    noSkillsNote: "Trae documents no skills folder; the MCP server ships summer_get_agent_playbook for in-chat guidance.",
   },
   {
     id: "qwen-code",
@@ -476,9 +502,9 @@ const SPECS: readonly AgentSpec[] = [
     status: "active",
     envOverride: "SUMMER_KIMI_CODE_CONFIG_FILE",
     format: "json",
-    mcp: { user: home(".kimi", "mcp.json"), project: null },
+    mcp: { user: home(".kimi-code", "mcp.json"), project: project(".kimi-code", "mcp.json") },
     restart: "Restart Kimi Code CLI so it reconnects its MCP servers.",
-    skills: skillDirs(home(".kimi", "skills"), project(".kimi", "skills")),
+    skills: skillDirs(home(".kimi-code", "skills"), project(".kimi-code", "skills")),
   },
   {
     id: "crush",
@@ -488,12 +514,11 @@ const SPECS: readonly AgentSpec[] = [
     envOverride: "SUMMER_CRUSH_CONFIG_FILE",
     format: "json-crush",
     mcp: {
-      user: (ctx) => join(xdgOrAppData(ctx), "crush", "crush.json"),
-      project: project(".crush.json"),
+      user: home(".config", "crush", "crushrc"),
+      project: project(".crushrc"),
     },
-    restart: "Restart Crush so it reloads crush.json.",
-    skills: null,
-    noSkillsNote: "Crush has no skills folder; put project guidance in CRUSH.md. The MCP server ships summer_get_agent_playbook for in-chat guidance.",
+    restart: "Restart Crush so it reloads crushrc.",
+    skills: skillDirs(home(".config", "crush", "skills"), project(".crush", "skills")),
   },
   {
     id: "amp",
@@ -504,7 +529,7 @@ const SPECS: readonly AgentSpec[] = [
     format: "json-amp",
     mcp: { user: (ctx) => join(xdgOrAppData(ctx), "amp", "settings.json"), project: null },
     restart: "Restart Amp so it reloads settings.json.",
-    skills: skillDirs((ctx) => join(xdgOrAppData(ctx), "agents", "skills"), project(".agents", "skills")),
+    skills: skillDirs((ctx) => join(xdgOrAppData(ctx), "amp", "skills"), project(".agents", "skills")),
   },
   {
     id: "factory",
@@ -528,6 +553,61 @@ const SPECS: readonly AgentSpec[] = [
     restart: "Restart the JetBrains IDE so Junie reloads its MCP config.",
     skills: null,
     noSkillsNote: "Junie has no skills folder; put project guidance in .junie/guidelines.md. The MCP server ships summer_get_agent_playbook for in-chat guidance.",
+  },
+  {
+    id: "warp",
+    label: "Warp",
+    aliases: ["warp-terminal"],
+    status: "active",
+    envOverride: "SUMMER_WARP_CONFIG_FILE",
+    format: "json",
+    mcp: { user: home(".warp", ".mcp.json"), project: project(".warp", ".mcp.json") },
+    restart: "Warp detects the file and spawns the server; check Settings > AI > MCP servers.",
+    skills: skillDirs(home(".warp", "skills"), project(".warp", "skills")),
+  },
+  {
+    id: "rovo-dev",
+    label: "Rovo Dev CLI",
+    aliases: ["rovodev", "rovo", "atlassian-rovo-dev"],
+    status: "active",
+    envOverride: "SUMMER_ROVO_DEV_CONFIG_FILE",
+    format: "json-transport",
+    mcp: { user: home(".rovodev", "mcp.json"), project: null },
+    restart: "Restart Rovo Dev CLI so it reconnects its MCP servers.",
+    skills: skillDirs(home(".rovodev", "skills"), project(".rovodev", "skills")),
+  },
+  {
+    id: "qoder",
+    label: "Qoder CLI",
+    aliases: ["qoder-cli"],
+    status: "active",
+    envOverride: "SUMMER_QODER_CONFIG_FILE",
+    format: "json",
+    mcp: { user: home(".qoder", "settings.json"), project: project(".mcp.json") },
+    restart: "Restart Qoder CLI so it reloads its MCP settings (the Qoder IDE manages servers in its UI).",
+    skills: skillDirs(home(".qoder", "skills"), project(".qoder", "skills")),
+  },
+  {
+    id: "grok-build",
+    label: "Grok Build",
+    aliases: ["grok", "xai-grok"],
+    status: "active",
+    envOverride: "SUMMER_GROK_BUILD_CONFIG_FILE",
+    format: "toml",
+    mcp: { user: home(".grok", "config.toml"), project: project(".grok", "config.toml") },
+    restart: "Restart Grok Build so it reloads config.toml (it also reads ~/.claude.json and .cursor/mcp.json).",
+    skills: skillDirs(home(".grok", "skills"), project(".grok", "skills")),
+  },
+  {
+    id: "mistral-vibe",
+    label: "Mistral Vibe",
+    aliases: ["vibe", "mistral"],
+    status: "active",
+    envOverride: "SUMMER_MISTRAL_VIBE_CONFIG_FILE",
+    format: "toml-array",
+    mcp: { user: home(".vibe", "config.toml"), project: project(".vibe", "config.toml") },
+    restart: "Restart Vibe so it reloads config.toml.",
+    skills: skillDirs(home(".vibe", "skills"), project(".vibe", "skills")),
   },
   {
     id: "lm-studio",
@@ -596,16 +676,17 @@ export interface ResolvedMcpPath {
 export function resolveMcpPath(spec: AgentSpec, scope: ConfigScope, ctx: PathContext): ResolvedMcpPath {
   const warnings: string[] = [];
   if (spec.status === "legacy" && spec.legacyNote) warnings.push(spec.legacyNote);
-  if (scope === "project") {
+  if (scope === "project" || spec.mcp.user === null) {
     if (spec.mcp.project) {
-      if (spec.mcp.projectNote) warnings.push(spec.mcp.projectNote);
-      return { path: spec.mcp.project(ctx), scope, warnings };
+      if (spec.mcp.projectNote && (scope === "project" || spec.mcp.user === null)) warnings.push(spec.mcp.projectNote);
+      return { path: spec.mcp.project(ctx), scope: "project", warnings };
     }
     warnings.push(
       spec.mcp.projectNote ??
         `${spec.label} reads MCP config from one user-level file only; writing user scope instead.`
     );
   }
+  if (spec.mcp.user === null) throw new Error(`${spec.label} has neither a user nor a project MCP config path.`);
   return { path: spec.mcp.user(ctx), scope: "user", warnings };
 }
 

@@ -58,6 +58,12 @@ export const MANIFEST_TARGETS: Record<string, ManifestTarget[]> = {
   trae: [],
   "visual-studio": [],
   zed: [],
+  "cline-cli": [],
+  "grok-build": [],
+  "mistral-vibe": [],
+  qoder: [],
+  "rovo-dev": [],
+  warp: [],
 };
 
 export function allTargets(): ManifestTarget[] {

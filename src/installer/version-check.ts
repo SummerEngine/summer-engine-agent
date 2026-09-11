@@ -521,6 +521,20 @@ export function readRecordedMcpServer(
   format: McpFormat
 ): StdioMcpServerConfig | null {
   if (!text.trim()) return null;
+  if (format === "toml-array") {
+    const block = text.match(
+      new RegExp(`^\\[\\[mcp_servers\\]\\]\\s*$([\\s\\S]*?)(?=^\\[|(?![\\s\\S]))`, "gm")
+    );
+    for (const candidate of block ?? []) {
+      if (!new RegExp(`^name\\s*=\\s*"${SUMMER_MCP_SERVER_NAME}"`, "m").test(candidate)) continue;
+      const command = candidate.match(/^command\s*=\s*"((?:[^"\\]|\\.)*)"/m)?.[1];
+      const argsText = candidate.match(/^args\s*=\s*\[([^\]]*)\]/m)?.[1] ?? "";
+      if (!command) return null;
+      const args = [...argsText.matchAll(/"((?:[^"\\]|\\.)*)"/g)].map((m) => m[1].replace(/\\(.)/g, "$1"));
+      return { command: command.replace(/\\(.)/g, "$1"), args };
+    }
+    return null;
+  }
   if (format === "toml") {
     const table = text.match(
       new RegExp(`^\\[mcp_servers\\.${SUMMER_MCP_SERVER_NAME.replace(/[-.]/g, "\\$&")}\\]\\s*$([\\s\\S]*?)(?=^\\[|(?![\\s\\S]))`, "m")

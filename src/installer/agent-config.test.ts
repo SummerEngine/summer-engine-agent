@@ -174,7 +174,7 @@ describe("configureAgentMcp", () => {
     expect(() => readFileSync(path, "utf-8")).toThrow();
   });
 
-  it("writes a fresh cline config in mcpServers shape", async () => {
+  it("writes a fresh cline (VS Code) config in mcpServers shape", async () => {
     const dir = tmp();
     const path = join(dir, "cline_mcp_settings.json");
     const result = await configureAgentMcp({

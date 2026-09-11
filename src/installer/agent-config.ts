@@ -147,6 +147,8 @@ async function upsertConfig(
   switch (format) {
     case "toml":
       return upsertCodexConfig(path, server, write);
+    case "toml-array":
+      return upsertTomlArrayConfig(path, server, write);
     case "json-gemini":
       return upsertGeminiExtension(path, server, write);
     case "yaml-goose":
@@ -210,6 +212,7 @@ export function renderConfigSnippet(
 ): string {
   const format = agentSpec(agent).format;
   if (format === "toml") return renderCodexServerTable(server);
+  if (format === "toml-array") return renderTomlArrayEntry(server);
   if (format === "json-gemini") {
     return renderJsonFile(geminiExtensionManifest(server, readBundledGeminiManifestSync()));
   }
@@ -230,6 +233,7 @@ const OPENCODE_SCHEMA = "https://opencode.ai/config.json";
 export function topLevelKey(format: McpFormat): string {
   switch (format) {
     case "json-vscode":
+    case "json-servers":
       return "servers";
     case "json-opencode":
     case "json-crush":
@@ -242,6 +246,7 @@ export function topLevelKey(format: McpFormat): string {
       return "extensions";
     case "yaml-hermes":
     case "toml":
+    case "toml-array":
       return "mcp_servers";
     default:
       return "mcpServers";
@@ -266,7 +271,11 @@ export function mcpEntry(format: McpFormat, server: StdioMcpServerConfig): JsonO
     case "json-crush":
       return { type: "stdio", command: server.command, args: server.args, ...(env ? { env } : {}) };
     case "json-zed":
-      return { source: "custom", command: server.command, args: server.args, env: env ?? {} };
+      return { command: server.command, args: server.args, env: env ?? {} };
+    case "json-transport":
+      return { command: server.command, args: server.args, transport: "stdio", ...(env ? { env } : {}) };
+    case "toml-array":
+      return { name: SUMMER_MCP_SERVER_NAME, transport: "stdio", command: server.command, args: server.args, ...(env ? { env } : {}) };
     case "yaml-goose":
       return {
         type: "stdio",
@@ -276,6 +285,7 @@ export function mcpEntry(format: McpFormat, server: StdioMcpServerConfig): JsonO
         args: server.args,
         enabled: true,
         timeout: 300,
+        env_keys: [],
         envs: env ?? {},
       };
     default:
@@ -412,6 +422,75 @@ async function upsertCodexConfig(
   }
 
   return { changed };
+}
+
+/**
+ * Mistral Vibe lists servers as a TOML array of tables:
+ *   [[mcp_servers]]
+ *   name = "summer-engine"
+ *   ...
+ * Replace the block whose name is ours, else append one.
+ */
+async function upsertTomlArrayConfig(
+  path: string,
+  server: StdioMcpServerConfig,
+  write: boolean
+): Promise<{ changed: boolean }> {
+  const current = await readTextFileIfExists(path);
+  const next = upsertTomlArrayBlock(current, renderTomlArrayEntry(server));
+  const changed = current !== next;
+  if (write && changed) {
+    await writeTextFile(path, next);
+  }
+  return { changed };
+}
+
+export function upsertTomlArrayBlock(content: string, block: string): string {
+  const lines = content.split(/\r?\n/);
+  const header = /^\s*\[\[mcp_servers\]\]\s*(?:#.*)?$/;
+  const nameLine = new RegExp(`^\\s*name\\s*=\\s*"${SUMMER_MCP_SERVER_NAME}"\\s*(?:#.*)?$`);
+  let start = -1;
+  let end = lines.length;
+  for (let index = 0; index < lines.length; index += 1) {
+    if (!header.test(lines[index])) continue;
+    let blockEnd = lines.length;
+    for (let inner = index + 1; inner < lines.length; inner += 1) {
+      if (/^\s*\[/.test(lines[inner])) {
+        blockEnd = inner;
+        break;
+      }
+    }
+    if (lines.slice(index + 1, blockEnd).some((line) => nameLine.test(line))) {
+      start = index;
+      end = blockEnd;
+      break;
+    }
+  }
+  if (start === -1) {
+    const trimmed = content.endsWith("\n") || content === "" ? content : `${content}\n`;
+    return `${trimmed}${trimmed === "" ? "" : "\n"}${block}`;
+  }
+  const replacement = block.trimEnd().split("\n");
+  if (lines[end] && lines[end].trim() !== "") replacement.push("");
+  return ensureTrailingNewline([...lines.slice(0, start), ...replacement, ...lines.slice(end)].join("\n"));
+}
+
+function renderTomlArrayEntry(server: StdioMcpServerConfig): string {
+  const lines = [
+    "[[mcp_servers]]",
+    `name = ${tomlString(SUMMER_MCP_SERVER_NAME)}`,
+    `transport = "stdio"`,
+    `command = ${tomlString(server.command)}`,
+    `args = [${server.args.map(tomlString).join(", ")}]`,
+  ];
+  if (server.env && Object.keys(server.env).length > 0) {
+    lines.push(
+      `env = { ${Object.entries(server.env)
+        .map(([key, value]) => `${key} = ${tomlString(value)}`)
+        .join(", ")} }`
+    );
+  }
+  return `${lines.join("\n")}\n`;
 }
 
 async function upsertGeminiExtension(

@@ -58,7 +58,7 @@ describe("agent table integrity", () => {
       expect(spec.legacyNote).toBeTruthy();
       expect(resolveMcpPath(spec, "user", ctx("darwin")).warnings).toContain(spec.legacyNote);
     }
-    for (const spec of allAgentSpecs().filter((s) => s.status === "active")) {
+    for (const spec of allAgentSpecs().filter((s) => s.status === "active" && s.mcp.user !== null)) {
       expect(resolveMcpPath(spec, "user", ctx("darwin")).warnings).toEqual([]);
     }
   });
@@ -94,6 +94,7 @@ describe("agent table paths", () => {
         const user = resolveMcpPath(spec, "user", ctx(os));
         expect(user.path.length, `${spec.id}/${os}`).toBeGreaterThan(0);
         const project = resolveMcpPath(spec, "project", ctx(os));
+        if (spec.mcp.user === null) expect(user.scope).toBe("project");
         if (spec.mcp.project) {
           expect(project.scope).toBe("project");
           expect(project.path.startsWith("/work/game")).toBe(true);
@@ -157,19 +158,57 @@ describe("config file shapes", () => {
     expect(JSON.parse(text).mcpServers["summer-engine"]).toEqual({ type: "stdio", command: "npx", args: NPX_ARGS });
   });
 
-  it("json-vscode (Visual Studio, Copilot JetBrains): servers entry typed stdio", async () => {
-    for (const agent of ["visual-studio", "copilot-jetbrains"] as const) {
-      const { text } = await write(agent, "mcp.json");
-      expect(JSON.parse(text).servers["summer-engine"]).toEqual({ type: "stdio", command: "npx", args: NPX_ARGS });
+  it("json-vscode (Visual Studio): servers entry typed stdio; json-servers (Copilot JetBrains): untyped", async () => {
+    const vs = await write("visual-studio", "mcp.json");
+    expect(JSON.parse(vs.text).servers["summer-engine"]).toEqual({ type: "stdio", command: "npx", args: NPX_ARGS });
+    const jb = await write("copilot-jetbrains", "mcp.json");
+    expect(JSON.parse(jb.text).servers["summer-engine"]).toEqual({ command: "npx", args: NPX_ARGS });
+  });
+
+  it("json-stdio (Claude Code, Cursor, Factory) writes type stdio, which their docs now require", async () => {
+    for (const [agent, file] of [["claude-code", ".claude.json"], ["cursor", "mcp.json"], ["factory", "mcp.json"]] as const) {
+      const { text } = await write(agent, file);
+      expect(JSON.parse(text).mcpServers["summer-engine"], agent).toEqual({ type: "stdio", command: "npx", args: NPX_ARGS });
     }
   });
 
-  it("json-zed: context_servers entry with source custom and an env map, other settings kept", async () => {
-    const { text } = await write("zed", "settings.json", JSON.stringify({ theme: "One Dark", context_servers: { other: { source: "custom", command: "x", args: [] } } }));
+  it("json-zed: context_servers entry with command/args/env, other settings kept", async () => {
+    const { text } = await write("zed", "settings.json", JSON.stringify({ theme: "One Dark", context_servers: { other: { command: "x", args: [] } } }));
     const parsed = JSON.parse(text);
     expect(parsed.theme).toBe("One Dark");
     expect(parsed.context_servers.other.command).toBe("x");
-    expect(parsed.context_servers["summer-engine"]).toEqual({ source: "custom", command: "npx", args: NPX_ARGS, env: {} });
+    expect(parsed.context_servers["summer-engine"]).toEqual({ command: "npx", args: NPX_ARGS, env: {} });
+  });
+
+  it("json-transport (Rovo Dev): mcpServers entry with transport stdio", async () => {
+    const { text } = await write("rovo-dev", "mcp.json");
+    expect(JSON.parse(text).mcpServers["summer-engine"]).toEqual({ command: "npx", args: NPX_ARGS, transport: "stdio" });
+  });
+
+  it("toml (Grok Build) reuses the Codex table shape", async () => {
+    const { text } = await write("grok-build", "config.toml", 'model = "grok-4"\n');
+    expect(text).toContain('model = "grok-4"');
+    expect(text).toContain("[mcp_servers.summer-engine]");
+    expect(text).toContain('args = ["-y", "summer-engine@latest", "mcp"]');
+  });
+
+  it("toml-array (Mistral Vibe): [[mcp_servers]] block by name, replaced on re-run, others kept", async () => {
+    const seed = '[[mcp_servers]]\nname = "other"\ntransport = "stdio"\ncommand = "x"\nargs = []\n\n[[mcp_servers]]\nname = "summer-engine"\ntransport = "stdio"\ncommand = "old"\nargs = []\n\n[ui]\ntheme = "dark"\n';
+    const { text, path } = await write("mistral-vibe", "config.toml", seed);
+    expect(text).toContain('name = "other"');
+    expect(text).toContain('theme = "dark"');
+    expect(text).not.toContain('command = "old"');
+    expect((text.match(/\[\[mcp_servers\]\]/g) ?? []).length).toBe(2);
+    expect(text).toContain('command = "npx"');
+    const again = await configureAgentMcp({ agent: "mistral-vibe", scope: "user", env: { SUMMER_MISTRAL_VIBE_CONFIG_FILE: path } as NodeJS.ProcessEnv });
+    expect(again.changed).toBe(false);
+  });
+
+  it("Trae has no user-level file: a user request writes the project file with a warning", async () => {
+    const dir = tmp();
+    const result = await configureAgentMcp({ agent: "trae", scope: "user", cwd: dir, env: {} as NodeJS.ProcessEnv });
+    expect(result.path).toBe(join(dir, ".trae", "mcp.json"));
+    expect(result.warnings.some((w) => /UI/.test(w))).toBe(true);
   });
 
   it("json-amp: amp.mcpServers dotted key", async () => {
@@ -184,8 +223,8 @@ describe("config file shapes", () => {
     expect(JSON.parse(text).mcp["summer-engine"]).toEqual({ type: "stdio", command: "npx", args: NPX_ARGS });
   });
 
-  it("plain json agents (Antigravity, Kiro, Trae, Qwen, Kimi, Junie, Claude Desktop) write mcpServers", async () => {
-    for (const agent of ["antigravity", "kiro", "trae", "qwen-code", "kimi-code", "junie", "claude-desktop"] as const) {
+  it("plain json agents (Antigravity, Kiro, Qwen, Kimi, Junie, Claude Desktop, Warp, Qoder, Cline CLI) write mcpServers", async () => {
+    for (const agent of ["antigravity", "kiro", "qwen-code", "kimi-code", "junie", "claude-desktop", "warp", "qoder", "cline-cli"] as const) {
       const { text } = await write(agent, "mcp.json");
       expect(JSON.parse(text).mcpServers["summer-engine"], agent).toEqual({ command: "npx", args: NPX_ARGS });
     }
@@ -205,6 +244,7 @@ describe("config file shapes", () => {
       args: NPX_ARGS,
       enabled: true,
       timeout: 300,
+      env_keys: [],
       envs: {},
     });
   });
@@ -254,6 +294,7 @@ describe("config file shapes", () => {
     expect(mcpEntry("json", server).env).toEqual(server.env);
     expect(mcpEntry("json-opencode", server).environment).toEqual(server.env);
     expect(mcpEntry("json-zed", server).env).toEqual(server.env);
+    expect(mcpEntry("json-transport", server).transport).toBe("stdio");
     expect(mcpEntry("yaml-goose", server).envs).toEqual(server.env);
     expect(mcpEntry("json-copilot", server).tools).toEqual(["*"]);
   });

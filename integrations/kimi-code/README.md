@@ -4,9 +4,9 @@ No manifest file is generated in this repo for Kimi Code CLI — `manifest-targe
 is intentionally empty. Support is delivered at install time by
 `summer setup kimi-code` (aliases: `kimi`, `kimi-cli`, `kimicode`), which writes:
 
-- MCP config: `~/.kimi/mcp.json`; Windows `%USERPROFILE%/.kimi/mcp.json` (user); user scope only (project requests fall back with a warning).
+- MCP config: `~/.kimi-code/mcp.json`; Windows `%USERPROFILE%/.kimi-code/mcp.json` (user); `.kimi-code/mcp.json` (project).
   Shape: `mcpServers.summer-engine = { command, args }`.
-- Skills: `~/.kimi/skills` (user) or `.kimi/skills` (project) as `<skill>/SKILL.md`.
+- Skills: `~/.kimi-code/skills` (user) or `.kimi-code/skills` (project) as `<skill>/SKILL.md`.
 - After: Restart Kimi Code CLI so it reconnects its MCP servers.
 
 Source of truth: `src/installer/agent-table.ts` (one row per agent).

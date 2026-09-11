@@ -2,10 +2,10 @@
 
 All notable changes to summer-engine will be documented here. Following [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [3.1.0] - 2026-09-11
 
 ### Added
-- `summer setup` now covers every MCP-capable coding agent with a user-editable config: Claude Desktop, Antigravity, Zed, Kiro, Goose, Hermes Agent, GitHub Copilot in Visual Studio and in JetBrains IDEs, Trae, Qwen Code, Kimi Code CLI, Crush, Amp, Factory Droid and Junie join the existing targets (25 active agents). New file shapes: Zed `context_servers`, Amp `amp.mcpServers`, Crush `mcp`, Goose and Hermes YAML (comments preserved), typed-stdio `mcpServers`.
+- `summer setup` now covers every MCP-capable coding agent with a user-editable config: Claude Desktop, Antigravity, Zed, Kiro, Goose, Hermes Agent, GitHub Copilot in Visual Studio and in JetBrains IDEs, Trae, Qwen Code, Kimi Code CLI, Crush, Amp, Factory Droid, Junie, Warp, Rovo Dev CLI, Qoder CLI, Grok Build, Mistral Vibe and Cline CLI join the existing targets (31 active agents). New file shapes: Zed `context_servers`, Amp `amp.mcpServers`, Crush `mcp`, Rovo `transport: stdio`, Mistral Vibe `[[mcp_servers]]` TOML, Goose and Hermes YAML (comments preserved), typed-stdio `mcpServers`.
 - One agent table (`src/installer/agent-table.ts`) now holds every per-agent fact: label, aliases, MCP path per scope and OS, file shape, skills home, restart hint. `integrations/<id>/` folders, `AGENT_CLIENTS`, doctor's skill-marker probes and the docs tables are checked against it by tests.
 
 ### Changed
@@ -14,7 +14,8 @@ All notable changes to summer-engine will be documented here. Following [Keep a 
 - Cline skills install to `~/.cline/skills` (shared by the VS Code extension and the CLI) instead of `Documents/Cline/Rules` markdown.
 - OpenCode skills install to `~/.config/opencode/skills/<skill>/SKILL.md` (OpenCode's native skills folder) instead of `agents/summer/*.md`; `--force` removes the old files.
 - Kilo Code config moved to `~/.config/kilo/kilo.json` (`mcp` key, array command, `enabled: true`) and `./kilo.json` for project scope, matching Kilo's current CLI + extension; skills go to `~/.kilo/skills`.
-- Project requests on agents with a user-only config now warn with one shared wording ("writing user scope instead").
+- Claude Code and Cursor entries now carry `type: "stdio"`, which both products' docs list as required.
+- Project requests on agents with a user-only config now warn with one shared wording ("writing user scope instead"); Trae, whose user-level servers are UI-managed, writes its project file.
 
 ### Deprecated
 - `gemini` (Gemini CLI, retired for individual accounts 2026-06-18) and `roo-code` (shut down 2026-05-15) still work but are hidden from help and warn on use; `antigravity` is the replacement for Gemini users.

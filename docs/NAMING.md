@@ -39,7 +39,7 @@ Other repos, for cross-references: engine `SummerEngine/SummerEngine` (private),
 | `gemini-extension.json` | `summer` in the repo; the installer writes it into `~/.gemini/extensions/summer-engine/` renamed to `summer-engine` to match the directory |
 | `package.json` | `name: summer-engine`, `bin.summer`, `main: .opencode/plugins/summer.js` |
 | MCP server name in host configs | `summer-engine` (what `summer setup` writes; `SUMMER_MCP_SERVER_NAME` overrides) |
-| Setup targets | `claude-code`, `claude-desktop`, `codex`, `cursor`, `windsurf`, `antigravity`, `cline`, `kilo-code`, `github-copilot`, `vscode-copilot`, `visual-studio`, `copilot-jetbrains`, `opencode`, `zed`, `kiro`, `goose`, `hermes`, `trae`, `qwen-code`, `kimi-code`, `crush`, `amp`, `factory`, `junie`, `lm-studio`; legacy `gemini`, `roo-code`. One row per agent in `src/installer/agent-table.ts` |
+| Setup targets | `claude-code`, `claude-desktop`, `codex`, `cursor`, `windsurf`, `antigravity`, `cline`, `cline-cli`, `kilo-code`, `github-copilot`, `vscode-copilot`, `visual-studio`, `copilot-jetbrains`, `opencode`, `zed`, `kiro`, `goose`, `hermes`, `trae`, `qwen-code`, `kimi-code`, `crush`, `amp`, `factory`, `junie`, `warp`, `rovo-dev`, `qoder`, `grok-build`, `mistral-vibe`, `lm-studio`; legacy `gemini`, `roo-code`. One row per agent in `src/installer/agent-table.ts` |
 
 Filesystem names shared with the desktop engine — do not rename: `~/.summer/` (`api-token`, `auth-token`, `creator-token`, `user.json`, `config.json`, `credential-metadata.json`, `creator-audit.jsonl`, `instances/`), and `.summer/` in every project (`GameSoul.md`, `project.json`, `memory/`).
 

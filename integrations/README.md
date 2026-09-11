@@ -58,28 +58,42 @@ How the plugin manifests reference skills, and what is verified:
 | codex | `.codex-plugin/plugin.json` | MCP: `~/.codex/config.toml`; Windows `%USERPROFILE%/.codex/config.toml` / `.codex/config.toml`; skills: `~/.agents/skills` / `.agents/skills` (`<skill>/SKILL.md`) |
 | cursor | `.cursor-plugin/plugin.json` | MCP: `~/.cursor/mcp.json`; Windows `%USERPROFILE%/.cursor/mcp.json` / `.cursor/mcp.json`; skills: `~/.cursor/skills` / `.cursor/skills` (`<skill>/SKILL.md`) |
 | windsurf | — | MCP: `~/.codeium/windsurf/mcp_config.json`; Windows `%USERPROFILE%/.codeium/windsurf/mcp_config.json`; skills: `~/.codeium/windsurf/skills` / `.windsurf/skills` (`<skill>/SKILL.md`) |
-| antigravity | — | MCP: `~/.gemini/antigravity/mcp_config.json`; Windows `%USERPROFILE%/.gemini/antigravity/mcp_config.json`; skills: `~/.gemini/antigravity/skills` / `.agents/skills` (`<skill>/SKILL.md`) |
+| antigravity | — | MCP: `~/.gemini/config/mcp_config.json`; Windows `%USERPROFILE%/.gemini/config/mcp_config.json` / `.agents/mcp_config.json`; skills: `~/.gemini/config/skills` / `.agents/skills` (`<skill>/SKILL.md`) |
 | gemini (legacy) | `gemini-extension.json` | MCP: `~/.gemini/extensions/summer-engine/gemini-extension.json`; Windows `%USERPROFILE%/.gemini/extensions/summer-engine/gemini-extension.json`; skills: `~/.gemini/extensions/summer-engine/skills` (`<skill>/SKILL.md`) |
 | cline | — | MCP: `~/Library/Application Support/Code/User/globalStorage/saoudrizwan.claude-dev/settings/cline_mcp_settings.json`; Linux `~/.config/Code/User/globalStorage/saoudrizwan.claude-dev/settings/cline_mcp_settings.json`; Windows `%APPDATA%/Code/User/globalStorage/saoudrizwan.claude-dev/settings/cline_mcp_settings.json`; skills: `~/.cline/skills` / `.cline/skills` (`<skill>/SKILL.md`) |
+| cline-cli | — | MCP: `~/.cline/data/settings/cline_mcp_settings.json`; Windows `%USERPROFILE%/.cline/data/settings/cline_mcp_settings.json`; skills: `~/.cline/skills` / `.cline/skills` (`<skill>/SKILL.md`) |
 | roo-code (legacy) | — | MCP: `~/Library/Application Support/Code/User/globalStorage/rooveterinaryinc.roo-cline/settings/cline_mcp_settings.json`; Linux `~/.config/Code/User/globalStorage/rooveterinaryinc.roo-cline/settings/cline_mcp_settings.json`; Windows `%APPDATA%/Code/User/globalStorage/rooveterinaryinc.roo-cline/settings/cline_mcp_settings.json`; skills: `~/Documents/Roo/Rules` / `.clinerules` (rule files `summer-<skill>.md`) |
 | kilo-code | — | MCP: `~/.config/kilo/kilo.json`; Windows `%APPDATA%/kilo/kilo.json` / `kilo.json`; skills: `~/.kilo/skills` / `.kilo/skills` (`<skill>/SKILL.md`) |
 | github-copilot | — | MCP: `~/.copilot/mcp-config.json`; Windows `%USERPROFILE%/.copilot/mcp-config.json` / `.mcp.json`; skills: `~/.copilot/skills` / `.github/skills` (`<skill>/SKILL.md`) |
 | vscode-copilot | — | MCP: `~/Library/Application Support/Code/User/mcp.json`; Linux `~/.config/Code/User/mcp.json`; Windows `%APPDATA%/Code/User/mcp.json` / `.vscode/mcp.json`; skills: `~/.copilot/skills` / `.github/skills` (`<skill>/SKILL.md`) |
 | visual-studio | — | MCP: `~/.mcp.json`; Windows `%USERPROFILE%/.mcp.json` / `.mcp.json`; no skills folder (MCP only) |
-| copilot-jetbrains | — | MCP: `~/.config/github-copilot/intellij/mcp.json`; Windows `%APPDATA%/github-copilot/intellij/mcp.json`; skills: `~/.copilot/skills` / `.github/skills` (`<skill>/SKILL.md`) |
+| copilot-jetbrains | — | MCP: `~/.config/github-copilot/intellij/mcp.json`; Windows `%APPDATA%/github-copilot/intellij/mcp.json`; no skills folder (MCP only) |
 | opencode | — | MCP: `~/.config/opencode/opencode.json`; Windows `%APPDATA%/opencode/opencode.json` / `opencode.json`; skills: `~/.config/opencode/skills` / `.opencode/skills` (`<skill>/SKILL.md`) |
-| zed | — | MCP: `~/.config/zed/settings.json`; Windows `%APPDATA%/zed/settings.json` / `.zed/settings.json`; skills: `~/.agents/skills` / `.agents/skills` (`<skill>/SKILL.md`) |
+| zed | — | MCP: `~/.config/zed/settings.json`; Windows `%APPDATA%/zed/settings.json`; skills: `~/.agents/skills` / `.agents/skills` (`<skill>/SKILL.md`) |
 | kiro | — | MCP: `~/.kiro/settings/mcp.json`; Windows `%USERPROFILE%/.kiro/settings/mcp.json` / `.kiro/settings/mcp.json`; skills: `~/.kiro/skills` / `.kiro/skills` (`<skill>/SKILL.md`) |
-| goose | — | MCP: `~/.config/goose/config.yaml`; Windows `%APPDATA%/Block/goose/config/config.yaml`; no skills folder (MCP only) |
-| hermes | — | MCP: `~/.hermes/config.yaml`; Windows `%USERPROFILE%/.hermes/config.yaml`; skills: `~/.hermes/skills` (`<skill>/SKILL.md`) |
-| trae | — | MCP: `~/.trae/mcp.json`; Windows `%USERPROFILE%/.trae/mcp.json`; skills: `~/.trae/rules` / `.trae/rules` (rule files `summer-<skill>.md`) |
+| goose | — | MCP: `~/.config/goose/config.yaml`; Windows `%APPDATA%/Block/goose/config/config.yaml`; skills: `~/.config/agents/skills` / `.agents/skills` (`<skill>/SKILL.md`) |
+| hermes | — | MCP: `~/.hermes/config.yaml`; Windows `%USERPROFILE%/.hermes/config.yaml`; skills: `~/.hermes/skills` / `.hermes/skills` (`<skill>/SKILL.md`) |
+| trae | — | MCP: `.trae/mcp.json` / `.trae/mcp.json`; no skills folder (MCP only) |
 | qwen-code | — | MCP: `~/.qwen/settings.json`; Windows `%USERPROFILE%/.qwen/settings.json` / `.qwen/settings.json`; skills: `~/.qwen/skills` / `.qwen/skills` (`<skill>/SKILL.md`) |
-| kimi-code | — | MCP: `~/.kimi/mcp.json`; Windows `%USERPROFILE%/.kimi/mcp.json`; skills: `~/.kimi/skills` / `.kimi/skills` (`<skill>/SKILL.md`) |
-| crush | — | MCP: `~/.config/crush/crush.json`; Windows `%APPDATA%/crush/crush.json` / `.crush.json`; no skills folder (MCP only) |
-| amp | — | MCP: `~/.config/amp/settings.json`; Windows `%APPDATA%/amp/settings.json`; skills: `~/.config/agents/skills` / `.agents/skills` (`<skill>/SKILL.md`) |
+| kimi-code | — | MCP: `~/.kimi-code/mcp.json`; Windows `%USERPROFILE%/.kimi-code/mcp.json` / `.kimi-code/mcp.json`; skills: `~/.kimi-code/skills` / `.kimi-code/skills` (`<skill>/SKILL.md`) |
+| crush | — | MCP: `~/.config/crush/crushrc`; Windows `%USERPROFILE%/.config/crush/crushrc` / `.crushrc`; skills: `~/.config/crush/skills` / `.crush/skills` (`<skill>/SKILL.md`) |
+| amp | — | MCP: `~/.config/amp/settings.json`; Windows `%APPDATA%/amp/settings.json`; skills: `~/.config/amp/skills` / `.agents/skills` (`<skill>/SKILL.md`) |
 | factory | `.factory-plugin/plugin.json` | MCP: `~/.factory/mcp.json`; Windows `%USERPROFILE%/.factory/mcp.json` / `.factory/mcp.json`; skills: `~/.factory/skills` / `.factory/skills` (`<skill>/SKILL.md`) |
 | junie | — | MCP: `~/.junie/mcp/mcp.json`; Windows `%USERPROFILE%/.junie/mcp/mcp.json` / `.junie/mcp/mcp.json`; no skills folder (MCP only) |
+| warp | — | MCP: `~/.warp/.mcp.json`; Windows `%USERPROFILE%/.warp/.mcp.json` / `.warp/.mcp.json`; skills: `~/.warp/skills` / `.warp/skills` (`<skill>/SKILL.md`) |
+| rovo-dev | — | MCP: `~/.rovodev/mcp.json`; Windows `%USERPROFILE%/.rovodev/mcp.json`; skills: `~/.rovodev/skills` / `.rovodev/skills` (`<skill>/SKILL.md`) |
+| qoder | — | MCP: `~/.qoder/settings.json`; Windows `%USERPROFILE%/.qoder/settings.json` / `.mcp.json`; skills: `~/.qoder/skills` / `.qoder/skills` (`<skill>/SKILL.md`) |
+| grok-build | — | MCP: `~/.grok/config.toml`; Windows `%USERPROFILE%/.grok/config.toml` / `.grok/config.toml`; skills: `~/.grok/skills` / `.grok/skills` (`<skill>/SKILL.md`) |
+| mistral-vibe | — | MCP: `~/.vibe/config.toml`; Windows `%USERPROFILE%/.vibe/config.toml` / `.vibe/config.toml`; skills: `~/.vibe/skills` / `.vibe/skills` (`<skill>/SKILL.md`) |
 | lm-studio | — | MCP: `~/.lmstudio/mcp.json`; Windows `%USERPROFILE%/.lmstudio/mcp.json`; no skills folder (MCP only) |
 
 Source of truth for the setup paths: `src/installer/agent-config.ts` and
 `src/cli/commands/skills.ts`.
+
+Not supported on purpose (checked 2026-09-11): OpenHands CLI (its `[mcp] stdio_servers`
+inline-table array has a known upstream write bug), Xcode's agent folders (Apple
+documents the folder but not the file names), Pi (no MCP by design), Aider,
+ChatGPT desktop, Replit, Perplexity, JetBrains AI Assistant and Android Studio
+(UI-only MCP), Continue.dev (shut down), Void (archived), Cody (enterprise only).
+Grok Build also reads `~/.claude.json` and `.cursor/mcp.json`, so a Claude Code or
+Cursor setup already covers it; `summer setup grok-build` writes its own file too.
