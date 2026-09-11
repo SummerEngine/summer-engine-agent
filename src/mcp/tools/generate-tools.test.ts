@@ -1,10 +1,12 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 // Mock auth so handlers don't need a real token on disk.
-vi.mock("../../lib/auth.js", () => ({
+vi.mock("../../core/auth.js", () => ({
   getAuthToken: vi.fn(async () => "test-token"),
 }));
 
+import { dispatchTool } from "../../core/capabilities/tool-dispatch.js";
+import { z } from "zod";
 import { registerGenerateTools } from "./generate-tools.js";
 
 // ---------------------------------------------------------------------------
@@ -377,4 +379,42 @@ describe("registerGenerateTools — provider validation errors", () => {
     expect((init.headers as any)["X-Summer-MCP-Tool"]).toBe("summer_generate_image");
     expect((init.headers as any)["X-Summer-Client-Version"]).toMatch(/\d+\.\d+\.\d+/);
   });
+});
+
+
+describe("image background removal across MCP and CLI", () => {
+  for (const surface of ["mcp", "cli"] as const) {
+    it.each([true, false, undefined])(`${surface} preserves removeBackground=%s in the gateway request`, async (removeBackground) => {
+      const fetchMock = vi.fn(async () => new Response(JSON.stringify({ asset: { id: "image-1" } }), { status: 200 }));
+      globalThis.fetch = fetchMock;
+      const args = { prompt: "an isolated tree", ...(removeBackground !== undefined ? { removeBackground } : {}) };
+      if (surface === "cli") {
+        await dispatchTool("generate-image", args, { engine: async () => { throw new Error("Image generation must not need an engine"); } });
+      } else {
+        const { server, tools } = createFakeServer();
+        registerGenerateTools(server as any);
+        const image = getTool(tools, "summer_generate_image");
+        await image.handler(z.object(image.schema).parse(args));
+      }
+      expect(fetchMock).toHaveBeenCalledTimes(1);
+      const [url, init] = fetchMock.mock.calls[0] as unknown as [string, RequestInit];
+      expect(url).toMatch(/\/api\/mcp\/generate\/image$/);
+      const body = JSON.parse(init.body as string);
+      expect(body).toMatchObject({ prompt: args.prompt, model: "nano-banana-2", style: "realistic" });
+      if (removeBackground === undefined) expect(body).not.toHaveProperty("removeBackground");
+      else expect(body.removeBackground).toBe(removeBackground);
+    });
+
+    it(`${surface} rejects a string flag before contacting the gateway`, async () => {
+      const args = { prompt: "a tree", removeBackground: "false" };
+      if (surface === "cli") {
+        await expect(dispatchTool("generate-image", args)).rejects.toThrow(/removeBackground/);
+      } else {
+        const { server, tools } = createFakeServer();
+        registerGenerateTools(server as any);
+        expect(() => z.object(getTool(tools, "summer_generate_image").schema).parse(args)).toThrow();
+      }
+      expect(globalThis.fetch).not.toHaveBeenCalled();
+    });
+  }
 });
