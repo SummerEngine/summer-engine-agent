@@ -330,9 +330,9 @@ Each op in the array uses the same format as the individual tools:
 - {"op": "SetProp", "path": "Floor", "key": "mesh", "value": "PlaneMesh"}
 - {"op": "SetResourceProperty", "nodePath": "Floor", "resourceProperty": "mesh", "subProperty": "size", "value": "Vector2(20, 20)"}
 
-RAW RUNTIME OPS (interactive verification — engine-build dependent; structured failure_reason incl "unsupported" passes through verbatim):
-- SimulateInput — drive the RUNNING game (summer_play first): {"op": "SimulateInput", "type": "action", "action": "jump", "pressed": true}. type is "action" | "key" | "mouse_click" | "axis".
-- RunVerification — spawn a hidden, disposable game instance that runs a GDScript probe and dies (never touches the editor): {"op": "RunVerification", "probe_source": "extends SummerProbeBase\\nfunc _ready(): await super._ready(); report('ok', true); finish()", "max_seconds": 20}. Returns {ok, results, frames, out_dir}. Probe API: report()/save_frame()/press()/key()/finish().`,
+RAW RUNTIME OPS (interactive verification — engine-build dependent; structured failure_reason passes through verbatim):
+- RunVerification — spawn a hidden, disposable game instance that runs a GDScript probe and dies (never touches the editor): {"op": "RunVerification", "probe_source": "extends SummerProbeBase\\nfunc _ready(): await super._ready(); report('ok', true); finish()", "max_seconds": 20}. Returns {ok, results, frames, out_dir}. Probe API: report(name, value) / save_frame(name) / press(action) / key(keycode) / finish(). save_frame REQUIRES a name argument — save_frame() with no args is a script error.
+- SimulateInput — inject an action/key/mouse/axis into the RUNNING game (summer_play first): {"op": "SimulateInput", "type": "action", "action": "jump", "pressed": true}. It MUST be sent alone (single-op batch); failure_reason "unsupported_transport" only means it was batched with other ops — resend it as the ONLY op. failure_reason "not_running" = start the game first; "unsupported" = the running game build predates the handler — fall back to RunVerification or ask the user. mouse_click uses {"op":"SimulateInput","type":"mouse_click","position":[x,y],"button":1}; it performs a complete press+release and has no pressed field.`,
     {
       ops: z.array(z.record(z.unknown())).describe("Array of operation objects, each with 'op' plus its parameters"),
     },

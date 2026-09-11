@@ -182,4 +182,20 @@ priority: locked
     expect(JSON.stringify(body)).toContain("projectMemory");
     expect(JSON.stringify(body)).toContain("priority: locked");
   });
+
+  it("advertises SimulateInput as a single op against the running game", async () => {
+    const { server, tools } = createFakeServer();
+    registerProjectTools(server as never);
+
+    const playbookTool = getTool(tools, "summer_get_agent_playbook");
+    const body = JSON.stringify(parseToolResult(await playbookTool.handler({})));
+
+    expect(body).toContain("summer_batch ops:[{op:'SimulateInput'");
+    expect(body).toContain("single op");
+    expect(body).toContain("not_running");
+    expect(body).toContain("position:[x,y]");
+    // unsupported_transport means "it was batched with other ops", not "unreachable".
+    expect(body).toContain("unsupported_transport");
+    expect(body).not.toContain("NOT available through the MCP/CLI transport");
+  });
 });

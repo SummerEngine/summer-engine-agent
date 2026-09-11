@@ -7,7 +7,13 @@ const GATEWAY_URL =
   process.env.SUMMER_GATEWAY_URL || "https://www.summerengine.com";
 
 const POLL_INTERVAL_MS = 2000;
-const POLL_TIMEOUT_MS = 120000;
+// One generous window on ONE session id. First-time users may need to create an
+// account and confirm an email before they can approve the CLI. The gateway
+// never expires a pending session (the completed payload waits under this id
+// for pickup), so the worst mistake would be rotating ids mid-wait — the user
+// would approve the original browser tab while we poll a different session.
+const POLL_TIMEOUT_MS = 900000;
+const HEARTBEAT_MS = 30000;
 
 export const loginCommand = new Command("login")
   .description("Sign in to Summer Engine via your browser")
@@ -24,8 +30,8 @@ export const loginCommand = new Command("login")
 
 async function doLogin(): Promise<void> {
   const sessionId = randomUUID();
-
   const loginUrl = `${GATEWAY_URL}/login?cli_session=${sessionId}`;
+
   console.log("Sign in at: " + loginUrl);
   console.log("");
 
@@ -40,10 +46,19 @@ async function doLogin(): Promise<void> {
 
   const pollUrl = `${GATEWAY_URL}/api/auth/cli-login?session=${sessionId}`;
   const startTime = Date.now();
+  let lastHeartbeat = startTime;
   let lastError: string | null = null;
 
   while (Date.now() - startTime < POLL_TIMEOUT_MS) {
     await sleep(POLL_INTERVAL_MS);
+
+    if (Date.now() - lastHeartbeat >= HEARTBEAT_MS) {
+      lastHeartbeat = Date.now();
+      console.log(
+        'Still waiting — finish signing in (or creating your account) in the browser, then click "Yes, Sign In". Same link: ' +
+          loginUrl
+      );
+    }
 
     try {
       const res = await fetch(pollUrl, {
@@ -84,7 +99,7 @@ async function doLogin(): Promise<void> {
     }
   }
 
-  console.error("\nLogin timed out. Please try again.");
+  console.error("\nLogin timed out after 15 minutes. Please try again.");
   if (lastError) {
     console.error(`Last error: ${lastError}`);
   }

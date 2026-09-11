@@ -18,15 +18,19 @@ interface TemplateListing {
   createCommand: string;
 }
 
+function createCommand(slug: string): string {
+  return `npx -y summer-engine@latest create ${slug} <project-dir>`;
+}
+
 function toListing(t: RemoteTemplate): TemplateListing {
   return {
     slug: t.slug,
-    description: t.description,
+    description: t.description ?? "",
     source: "github",
     githubUrl: t.url,
     stars: t.stars,
     updatedAt: t.updatedAt,
-    createCommand: `npx -y summer-engine@latest create ${t.slug} <project-dir>`,
+    createCommand: createCommand(t.slug),
   };
 }
 
@@ -43,7 +47,7 @@ export async function listTemplates(): Promise<{
     slug: t.name,
     description: t.description,
     source: "builtin" as const,
-    createCommand: `npx -y summer-engine@latest create ${t.name} <project-dir>`,
+    createCommand: createCommand(t.name),
   }));
 
   try {
@@ -107,7 +111,7 @@ Cloud tool — works WITHOUT the Summer Engine app open. No authentication neede
         ? templates.filter(
             (t) =>
               t.slug.toLowerCase().includes(q) ||
-              t.description.toLowerCase().includes(q)
+              (t.description ?? "").toLowerCase().includes(q)
           )
         : templates;
       return {
@@ -121,7 +125,7 @@ Cloud tool — works WITHOUT the Summer Engine app open. No authentication neede
                 totalAvailable: templates.length,
                 source,
                 ...(warning ? { warning } : {}),
-                hint: "Create one with: npx -y summer-engine@latest create <slug> <project-dir>",
+                hint: `Create one with: ${createCommand("<slug>")}`,
               },
               null,
               2

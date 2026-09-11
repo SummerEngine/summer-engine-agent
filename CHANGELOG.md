@@ -9,7 +9,8 @@ All notable changes to summer-engine will be documented here. Following [Keep a 
 - Agent playbook startup checklist now points new-game/example requests at `summer_list_templates`.
 
 ### Fixed
-- Legacy example repos that predate the `template-` prefix (`FPS-template-Summer-Engine`, `Getting-Started-*`) are now included in `summer list templates` and the MCP listing.
+- Legacy example repos that predate the `template-` prefix (`FPS-template-Summer-Engine`, `Getting-Started-3D-Platformer` — an exact allowlist) are now included in `summer list templates` and the MCP listing; they match by exact slug/repo name only, so short queries like `fps` cannot silently resolve to them.
+- MCP failures now preserve nested `failure_reason` details instead of replacing them with a generic `terminalState:"failed"` message. The playbook also documents that `SimulateInput` works over MCP/CLI when sent as a single op against the running game — `failure_reason:"unsupported_transport"` only means it was batched with other ops; the real failure modes are `"not_running"` (game not started) and `"unsupported"` (running game build predates the handler) — and documents the supported `mouse_click` shape.
 
 ## [2.6.5] — 2026-07-04 — "Cloud tools don't need the engine"
 

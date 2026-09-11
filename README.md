@@ -277,7 +277,7 @@ Skills don't list steps. They encode the **order of operations**: diagnose befor
 | Diagnostics | `summer_get_script_errors`, `summer_get_diagnostics`, `summer_get_console`, `summer_get_debugger_errors`, `summer_get_debugger_warnings` |
 | Runtime | `summer_play`, `summer_stop`, `summer_is_running` |
 | Visual | `summer_screenshot` (see the editor viewport, an offscreen scene render, or the running game) |
-| Interactive | `SimulateInput` / `RunVerification` raw ops via `summer_batch` — drive the running game or run a hidden GDScript probe (engine-build dependent) |
+| Interactive | `RunVerification` raw op via `summer_batch` — run a hidden GDScript probe (engine-build dependent); `SimulateInput` drives the running game when sent as a single op |
 | Project | `summer_get_project_context`, `summer_open_main_scene`, `summer_project_setting`, `summer_input_map_bind` |
 | Assets | `summer_search_assets`, `summer_import_asset`, `summer_import_from_url`, `summer_generate_image`, `summer_generate_3d`, `summer_generate_audio`, `summer_generate_video` |
 
@@ -308,10 +308,11 @@ summer_screenshot target:game   # optional: look at the live frame
 summer_stop                     # ALWAYS stop — scene edits are refused while running
 ```
 
-**4. Does the interaction work?** To prove input-driven behavior (jump/move/shoot), send a raw op through `summer_batch` (engine-build dependent — a `failure_reason:"unsupported"` comes back verbatim on older builds):
-- `SimulateInput` — inject into the **running** game: `summer_batch ops:[{op:"SimulateInput", type:"action", action:"jump", pressed:true}]`, then re-check screenshot/debugger.
-- `RunVerification` — spawn a hidden, disposable game instance that runs a GDScript probe (press inputs, read state, save frames) and dies, never touching the editor: `summer_batch ops:[{op:"RunVerification", probe_source:"…", max_seconds:20}]` → `{ok, results, frames, out_dir}`.
-- If neither is available on this build, **ask the user to try it** and report what they see — don't fake it.
+**4. Does the interaction work?** To prove input-driven behavior (jump/move/shoot), prefer the `RunVerification` raw op through `summer_batch` when supported:
+- `RunVerification` spawns a hidden, disposable game instance that runs a GDScript probe (press inputs, read state, save frames) and dies, never touching the editor: `summer_batch ops:[{op:"RunVerification", probe_source:"…", max_seconds:20}]` → `{ok, results, frames, out_dir}`. `save_frame(name)` requires the name argument — `save_frame()` with no args is a probe script error.
+- `SimulateInput` works over MCP/CLI when sent as a **single op** against the **running** game (`summer_play` first): `summer_batch ops:[{op:"SimulateInput", type:"action", action:"jump", pressed:true}]`, sent alone. `failure_reason:"unsupported_transport"` only means it was batched with other ops — resend it as the only op. The real failure modes are `"not_running"` (start the game first) and `"unsupported"` (the running game build predates the handler).
+- `mouse_click` is `{op:"SimulateInput", type:"mouse_click", position:[x,y], button:1}`. It performs a complete press+release; separate `x`/`y` and `pressed` fields are not supported.
+- If neither route is available, **ask the user to try the interaction** and report what they see — don't fake it.
 
 **Honesty.** Never describe an image you didn't receive; a failed capture is a *result* — report it and climb down (`scene`→`viewport`) or ask the user. Pass structured failures (`failure_reason`, `terminalState`, `identity_mismatch`) through verbatim. `summer_get_project_context` binds the session to the open project; a `projectMismatch` warning on a screenshot means the engine switched projects and the frame may be from the wrong one — rebind before trusting it.
 

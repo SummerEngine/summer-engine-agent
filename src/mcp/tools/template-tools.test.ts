@@ -108,14 +108,14 @@ describe("summer_list_templates", () => {
       }
       return {
         ok: true,
-        json: async () => [ghRepo("template-2d-rpg", "rpg"), ghRepo("Getting-Started-City-Builder")],
+        json: async () => [ghRepo("template-2d-rpg", "rpg"), ghRepo("Getting-Started-3D-Platformer")],
       };
     });
     vi.stubGlobal("fetch", fetchMock);
     const { templates, source } = await listTemplates();
     expect(source).toBe("github");
     expect(templates.some((t) => t.slug === "2d-rpg")).toBe(true);
-    expect(templates.some((t) => t.slug === "getting-started-city-builder")).toBe(true);
+    expect(templates.some((t) => t.slug === "getting-started-3d-platformer")).toBe(true);
   });
 
   it("still returns builtins with a browse-URL warning when everything is down", async () => {

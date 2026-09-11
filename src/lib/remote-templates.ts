@@ -88,20 +88,26 @@ export async function fetchRemoteTemplates(opts: { force?: boolean } = {}): Prom
   return templates;
 }
 
-/** Which org repos count as templates/examples. Besides the canonical
- *  `template-*` naming, the org has example repos that predate it
- *  (FPS-template-Summer-Engine, Getting-Started-3D-Platformer) — the old
- *  prefix-only filter made those invisible to `summer list templates` and
- *  to agents. Exported for unit tests. */
+/** The org's example repos that predate the canonical `template-*` naming.
+ *  Kept as an exact allowlist (lowercased compare) — a broad substring filter
+ *  would silently pick up unrelated org repos. Exported for unit tests. */
+export const LEGACY_TEMPLATE_REPOS: ReadonlySet<string> = new Set([
+  "fps-template-summer-engine",
+  "getting-started-3d-platformer",
+]);
+
+/** Which org repos count as templates/examples: the canonical `template-*`
+ *  naming plus the exact legacy allowlist above. Exported for unit tests. */
 export function isTemplateRepoName(name: string): boolean {
   const lower = name.toLowerCase();
-  return lower.startsWith(TEMPLATE_PREFIX) || lower.includes("-template") || lower.startsWith("getting-started");
+  return lower.startsWith(TEMPLATE_PREFIX) || LEGACY_TEMPLATE_REPOS.has(lower);
 }
 
 /** Slug used by `summer create <slug>`: strip the canonical prefix, otherwise
  *  the lowercased repo name. matchTemplate also accepts the raw repo name. */
 export function templateSlugForRepo(name: string): string {
-  return name.startsWith(TEMPLATE_PREFIX) ? name.slice(TEMPLATE_PREFIX.length) : name.toLowerCase();
+  const lower = name.toLowerCase();
+  return lower.startsWith(TEMPLATE_PREFIX) ? lower.slice(TEMPLATE_PREFIX.length) : lower;
 }
 
 export interface CloneOptions {
@@ -142,15 +148,20 @@ export function cloneTemplate(template: RemoteTemplate, opts: CloneOptions): voi
   }
 }
 
-/** Quick match: exact slug, then prefix, then substring. Returns null if ambiguous or none. */
+/** Quick match: exact slug, then prefix, then substring. Returns null if ambiguous or none.
+ *  Legacy repos (slugs not derived from the `template-` prefix) match by EXACT
+ *  slug/repo name only — they do not participate in the prefix/substring passes,
+ *  so e.g. `summer create fps` cannot silently resolve to the legacy FPS repo. */
 export function matchTemplate(query: string, templates: RemoteTemplate[]): RemoteTemplate | null {
   const exact = templates.find((t) => t.slug === query || t.repo === query);
   if (exact) return exact;
 
-  const prefix = templates.filter((t) => t.slug.startsWith(query));
+  const canonical = templates.filter((t) => t.repo.toLowerCase().startsWith(TEMPLATE_PREFIX));
+
+  const prefix = canonical.filter((t) => t.slug.startsWith(query));
   if (prefix.length === 1) return prefix[0];
 
-  const substring = templates.filter((t) => t.slug.includes(query));
+  const substring = canonical.filter((t) => t.slug.includes(query));
   if (substring.length === 1) return substring[0];
 
   return null;

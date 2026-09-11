@@ -74,6 +74,43 @@ describe("extractOpError — explicit failure signals (already caught)", () => {
     expect(err).toMatch(/SetProp/);
   });
 
+  it("preserves a nested failure_reason when terminalState is failed", () => {
+    const text = extractOpError({
+      status: "error",
+      terminalState: "failed",
+      errorClass: "fatal",
+      results: [
+        {
+          ok: false,
+          op: "SimulateInput",
+          error: "SimulateInput must be sent as a single bridge op",
+          failure_reason: "unsupported_transport",
+        },
+      ],
+    });
+
+    expect(JSON.parse(text ?? "")).toEqual({
+      error: "SimulateInput must be sent as a single bridge op",
+      failure_reason: "unsupported_transport",
+      op: "SimulateInput",
+      terminalState: "failed",
+      errorClass: "fatal",
+    });
+  });
+
+  it("preserves a top-level classified failure as JSON", () => {
+    const text = extractOpError({
+      ok: false,
+      error: "Game capture requires another transport",
+      failureReason: "bridge_required",
+    });
+
+    expect(JSON.parse(text ?? "")).toEqual({
+      error: "Game capture requires another transport",
+      failure_reason: "bridge_required",
+    });
+  });
+
   it("catches a bare ok:false envelope with no error string (queue-full / backpressure shape)", () => {
     // The engine's queue-full backpressure body is {ok:false, error:"queue full",
     // errorClass:"transient"}; harden against the no-error variant too.
@@ -132,5 +169,87 @@ describe("extractOpError — non-records", () => {
     expect(extractOpError(undefined)).toBeNull();
     expect(extractOpError("nope")).toBeNull();
     expect(extractOpError(42)).toBeNull();
+  });
+});
+
+describe("extractOpError — classified failures preserve failure_reason", () => {
+  it("surfaces a nested failure_reason even when the envelope carries its own error string", () => {
+    const text = extractOpError({
+      status: "error",
+      terminalState: "failed",
+      errorClass: "fatal",
+      error: "failed",
+      results: [
+        {
+          ok: false,
+          op: "SimulateInput",
+          error: "SimulateInput must be sent as a single op so it cannot block the editor thread.",
+          failure_reason: "unsupported_transport",
+        },
+      ],
+    });
+    const parsed = JSON.parse(text ?? "");
+    expect(parsed.failure_reason).toBe("unsupported_transport");
+    expect(parsed.error).toBe("failed");
+    expect(parsed.op_error).toContain("single op");
+    expect(parsed.op).toBe("SimulateInput");
+    expect(parsed.terminalState).toBe("failed");
+  });
+
+  it("prefers the failed op's precise error over the generic terminal-state sentence (the masking bug)", () => {
+    const text = extractOpError({
+      terminalState: "failed",
+      errorClass: "fatal",
+      results: [
+        {
+          ok: false,
+          op: "SaveScene",
+          error: "SaveScene must be sent as a single op so it cannot block the editor thread.",
+          failure_reason: "unsupported_transport",
+        },
+      ],
+    });
+    const parsed = JSON.parse(text ?? "");
+    expect(parsed.error).toContain("must be sent as a single op");
+    expect(parsed.failure_reason).toBe("unsupported_transport");
+    expect(text).not.toContain("Engine operation failed (terminalState: failed)");
+  });
+
+  it("keeps the informative envelope error (plain text) when the failed results entry has no classifier", () => {
+    expect(
+      extractOpError({
+        status: "error",
+        error: "scene locked by running game — stop first",
+        results: [{ ok: false, op: "SetProp" }],
+      })
+    ).toBe("scene locked by running game — stop first");
+  });
+
+  it("surfaces a nested failure_reason on an ok:false envelope", () => {
+    const text = extractOpError({
+      ok: false,
+      error: "op rejected",
+      results: [{ ok: false, op: "SimulateInput", failure_reason: "unsupported_transport" }],
+    });
+    const parsed = JSON.parse(text ?? "");
+    expect(parsed.failure_reason).toBe("unsupported_transport");
+    expect(parsed.error).toBe("op rejected");
+  });
+
+  it("surfaces a top-level failure_reason on a bare terminal envelope (no error, no results)", () => {
+    const text = extractOpError({ terminalState: "timed_out", failure_reason: "queue_full" });
+    const parsed = JSON.parse(text ?? "");
+    expect(parsed.failure_reason).toBe("queue_full");
+    expect(parsed.terminalState).toBe("timed_out");
+    expect(parsed.error).toMatch(/timed out/i);
+  });
+
+  it("accepts the camelCase failureReason spelling on nested entries", () => {
+    const text = extractOpError({
+      terminalState: "failed",
+      results: [{ ok: false, op: "AddNode", failureReason: "skipped" }],
+    });
+    const parsed = JSON.parse(text ?? "");
+    expect(parsed.failure_reason).toBe("skipped");
   });
 });
