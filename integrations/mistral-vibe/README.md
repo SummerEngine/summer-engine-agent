@@ -6,7 +6,7 @@ is intentionally empty. Support is delivered at install time by
 
 - MCP config: `~/.vibe/config.toml`; Windows `%USERPROFILE%/.vibe/config.toml` (user); `.vibe/config.toml` (project).
   Shape: undefined.
-- Skills: `~/.vibe/skills` (user) or `.vibe/skills` (project) as `<skill>/SKILL.md`.
+- Skills: `~/.vibe/skills` (user) or `.agents/skills` (project) as `<skill>/SKILL.md`.
 - After: Restart Vibe so it reloads config.toml.
 
 Source of truth: `src/installer/agent-table.ts` (one row per agent).

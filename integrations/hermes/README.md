@@ -6,7 +6,7 @@ is intentionally empty. Support is delivered at install time by
 
 - MCP config: `~/.hermes/config.yaml`; Windows `%USERPROFILE%/.hermes/config.yaml` (user); user scope only (project requests fall back with a warning).
   Shape: `mcp_servers.summer-engine = { command, args }` (YAML).
-- Skills: `~/.hermes/skills` (user) or `.hermes/skills` (project) as `<skill>/SKILL.md`. Project skills need `hermes skills trust` before Hermes loads them.
+- Skills: `~/.hermes/skills` (user) or `.agents/skills` (project) as `<skill>/SKILL.md`. Project skills need `hermes skills trust` before Hermes loads them.
 - After: Run /reload-mcp in Hermes Agent (or restart it).
 
 Source of truth: `src/installer/agent-table.ts` (one row per agent).

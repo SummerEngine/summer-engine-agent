@@ -118,6 +118,13 @@ export interface SkillHome {
    * finds there so the agent does not load a rule and a skill for the same slug.
    */
   legacyRules?: { user: (ctx: PathContext) => string; project: ((ctx: PathContext) => string) | null; suffix: string };
+  /**
+   * Skill folders Summer 3.1.0 wrote for this agent before it moved to the
+   * shared agentskills.io folder (~/.agents/skills). `skills install --force`
+   * removes Summer's own skill dirs there so the agent does not load the same
+   * skill twice.
+   */
+  legacyDirs?: { user: (ctx: PathContext) => string; project: ((ctx: PathContext) => string) | null };
 }
 
 export interface AgentSpec {
@@ -179,6 +186,28 @@ function vsCodeGlobalStorage(ctx: PathContext, extensionId: string, fileName: st
 const home = (...parts: string[]) => (ctx: PathContext) => join(ctx.home, ...parts);
 const project = (...parts: string[]) => (ctx: PathContext) => join(ctx.cwd, ...parts);
 
+/**
+ * The agentskills.io shared folder: `~/.agents/skills` and `<project>/.agents/skills`.
+ * Every agent whose docs say it reads this folder installs here, so one
+ * install serves them all and "where are the skills" has one answer.
+ */
+const SHARED_SKILLS_USER = home(".agents", "skills");
+const SHARED_SKILLS_PROJECT = project(".agents", "skills");
+function sharedSkills(extra: Partial<SkillHome> = {}): SkillHome {
+  return { kind: "skill-dir", user: SHARED_SKILLS_USER, project: SHARED_SKILLS_PROJECT, ...extra };
+}
+
+/** True when this location is the shared agentskills.io folder. */
+export function isSharedSkillsPath(path: string): boolean {
+  return /[\\/]\.agents[\\/]skills$/.test(path);
+}
+
+/** Agents that read the shared folder at the given scope (for the install summary). */
+export function agentsSharingSkills(scope: ConfigScope, ctx: PathContext): AgentSpec[] {
+  const shared = (scope === "user" ? SHARED_SKILLS_USER : SHARED_SKILLS_PROJECT)(ctx);
+  return SPECS.filter((spec) => resolveSkillPath(spec, scope, ctx)?.path === shared);
+}
+
 /** agentskills.io layout (`<dir>/<skill>/SKILL.md`) under a user dir and a project dir. */
 function skillDirs(user: (ctx: PathContext) => string, proj: ((ctx: PathContext) => string) | null, extra: Partial<SkillHome> = {}): SkillHome {
   return { kind: "skill-dir", user, project: proj, ...extra };
@@ -227,7 +256,7 @@ const SPECS: readonly AgentSpec[] = [
       projectNote: "Codex only loads project .codex/config.toml from trusted projects.",
     },
     restart: "Restart Codex or run /mcp in a new session.",
-    skills: skillDirs(home(".agents", "skills"), project(".agents", "skills")),
+    skills: sharedSkills(),
   },
   {
     id: "cursor",
@@ -238,9 +267,10 @@ const SPECS: readonly AgentSpec[] = [
     format: "json-stdio",
     mcp: { user: home(".cursor", "mcp.json"), project: project(".cursor", "mcp.json") },
     restart: "Restart Cursor and enable the summer-engine MCP server if prompted.",
-    skills: skillDirs(home(".cursor", "skills"), project(".cursor", "skills"), {
-      reloadHint: "Cursor loads skills in the next chat. Summer 3.0 and earlier wrote rule files to .cursor/rules; `--force` removes those.",
+    skills: sharedSkills({
+      reloadHint: "Cursor loads skills in the next chat. Summer 3.0 wrote rule files to .cursor/rules and 3.1.0 wrote .cursor/skills; `--force` removes both.",
       legacyRules: { user: home(".cursor", "rules"), project: project(".cursor", "rules"), suffix: ".mdc" },
+      legacyDirs: { user: home(".cursor", "skills"), project: project(".cursor", "skills") },
     }),
   },
   {
@@ -255,7 +285,7 @@ const SPECS: readonly AgentSpec[] = [
       project: null,
     },
     restart: "Restart Devin Desktop (formerly Windsurf) and refresh MCP servers from the agent settings. Devin's docs say mcp_config.json configures the Cascade agent; for the Devin agent add the server in the app's MCP settings with the same command.",
-    skills: skillDirs(home(".codeium", "windsurf", "skills"), project(".windsurf", "skills")),
+    skills: sharedSkills({ legacyDirs: { user: home(".codeium", "windsurf", "skills"), project: project(".windsurf", "skills") } }),
   },
   {
     id: "antigravity",
@@ -367,7 +397,7 @@ const SPECS: readonly AgentSpec[] = [
     format: "json-vscode",
     mcp: { user: (ctx) => join(vsCodeUserDir(ctx), "mcp.json"), project: project(".vscode", "mcp.json") },
     restart: "Restart VS Code or run MCP: List Servers, then start summer-engine in Copilot Agent mode.",
-    skills: skillDirs(home(".copilot", "skills"), project(".github", "skills")),
+    skills: sharedSkills({ legacyDirs: { user: home(".copilot", "skills"), project: project(".github", "skills") } }),
   },
   {
     id: "visual-studio",
@@ -408,9 +438,10 @@ const SPECS: readonly AgentSpec[] = [
       project: project("opencode.json"),
     },
     restart: "Restart OpenCode so it reloads opencode.json.",
-    skills: skillDirs((ctx) => join(xdgOrAppData(ctx), "opencode", "skills"), project(".opencode", "skills"), {
-      reloadHint: "OpenCode loads skills from this folder on the next session. Summer 3.0 and earlier wrote markdown under agents/summer; `--force` removes those.",
+    skills: sharedSkills({
+      reloadHint: "OpenCode loads skills from this folder on the next session. Summer 3.0 wrote markdown under agents/summer and 3.1.0 wrote opencode/skills; `--force` removes both.",
       legacyRules: { user: (ctx) => join(xdgOrAppData(ctx), "opencode", "agents", "summer"), project: project(".opencode", "agents", "summer"), suffix: ".md" },
+      legacyDirs: { user: (ctx) => join(xdgOrAppData(ctx), "opencode", "skills"), project: project(".opencode", "skills") },
     }),
   },
   {
@@ -425,7 +456,7 @@ const SPECS: readonly AgentSpec[] = [
       project: null,
     },
     restart: "Zed reloads settings.json live; open the Agent panel and check summer-engine under MCP servers.",
-    skills: skillDirs(home(".agents", "skills"), project(".agents", "skills")),
+    skills: sharedSkills(),
   },
   {
     id: "kiro",
@@ -464,8 +495,9 @@ const SPECS: readonly AgentSpec[] = [
     format: "yaml-hermes",
     mcp: { user: home(".hermes", "config.yaml"), project: null },
     restart: "Run /reload-mcp in Hermes Agent (or restart it).",
-    skills: skillDirs(home(".hermes", "skills"), project(".hermes", "skills"), {
+    skills: skillDirs(home(".hermes", "skills"), SHARED_SKILLS_PROJECT, {
       reloadHint: "Project skills need `hermes skills trust` before Hermes loads them.",
+      legacyDirs: { user: home(".hermes", "skills"), project: project(".hermes", "skills") },
     }),
   },
   {
@@ -504,7 +536,7 @@ const SPECS: readonly AgentSpec[] = [
     format: "json",
     mcp: { user: home(".kimi-code", "mcp.json"), project: project(".kimi-code", "mcp.json") },
     restart: "Restart Kimi Code CLI so it reconnects its MCP servers.",
-    skills: skillDirs(home(".kimi-code", "skills"), project(".kimi-code", "skills")),
+    skills: sharedSkills({ legacyDirs: { user: home(".kimi-code", "skills"), project: project(".kimi-code", "skills") } }),
   },
   {
     id: "crush",
@@ -518,7 +550,7 @@ const SPECS: readonly AgentSpec[] = [
       project: project(".crushrc"),
     },
     restart: "Restart Crush so it reloads crushrc.",
-    skills: skillDirs(home(".config", "crush", "skills"), project(".crush", "skills")),
+    skills: sharedSkills({ legacyDirs: { user: home(".config", "crush", "skills"), project: project(".crush", "skills") } }),
   },
   {
     id: "amp",
@@ -529,7 +561,7 @@ const SPECS: readonly AgentSpec[] = [
     format: "json-amp",
     mcp: { user: (ctx) => join(xdgOrAppData(ctx), "amp", "settings.json"), project: null },
     restart: "Restart Amp so it reloads settings.json.",
-    skills: skillDirs((ctx) => join(xdgOrAppData(ctx), "amp", "skills"), project(".agents", "skills")),
+    skills: sharedSkills({ legacyDirs: { user: (ctx) => join(xdgOrAppData(ctx), "amp", "skills"), project: null } }),
   },
   {
     id: "factory",
@@ -540,7 +572,7 @@ const SPECS: readonly AgentSpec[] = [
     format: "json-stdio",
     mcp: { user: home(".factory", "mcp.json"), project: project(".factory", "mcp.json") },
     restart: "Restart droid or run /mcp in the active session.",
-    skills: skillDirs(home(".factory", "skills"), project(".factory", "skills")),
+    skills: sharedSkills({ legacyDirs: { user: home(".factory", "skills"), project: project(".factory", "skills") } }),
   },
   {
     id: "junie",
@@ -563,7 +595,7 @@ const SPECS: readonly AgentSpec[] = [
     format: "json",
     mcp: { user: home(".warp", ".mcp.json"), project: project(".warp", ".mcp.json") },
     restart: "Warp detects the file and spawns the server; check Settings > AI > MCP servers.",
-    skills: skillDirs(home(".warp", "skills"), project(".warp", "skills")),
+    skills: sharedSkills({ legacyDirs: { user: home(".warp", "skills"), project: project(".warp", "skills") } }),
   },
   {
     id: "rovo-dev",
@@ -574,7 +606,7 @@ const SPECS: readonly AgentSpec[] = [
     format: "json-transport",
     mcp: { user: home(".rovodev", "mcp.json"), project: null },
     restart: "Restart Rovo Dev CLI so it reconnects its MCP servers.",
-    skills: skillDirs(home(".rovodev", "skills"), project(".rovodev", "skills")),
+    skills: sharedSkills({ legacyDirs: { user: home(".rovodev", "skills"), project: project(".rovodev", "skills") } }),
   },
   {
     id: "qoder",
@@ -596,7 +628,7 @@ const SPECS: readonly AgentSpec[] = [
     format: "toml",
     mcp: { user: home(".grok", "config.toml"), project: project(".grok", "config.toml") },
     restart: "Restart Grok Build so it reloads config.toml (it also reads ~/.claude.json and .cursor/mcp.json).",
-    skills: skillDirs(home(".grok", "skills"), project(".grok", "skills")),
+    skills: sharedSkills({ legacyDirs: { user: home(".grok", "skills"), project: project(".grok", "skills") } }),
   },
   {
     id: "mistral-vibe",
@@ -607,7 +639,7 @@ const SPECS: readonly AgentSpec[] = [
     format: "toml-array",
     mcp: { user: home(".vibe", "config.toml"), project: project(".vibe", "config.toml") },
     restart: "Restart Vibe so it reloads config.toml.",
-    skills: skillDirs(home(".vibe", "skills"), project(".vibe", "skills")),
+    skills: skillDirs(home(".vibe", "skills"), SHARED_SKILLS_PROJECT, { legacyDirs: { user: home(".vibe", "skills"), project: project(".vibe", "skills") } }),
   },
   {
     id: "lm-studio",
@@ -697,6 +729,17 @@ export function legacyRuleFiles(spec: AgentSpec, scope: ConfigScope, ctx: PathCo
   const dir = scope === "project" && legacy.project ? legacy.project(ctx) : legacy.user(ctx);
   const prefix = spec.id === "opencode" ? "" : "summer-";
   return [...skillNames].map((name) => join(dir, `${prefix}${name}${legacy.suffix}`));
+}
+
+/** Skill dirs a Summer 3.1.0 install may have written at this agent's old native location; `null` when it never moved. */
+export function legacySkillDirs(spec: AgentSpec, scope: ConfigScope, ctx: PathContext, skillNames: Iterable<string>): string[] | null {
+  const legacy = spec.skills?.legacyDirs;
+  if (!legacy) return null;
+  const dir = scope === "project" ? (legacy.project ? legacy.project(ctx) : null) : legacy.user(ctx);
+  if (!dir) return [];
+  const current = resolveSkillPath(spec, scope, ctx)?.path;
+  if (current === dir) return [];
+  return [...skillNames].map((name) => join(dir, name));
 }
 
 export interface ResolvedSkillPath {

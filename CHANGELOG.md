@@ -2,6 +2,11 @@
 
 All notable changes to summer-engine will be documented here. Following [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+### Changed
+- Agents whose docs read the agentskills.io folder now install skills to `~/.agents/skills` (project: `.agents/skills`) instead of each agent's own folder: Codex, Cursor, Zed, OpenCode, Copilot in VS Code, Devin Desktop, Amp, Crush, Warp, Kimi Code, Factory Droid, Rovo Dev, Grok Build; Antigravity, Goose, Hermes and Mistral Vibe at project scope. One install serves all of them and "where are the skills" has one answer. `skills install --force` removes the copies 3.1.0 wrote in the old per-agent folders.
+
 ## [3.1.0] - 2026-09-11
 
 ### Added
