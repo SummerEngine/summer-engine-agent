@@ -532,7 +532,7 @@
       "id": "skill/asset-strategy",
       "kind": "skill",
       "version": "1.0.2",
-      "content_hash": "f7a5adea3d1a289b2ea2cd7e1ba947dae295ea54b95f77f081693fff945eb3c7",
+      "content_hash": "1cd28ac3961eebec6997a9c9c035bb72afae1c6fbf0342e6c279ffbc5a1674cc",
       "summary": "Route any 'I need a [thing]' asset request to the right specialist skill — disambiguates 2D / 3D / audio / video / VFX / animation pipelines.",
       "use_when": [
         "planning asset creation, picking an asset pipeline, or routing an 'I need a [thing]' request to the right specialist skill",
@@ -1910,7 +1910,7 @@
       "id": "skill/music-track",
       "kind": "skill",
       "version": "1.0.2",
-      "content_hash": "549f169cf06ad03bf5a8ef5d056854a833453b4d8b715cdb603b291530c5c4ca",
+      "content_hash": "b1b94347d4eba5d1bf1b012b17a08c89982318622faf2d0bb713a929c16ef492",
       "summary": "Generate a looped or cinematic music track — loops authored at >=30s with a marked loop point, cinematic tracks at >=60s linear.",
       "use_when": [
         "generating a looped or cinematic music track — main theme, boss music, title screen, exploration loop, combat track",
@@ -3178,7 +3178,7 @@
       "id": "skill/using-summer",
       "kind": "skill",
       "version": "1.0.4",
-      "content_hash": "27980a37339ff2b75dd53ebf0fe39561a48ae3103f82b3aa7b96ce53ec45bfe9",
+      "content_hash": "0de4390a44596664c72febe6bbe5cf24ec901937839ec5c20ba7f0115258d4c8",
       "summary": "Session bootstrap for Summer projects — establishes how to find and use Summer skills and the summer-engine MCP before any response.",
       "use_when": [
         "starting any conversation in a Summer Engine project",
